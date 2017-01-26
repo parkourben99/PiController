@@ -14,14 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-# from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from . import views
+from PiPool.forms import LoginForm
 
 urlpatterns = [
-    # url(r'^admin/', admin.site.urls),
-    url(r'^$', views.index, name='index'),
-    url('login', views.login, name='login'),
-    url('dashboard', views.login, name='login'),
+    url(r'^login/$', auth_views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}, name='login'),
+    url(r'^logout/$', auth_views.logout, {'next_page': 'login'}, name='logout'),
+    url(r'^$', views.dashboard, name='dashboard'),
 ]
 
 

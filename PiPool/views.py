@@ -1,15 +1,12 @@
-from django.http import HttpResponse
-from django.shortcuts import render_to_response
-from PiPool.gpio import *
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+from PiPool.controllers.pin_controller import PinController
+
+# Create the pin controller instance
+controller = PinController()
 
 
-def index(request):
-    return HttpResponse("Hello, world.")
-
-
-def login(request):
-    return render_to_response("login.html")
-
-
+@login_required(login_url="login/")
 def dashboard(request):
-    return HttpResponse("Dash")
+    return render(request, "dashboard.html", controller.get_dashboard_data())
