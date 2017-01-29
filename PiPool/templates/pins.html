@@ -1,0 +1,43 @@
+{% extends 'master.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+
+        <a href="{% url 'pin_create' %}" class="btn btn-success">Create</a>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Pin Number</th>
+                    <th>Is thermometer</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pin in pins %}
+                    <tr>
+                        <td>{{ pin.name }}</td>
+                        <td>{{ pin.description }}</td>
+                        <td>{{ pin.pin_number }}</td>
+                        <td>{{ pin.is_thermometer }}</td>
+                        <td><a href="{% url 'pin_edit' pin.id %}">Edit</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+
+
+</script>
+{% endblock %}

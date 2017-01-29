@@ -7,13 +7,16 @@ except:
 
 class PinController(object):
     def __init__(self):
-        self.my_pins = Pin.objects.all()
+        self.set_all_pins()
 
         # for pin in self.my_pins:
         #     self.__setup_pin__(pin)
 
     def get_thermometers(self):
         return self.my_pins.filter(is_thermometer=True)
+
+    def set_all_pins(self):
+        self.my_pins = Pin.objects.all()
 
     def get_dashboard_data(self):
         data = {'thermometers': self.get_thermometers(), 'pins': self.my_pins.filter(is_thermometer=False)}

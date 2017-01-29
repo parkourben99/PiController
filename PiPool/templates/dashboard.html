@@ -58,6 +58,36 @@
 {% block javascript %}
 <script>
 
+    // $('.js-thermometer-refresh').click(refreshThermometer());
+
+    // setTimout(refreshThermometer);
+
+    // function refreshThermometer(){
+
+    //     $('.js-thermometer-refresh').attr('disabled', true).find('fa-refresh').addClass('fa-spin');
+        
+    //     $.ajax({
+    //         type: "POST",
+    //         url: '{% url 'pin_set' %}',
+    //         dataType: "json",
+    //         data: { pin : pin, state : state, csrfmiddlewaretoken : '{{ csrf_token }}' }
+    //     }).done(function(data) {
+    //         console.log(data);
+
+    //         if(data.success){
+    //             buttonText = "Turn " + (data.state ? "On" : "Off");
+    //         } else {
+    //             alert("Oh No!! Something when wrong");
+    //         }
+
+    //         $(button).html(buttonText).attr('disabled', false);
+    //     }).fail(function(e){
+    //         $(button).html(buttonText).attr('disabled', false);
+    //         console.log("something went wrong", e);
+    //     });
+
+    // }
+
     $('.js-turn-on').click(function(){
         var id = $(this).data('id');
         togglePinState(id, true, this);
@@ -69,21 +99,30 @@
     });
 
     function togglePinState(pin, state, button){
-        var url = '{% url 'pin_set' %}';
+        var loading = "<i class='fa fa-spin fa-refresh'></i>";
 
-        // $(button)
+        buttonText = $(button).html();
+        $(button).html(loading).attr('disabled', true);
+
 
         $.ajax({
             type: "POST",
-            url: url,
+            url: '{% url 'pin_set' %}',
             dataType: "json",
             data: { pin : pin, state : state, csrfmiddlewaretoken : '{{ csrf_token }}' }
         }).done(function(data) {
             console.log(data);
 
             if(data.success){
-                
+                buttonText = "Turn " + (data.state ? "On" : "Off");
+            } else {
+                alert("Oh No!! Something when wrong");
             }
+
+            $(button).html(buttonText).attr('disabled', false);
+        }).fail(function(e){
+            $(button).html(buttonText).attr('disabled', false);
+            console.log("something went wrong", e);
         });
     }
 

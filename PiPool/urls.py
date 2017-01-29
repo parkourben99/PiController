@@ -22,7 +22,12 @@ from PiPool.forms import LoginForm
 urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'login'}, name='logout'),
-    url(r'^setup/$', views.setup, name='setup'),
+
+    url(r'^pins/$', views.pins, name='pins'),
+    url(r'^pins/create$', views.pin_create, name='pin_create'),
+    url(r'^pins/create/post$', views.pin_create_post, name='pin_create_post'),
+    url(r'^pins/(?P<id>\d+)/$', views.pin_edit, name='pin_edit'),
+
     url(r'^pin-set/$', views.pin_set, name='pin_set'),
     url(r'^$', views.dashboard, name='dashboard'),
 ]
