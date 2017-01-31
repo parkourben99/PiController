@@ -6,6 +6,8 @@ class PinController(object):
     def __init__(self):
         self.set_all_pins()
 
+        RPIO.setmode(RPIO.BCM)
+
         for pin in self.my_pins:
             self.__setup_pin__(pin)
 
