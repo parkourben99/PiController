@@ -37,4 +37,5 @@ urlpatterns = [
 # edit & create form validation
 # production working correctly - static files not working
 # test with relay & thermometer
+# add update button to git pull and restart server - alias = 'pipool-server'
 
