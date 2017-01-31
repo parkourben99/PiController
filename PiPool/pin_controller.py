@@ -26,8 +26,8 @@ class PinController(object):
         return {'pins': self.my_pins}
 
     def __setup_pin__(self, pin):
-        RPIO.setup(pin, RPIO.IN)
-        RPIO.output(pin, RPIO.HIGH)
+        RPIO.setup(pin.pin_number, RPIO.IN)
+        RPIO.output(pin.pin_number, RPIO.HIGH)
 
     def set_pin_state(self, pin_id, state):
         if pin_id or state is None:
