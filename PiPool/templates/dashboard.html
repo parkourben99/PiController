@@ -46,7 +46,7 @@
         {% if pins.count == 0 %}
             <div class="col-md-6 col-lg-3">
                 <div class="panel text-center">
-                    <h2>Looks like you have no pins set up. Set them up <a href="/setup">here.</a></h2>
+                    <h2>Looks like you have no pins set up. Set them up <a href="{% url 'pins' %}">here.</a></h2>
                 </div>
             </div>
         {% endif %}

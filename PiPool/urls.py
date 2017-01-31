@@ -32,4 +32,9 @@ urlpatterns = [
     url(r'^$', views.dashboard, name='dashboard'),
 ]
 
+# todo
+# edit not populating html inputs fields
+# edit & create form validation
+# production working correctly - static files not working
+# test with relay & thermometer
 

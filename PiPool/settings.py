@@ -131,7 +131,7 @@ STATICFILES_DIRS = [
 LOGIN_REDIRECT_URL = '/'
 
 ROLLBAR = {
-    'access_token': '41a2bde6d99146919ff50e649eb50802',
+    'access_token': os.environ.get("ROLLBAR_KEY", "someSecretKey"),
     'environment': 'development' if DEBUG else 'production',
     'branch': 'master',
     'root': BASE_DIR,
