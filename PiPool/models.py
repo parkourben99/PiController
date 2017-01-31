@@ -1,8 +1,5 @@
 from django.db import models
-try:
-    import RPIO
-except:
-    class RPIO(object): pass
+import RPIO
 
 
 class Pin(models.Model):
@@ -18,7 +15,9 @@ class Pin(models.Model):
         return 5
 
     def get_state(self):
-        return False #RPIO.input(self.pin_number)
+        return RPIO.input(self.pin_number)
 
     def set_state(self, state):
-        return True #RPIO.output(self.pin_number, state)
+        output = RPIO.HIGH if state is True else RPIO.LOW
+
+        return RPIO.output(self.pin_number, output)

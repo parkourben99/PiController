@@ -1,16 +1,13 @@
 from PiPool.models import Pin
-try:
-    import RPIO
-except:
-    class RPIO(object): pass
+import RPIO
 
 
 class PinController(object):
     def __init__(self):
         self.set_all_pins()
 
-        # for pin in self.my_pins:
-        #     self.__setup_pin__(pin)
+        for pin in self.my_pins:
+            self.__setup_pin__(pin)
 
     def get_thermometers(self):
         return self.my_pins.filter(is_thermometer=True)
@@ -28,6 +25,7 @@ class PinController(object):
 
     def __setup_pin__(self, pin):
         RPIO.setup(pin, RPIO.IN)
+        RPIO.output(pin, RPIO.HIGH)
 
     def set_pin_state(self, pin_id, state):
         if pin_id or state is None:
