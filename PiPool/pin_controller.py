@@ -6,7 +6,7 @@ class PinController(object):
     def __init__(self):
         RPIO.setmode(RPIO.BCM)
 
-        self.my_pins = set()
+        self.my_pins = Pin.objects
         self.set_all_pins()
 
     def get_thermometers(self):
