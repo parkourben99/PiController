@@ -61,11 +61,22 @@ def pin_set(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/")
 
-    pin = request.POST['pin']
+    pin_id = request.POST['pin']
     state = request.POST['state']
+    result = False
 
-    result = controller.set_pin_state(pin, state)
-    return JsonResponse({'success': result, 'state':state})
+    try:
+        pin = controller.my_pins.get(id=pin_id)
+    except Pin.DoesNotExist:
+        return JsonResponse({'success': False, 'state': state})
+
+    pin.set_state(state)
+    new_state = pin.get_state()
+
+    if new_state == state:
+        result = True
+
+    return JsonResponse({'success': result, 'state': new_state})
 
 
 def handler404(request):

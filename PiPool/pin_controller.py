@@ -28,19 +28,3 @@ class PinController(object):
 
     def get_all_pins(self):
         return {'pins': self.my_pins}
-
-    def set_pin_state(self, pin_id, state):
-        if pin_id or state is None:
-            return False
-
-        pin = self.my_pins.filter(id=pin_id)
-
-        if pin is None:
-            return False
-
-        pin.set_state(state)
-
-        if pin.get_state() == state:
-            return True
-
-        return False
