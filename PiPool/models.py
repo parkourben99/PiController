@@ -11,19 +11,17 @@ class Pin(models.Model):
     updated_at = models.DateTimeField(auto_now_add=False, auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        direction = RPIO.OUT if self.is_thermometer is False else RPIO.IN
-
-        RPIO.setup(self.pin_number, direction)
-        RPIO.output(self.pin_number, RPIO.HIGH)
+    def get_direction(self):
+        return RPIO.OUT if self.is_thermometer is False else RPIO.IN
 
     def get_temp(self):
         return 5
 
     def get_state(self):
-        return RPIO.input(self.pin_number)
+        try:
+            return RPIO.input(self.pin_number)
+        except:
+            return None
 
     def set_state(self, state):
         output = RPIO.HIGH if state is True else RPIO.LOW
