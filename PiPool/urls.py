@@ -32,7 +32,9 @@ urlpatterns = [
 
     url(r'^pin-set/$', views.pin_set, name='pin_set'),
     url(r'^$', views.dashboard, name='dashboard'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # todo
 # edit not populating html inputs fields
