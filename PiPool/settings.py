@@ -122,12 +122,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
-STATIC_ROOT = "/var/www/PiPool/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'public')
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    '/var/www/PiPool/static/',
+    os.path.join(BASE_DIR, 'static')
 ]
 
 LOGIN_REDIRECT_URL = '/'

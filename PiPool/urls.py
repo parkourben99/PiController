@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
+from django.conf import settings
 
 from PiPool import views
 from PiPool.forms import LoginForm
@@ -30,7 +32,7 @@ urlpatterns = [
 
     url(r'^pin-set/$', views.pin_set, name='pin_set'),
     url(r'^$', views.dashboard, name='dashboard'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # todo
 # edit not populating html inputs fields
