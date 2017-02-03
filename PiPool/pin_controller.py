@@ -1,5 +1,7 @@
 from PiPool.models import Pin
 import RPIO
+import rollbar
+import sys
 
 
 class PinController(object):
@@ -22,6 +24,7 @@ class PinController(object):
                 RPIO.output(pin.pin_number, RPIO.HIGH)
 
             except:
+                rollbar.report_exc_info(sys.exc_info())
                 self.my_pins.exclude(id=pin.id)
 
     def get_dashboard_data(self):
