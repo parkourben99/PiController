@@ -15,11 +15,13 @@
                     <div class="pad-all">
                         <p class="text-muted">{{ pin.description }}</p>
                         <div class="pad-btm">
+                            <button class="btn btn-success js-toggle" data-id="{{ pin.id }}" data-state="{{ pin.get_state }}">Turn 
                             {% if pin.get_state %}
-                                <button class="btn btn-success js-turn-off" data-id="{{ pin.id }}">Turn off</button>
+                                off
                             {% else %}
-                                <button class="btn btn-info js-turn-on" data-id="{{ pin.id }}">Turn on</button>
+                                on
                             {% endif %}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -88,14 +90,10 @@
 
     // }
 
-    $('.js-turn-on').click(function(){
+    $('.js-toggle').click(function(){
         var id = $(this).data('id');
-        togglePinState(id, 1, this);
-    });
-
-    $('.js-turn-off').click(function(){
-        var id = $(this).data('id');
-        togglePinState(id, 0, this);
+        var state = $(this).data('state');
+        togglePinState(id, state, this);
     });
 
     function togglePinState(pin, state, button){
@@ -115,6 +113,8 @@
 
             if(data.success){
                 buttonText = "Turn " + (data.state ? "On" : "Off");
+
+                $(button).data('state', data.state);
             } else {
                 alert("Oh No!! Something when wrong");
             }

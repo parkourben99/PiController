@@ -74,21 +74,16 @@ def pin_set(request):
         return HttpResponseRedirect("/")
 
     pin_id = request.POST['pin']
-    state = request.POST['state']
+    state = True if request.POST['state'] == '1' else False
     result = False
-    state = bool(state)
 
     try:
         pin = controller.my_pins.get(id=pin_id)
     except Pin.DoesNotExist:
         return JsonResponse({'success': False, 'state': state, 'message': 'Can not find pin'})
 
-    print('setting pin to state: {state}'.format(state=state))
-
     pin.set_state(state)
     new_state = pin.get_state()
-
-    print("new state = {new}".format(new=new_state))
 
     if new_state == state:
         result = True
