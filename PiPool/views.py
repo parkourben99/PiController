@@ -23,6 +23,16 @@ def pin_create(request):
     return render(request, "pin-create.html", {})
 
 
+def pin_delete(request, id):
+    try:
+        pin = controller.my_pins.get(id=id)
+    except Pin.DoesNotExist:
+        raise Http404("Could not find that pin!")
+
+    result = pin.delete()
+    return JsonResponse({'success': result})
+
+
 def pin_create_post(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/")

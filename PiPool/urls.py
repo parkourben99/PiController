@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^pins/$', views.pins, name='pins'),
     url(r'^pins/create$', views.pin_create, name='pin_create'),
     url(r'^pins/create/post$', views.pin_create_post, name='pin_create_post'),
+    url(r'^pins/delete/(?P<id>\d+)/$', views.pin_delete, name='pin_delete'),
     url(r'^pins/(?P<id>\d+)/$', views.pin_edit, name='pin_edit'),
 
     url(r'^pin-set/$', views.pin_set, name='pin_set'),
