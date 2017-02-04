@@ -76,6 +76,7 @@ def pin_set(request):
     pin_id = request.POST['pin']
     state = request.POST['state']
     result = False
+    state = bool(state)
 
     try:
         pin = controller.my_pins.get(id=pin_id)
