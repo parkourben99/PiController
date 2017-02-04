@@ -80,7 +80,7 @@ def pin_set(request):
     try:
         pin = controller.my_pins.get(id=pin_id)
     except Pin.DoesNotExist:
-        return JsonResponse({'success': False, 'state': state})
+        return JsonResponse({'success': False, 'state': state, 'message': 'Can not find pin'})
 
     pin.set_state(state)
     new_state = pin.get_state()
