@@ -90,12 +90,12 @@
 
     $('.js-turn-on').click(function(){
         var id = $(this).data('id');
-        togglePinState(id, true, this);
+        togglePinState(id, 1, this);
     });
 
     $('.js-turn-off').click(function(){
         var id = $(this).data('id');
-        togglePinState(id, false, this);
+        togglePinState(id, 0, this);
     });
 
     function togglePinState(pin, state, button){
