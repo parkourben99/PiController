@@ -24,7 +24,12 @@ class Pin(models.Model):
             return None
 
     def set_state(self, state):
-        output = RPIO.HIGH if state == 1 else RPIO.LOW
+        output = None
+
+        if state == 1 or True is state:
+            output = RPIO.HIGH
+        elif state == 0 or False is state:
+            output = RPIO.LOW
 
         print("setting pin_number:{number} to {state}".format(number=self.pin_number, state=output))
 
