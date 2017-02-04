@@ -82,8 +82,12 @@ def pin_set(request):
     except Pin.DoesNotExist:
         return JsonResponse({'success': False, 'state': state, 'message': 'Can not find pin'})
 
+    print('setting pin to state: {state}'.format(state=state))
+
     pin.set_state(state)
     new_state = pin.get_state()
+
+    print("new state = {new}".format(new=new_state))
 
     if new_state == state:
         result = True
