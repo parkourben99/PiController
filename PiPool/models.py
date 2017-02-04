@@ -24,6 +24,6 @@ class Pin(models.Model):
             return None
 
     def set_state(self, state):
-        output = RPIO.HIGH if state is True else RPIO.LOW
+        output = RPIO.HIGH if state else RPIO.LOW
 
         return RPIO.output(self.pin_number, output)
