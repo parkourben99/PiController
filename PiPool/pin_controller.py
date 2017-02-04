@@ -21,7 +21,6 @@ class PinController(object):
         for pin in self.my_pins:
             try:
                 RPIO.setup(pin.pin_number, pin.get_direction())
-                RPIO.output(pin.pin_number, RPIO.HIGH)
 
             except:
                 rollbar.report_exc_info(sys.exc_info())

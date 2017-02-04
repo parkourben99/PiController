@@ -30,6 +30,8 @@ def pin_delete(request, id):
         raise Http404("Could not find that pin!")
 
     result = pin.delete()
+    controller.set_all_pins()
+
     return JsonResponse({'success': result})
 
 
