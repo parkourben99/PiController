@@ -112,7 +112,7 @@
             console.log(data);
 
             if(data.success){
-                buttonText = "Turn " + (data.state ? "On" : "Off");
+                buttonText = "Turn " + (data.state ? "off" : "on");
 
                 $(button).data('state', data.state ? 1 : 0);
             } else {

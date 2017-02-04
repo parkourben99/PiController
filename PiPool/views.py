@@ -74,7 +74,7 @@ def pin_set(request):
         return HttpResponseRedirect("/")
 
     pin_id = request.POST['pin']
-    state = True if request.POST['state'] == '1' else False
+    state = True if request.POST['state'] == '1' or request.POST['state'].lower() == 'true' else False
     result = False
 
     try:
