@@ -23,5 +23,8 @@ class Pin(models.Model):
         except:
             return None
 
+    def get_state_opposite(self):
+        return not self.get_state()
+
     def set_state(self, state):
         return RPIO.output(self.pin_number, RPIO.HIGH if state else RPIO.LOW)
