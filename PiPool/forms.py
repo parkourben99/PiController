@@ -9,9 +9,9 @@ class LoginForm(AuthenticationForm):
                                widget=forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}))
 
 
-class PinForm(forms):
-    id = forms.IntegerField(widget = forms.HiddenInput(), required = False)
+class PinForm(forms.Form):
+    id = forms.IntegerField(widget=forms.HiddenInput(), required = False)
     name = forms.CharField(label='Name', max_length=120, required=True)
     description = forms.CharField(label='description', max_length=120)
-    pin_number = forms.IntegerField(label='Pin #', max_length=2, required=True)
+    pin_number = forms.IntegerField(label='Pin #', required=True)
     is_thermometer = forms.BooleanField(label='Thermometer')
