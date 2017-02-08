@@ -25,6 +25,8 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}, name='login'),
     url(r'^logout/$', auth_views.logout, {'next_page': 'login'}, name='logout'),
 
+    url(r'^update/$', views.update, name='update'),
+
     url(r'^pins/$', views.pins, name='pins'),
     url(r'^pins/create$', views.pin_create, name='pin_create'),
     url(r'^pins/create/post$', views.pin_create_post, name='pin_create_post'),
@@ -41,6 +43,5 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # edit not populating html inputs fields
 # edit & create form validation
 # production working correctly - static files not working
-# test with relay & thermometer
-# add update button to git pull and restart server - alias = 'pipool-server'
+# add update button to git pull
 

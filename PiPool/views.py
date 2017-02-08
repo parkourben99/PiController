@@ -4,6 +4,7 @@ from django.shortcuts import render, Http404, render_to_response
 from django.template import RequestContext
 
 from PiPool.models import Pin
+from PiPool.models import Git
 from PiPool.pin_controller import PinController
 
 # Create the pin controller instance
@@ -89,6 +90,20 @@ def pin_set(request):
         result = True
 
     return JsonResponse({'success': result, 'state': new_state})
+
+
+def update(request):
+    git = Git()
+    status = git.check()
+
+    if request.method == 'POST':
+        update = request.POST.get('pin_number', False)
+
+        if status and update:
+            git.update()
+            return JsonResponse({'success': True})
+
+    return render(request, "update.html", {"status": status})
 
 
 def handler404(request):

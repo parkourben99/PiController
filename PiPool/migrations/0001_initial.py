@@ -12,17 +12,18 @@ class Migration(migrations.Migration):
     dependencies = [
     ]
 
-    operations = [
-        migrations.CreateModel(
-            name='Pin',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
-                ('description', models.CharField(max_length=200)),
-                ('pin_number', models.IntegerField()),
-                ('is_thermometer', models.BooleanField(default=False)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-            ],
-        ),
-    ]
+operations = [
+    migrations.CreateModel(
+        name='Pin',
+        fields=[
+            ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+            ('name', models.CharField(max_length=200)),
+            ('description', models.CharField(max_length=200)),
+            ('pin_number', models.IntegerField()),
+            ('is_thermometer', models.BooleanField(default=False)),
+            ('updated_at', models.DateTimeField(auto_now=True)),
+            ('created_at', models.DateTimeField(auto_now_add=True)),
+        ],
+    ),
+]
+

@@ -19,12 +19,13 @@
             </thead>
             <tbody>
                 {% for pin in pins %}
-                    <tr>
+                    <tr class="js-tr">
                         <td>{{ pin.name }}</td>
                         <td>{{ pin.description }}</td>
                         <td>{{ pin.pin_number }}</td>
                         <td>{{ pin.is_thermometer }}</td>
                         <td><a href="{% url 'pin_edit' pin.id %}">Edit</a></td>
+                        <td><a data-id="{{ pin.id }}" class="js-delete btn btn-warning">Delete</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -37,7 +38,31 @@
 
 {% block javascript %}
 <script>
+    $('.js-delete').click(function(){
+        var id = $(this).data('id');
 
+        var result = confirm('Are you sure you want to delete this pin?');
+        if(!result) return;
+
+        var row = $(this).parents('.js-tr');
+
+        $.ajax({
+            type: "POST",
+            url: '{% url 'pin_delete' %}',
+            dataType: "json",
+            data: { pin : pin, csrfmiddlewaretoken : '{{ csrf_token }}' }
+        }).done(function(data) {
+            console.log(data);
+
+            if(data.success){
+                row.remove();
+            } else {
+                alert("Oh No!! Something when wrong");
+            }
+        }).fail(function(e){
+            alert("Oh No!! Something when wrong");
+        });
+    });
 
 </script>
 {% endblock %}

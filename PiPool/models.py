@@ -3,15 +3,14 @@ import RPIO
 import os
 import glob
 import time
+import git
 
 
 class Pin(models.Model):
     name = models.CharField(max_length=200, null=False)
     description = models.CharField(max_length=200, null=False)
     pin_number = models.IntegerField(null=False)
-
     is_thermometer = models.BooleanField(default=False, null=False)
-    thermometer_serial = models.CharField(max_length=3, null=True)
 
     updated_at = models.DateTimeField(auto_now_add=False, auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
@@ -20,7 +19,7 @@ class Pin(models.Model):
         super().__init__(*args, **kwargs)
 
         if self.is_thermometer:
-            self.thermometer = Thermometer(self.thermometer_serial)
+            self.thermometer = Thermometer('28') #todo update this one day
 
     def get_direction(self):
         return RPIO.OUT if self.is_thermometer is False else RPIO.IN
@@ -73,10 +72,26 @@ class Thermometer(object):
         if equals_pos != -1:
             temp_string = lines[1][equals_pos + 2:]
             temp_c = float(temp_string) / 1000.0
-            self.celsius = temp_c
+            self.celsius = round(temp_c, 1)
 
     def refresh(self):
         os.system('modprobe w1-gpio')
         os.system('modprobe w1-therm')
 
         self.read_temp()
+
+
+class Git(object):
+    def __init__(self):
+        self.repo = git.Repo(os.getcwd())
+        self.branch = 'origin/master'
+
+    def check(self):
+        self.repo.remote().fetch()
+
+        diff = self.repo.index.diff(self.branch)
+        return bool(diff)
+
+    def update(self):
+        # todo pull from branch
+        self.repo.remote().pull()
