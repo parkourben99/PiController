@@ -46,9 +46,12 @@
 
         var row = $(this).parents('.js-tr');
 
+        var baseUrl = '{% url 'pin_delete' %}';
+        var url = baseUrl + id;
+
         $.ajax({
             type: "POST",
-            url: '{% url 'pin_delete' %}',
+            url: url,
             dataType: "json",
             data: { pin : pin, csrfmiddlewaretoken : '{{ csrf_token }}' }
         }).done(function(data) {

@@ -6,6 +6,7 @@ from django.template import RequestContext
 from PiPool.models import Pin
 from PiPool.models import Git
 from PiPool.pin_controller import PinController
+from .forms import PinForm
 
 # Create the pin controller instance
 controller = PinController()
@@ -20,8 +21,17 @@ def pins(request):
     return render(request, "pins.html", controller.get_all_pins())
 
 
-def pin_create(request):
-    return render(request, "pin-create.html", {})
+def pin_create_edit(request, id=None):
+    form = PinForm()
+
+    if id is not None:
+        pin = controller.my_pins.get(id)
+        form.pin_number = pin.pin_number
+        form.description = pin.description
+        form.is_thermometer = pin.is_thermometer
+        form.name = pin.name
+
+    return render(request, "pin-create-edit.html", {'form': form})
 
 
 def pin_delete(request, id):
@@ -36,29 +46,17 @@ def pin_delete(request, id):
     return JsonResponse({'success': result})
 
 
-def pin_create_post(request):
+def pin_post(request):
     if request.method != 'POST':
-        return HttpResponseRedirect("/")
-
-    name = request.POST.get('name')
-    pin_number = request.POST.get('pin_number')
-    description = request.POST.get('description')
-    is_thermometer = request.POST.get('is_thermometer', False)
-
-    try:
-        pin = Pin()
-        pin.pin_number = pin_number
-        pin.description = description
-        pin.is_thermometer = is_thermometer
-        pin.name = name
-        pin.save()
-
-        controller.set_all_pins()
-
         return HttpResponseRedirect("/pins")
-    except:
-        # todo send them back and try again
-        return HttpResponseRedirect("/")
+
+    form = PinForm(request.POST)
+
+    if form.is_valid():
+        controller.pin_update_create(form)
+        return HttpResponseRedirect("/pins")
+
+    return render(request, "pin-create-edit.html", {'form': form})
 
 
 def pin_edit(request, id):

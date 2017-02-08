@@ -34,3 +34,17 @@ class PinController(object):
     def get_all_pins(self):
         return {'pins': self.my_pins}
 
+    def pin_update_create(self, form):
+        if form.id:
+            pin = self.my_pins.get(form.id)
+        else:
+            pin = Pin()
+
+        pin.pin_number = form.pin_number
+        pin.description = form.description
+        pin.is_thermometer = form.is_thermometer
+        pin.name = form.name
+        pin.save()
+
+        self.set_all_pins()
+
