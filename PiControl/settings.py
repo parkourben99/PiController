@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'NZ'
+TIME_ZONE = os.environ.get("SECRET_KEY", "AU")
 
 USE_I18N = True
 
