@@ -37,6 +37,7 @@ def pin_delete(request, id):
     result = pin.delete()
     controller.set_all_pins()
 
+    # todo return bool not {object:bool}
     return JsonResponse({'success': result})
 
 
@@ -66,7 +67,7 @@ def pin_edit(request, id):
 
     form = PinForm(instance=pin)
 
-    return render(request, "pins/pin-create-edit.html", {"pin": form})
+    return render(request, "pins/pin-create-edit.html", {"form": form})
 
 
 @login_required(login_url="login/")
