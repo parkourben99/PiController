@@ -46,7 +46,11 @@ def pin_post(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/pins")
 
-    pin = Pin()
+    if request.POST.get('id', 0) > 0:
+        pin = controller.my_pins.get(id=request.POST.get('id'))
+    else:
+        pin = Pin()
+        
     form = PinForm(request.POST, instance=pin)
 
     if form.is_valid():
@@ -66,7 +70,6 @@ def pin_edit(request, id):
         raise Http404("Could not find that pin!")
 
     form = PinForm(instance=pin)
-
     return render(request, "pins/pin-create-edit.html", {"form": form})
 
 

@@ -13,9 +13,15 @@ class LoginForm(AuthenticationForm):
 class PinForm(forms.ModelForm):
     class Meta:
         model = Pin
-        fields = ('name', 'description', 'pin_number', 'is_thermometer')
+        fields = ('name', 'description', 'pin_number', 'is_thermometer', 'id')
+        widgets = {
+            'id': forms.IntegerField(widget=forms.HiddenInput(), required=False),
+            'name': forms.CharField(attrs={'class': 'form-control'}),
+            'description': forms.CharField(attrs={'class': 'form-control'}),
+            'pin_number': forms.CharField(attrs={'class': 'form-control'}),
+            'is_thermometer': forms.CharField(attrs={'class': 'form-control'})
+        }
 
-    #
     # id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     # name = forms.CharField(label='Name', max_length=120, required=True)
     # description = forms.CharField(label='description', max_length=120)
