@@ -12,22 +12,22 @@ from .forms import PinForm
 pin_controller = PinController()
 
 
-@login_required(login_url="login/")
+@login_required()
 def dashboard(request):
     return render(request, "dashboard.html", pin_controller.get_dashboard_data())
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/login/")
 def pins(request):
     return render(request, "pins/pins.html", pin_controller.get_all_pins())
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/login/")
 def pin_create(request):
     return render(request, "pins/pin-create-edit.html", {'form': PinForm()})
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/login/")
 def pin_delete(request, id):
     try:
         pin = pin_controller.my_pins.get(id=id)
@@ -41,7 +41,7 @@ def pin_delete(request, id):
     return JsonResponse({'success': result})
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/login/")
 def pin_post(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/pins")
@@ -64,7 +64,7 @@ def pin_post(request):
     return render(request, "pins/pin-create-edit.html", {'form': form})
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/login/")
 def pin_edit(request, id):
     try:
         pin = pin_controller.my_pins.get(id=id)
@@ -75,7 +75,7 @@ def pin_edit(request, id):
     return render(request, "pins/pin-create-edit.html", {"form": form})
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/login/")
 def pin_set(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/")
@@ -98,7 +98,7 @@ def pin_set(request):
     return JsonResponse({'success': result, 'state': new_state})
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/login/")
 def update(request):
     git = Git()
 
@@ -112,14 +112,14 @@ def update(request):
     return render(request, "git/update.html", {"status": status})
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/login/")
 def handler404(request):
     response = render_to_response('errors/404.html', {}, context_instance=RequestContext(request))
     response.status_code = 404
     return response
 
 
-@login_required(login_url="login/")
+@login_required(login_url="/login/")
 def handler500(request):
     response = render_to_response('errors/500.html', {}, context_instance=RequestContext(request))
     response.status_code = 500
