@@ -95,3 +95,4 @@ class Git(object):
     def update(self):
         # todo pull from branch
         self.repo.remote().pull()
+        return True

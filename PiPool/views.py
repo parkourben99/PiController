@@ -102,9 +102,12 @@ def update(request):
     status = git.check()
 
     if request.method == 'POST':
+        result = False
+
         if status:
-            git.update()
-            return JsonResponse({'success': True})
+            result = git.update()
+
+        return JsonResponse({'success': result})
 
     return render(request, "git/update.html", {"status": status})
 
