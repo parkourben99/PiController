@@ -13,6 +13,6 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "PiPool.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "PiControl.settings")
 
 application = get_wsgi_application()
