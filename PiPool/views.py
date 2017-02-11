@@ -102,9 +102,7 @@ def update(request):
     status = git.check()
 
     if request.method == 'POST':
-        update = request.POST.get('pin_number', False)
-
-        if status and update:
+        if status:
             git.update()
             return JsonResponse({'success': True})
 
