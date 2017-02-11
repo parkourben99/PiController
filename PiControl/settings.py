@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = os.environ.get("TIME_ZONE", "ACDT")
+TIME_ZONE = os.environ.get("TIME_ZONE", "Australia/Adelaide")
 
 USE_I18N = True
 
