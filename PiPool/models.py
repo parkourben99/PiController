@@ -7,6 +7,7 @@ import git
 
 
 class Pin(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=200, null=False)
     description = models.CharField(max_length=200, null=False)
     pin_number = models.IntegerField(null=False)
