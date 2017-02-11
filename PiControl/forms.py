@@ -11,11 +11,12 @@ class LoginForm(AuthenticationForm):
 
 
 class PinForm(forms.ModelForm):
+    id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+
     class Meta:
         model = Pin
         fields = ('name', 'description', 'pin_number', 'is_thermometer', 'id')
         widgets = {
-            'id': forms.HiddenInput(),
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.TextInput(attrs={'class': 'form-control'}),
             'pin_number': forms.TextInput(attrs={'class': 'form-control'}),
