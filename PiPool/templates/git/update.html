@@ -39,6 +39,8 @@
 
     $('.js-update').click(function(){
 
+        $(this).attr('disabled', true);
+
         $.ajax({
             type: "POST",
             url: {% url 'update' %},
