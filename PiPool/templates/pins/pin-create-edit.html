@@ -10,17 +10,17 @@
 
                 <div class="panel panel-default">
 
-                    {% for field in form %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
 
-                        {% if field.label_tag != 'Id' %}
+                    {% for field in form.visible_fields %}
 
-                            <div class="form-group">
-                                {{ field.errors }}
-                                {{ field.label_tag }}
-                                {{ field }}
-                            </div>
-
-                        {% endif %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            {{ field.label_tag }}
+                            {{ field }}
+                        </div>
 
                     {% endfor %}
 
