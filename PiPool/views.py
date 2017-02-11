@@ -23,17 +23,8 @@ def pins(request):
 
 
 @login_required(login_url="login/")
-def pin_create_edit(request, id=None):
-    form = PinForm()
-
-    if id is not None:
-        pin = controller.my_pins.get(id)
-        form.pin_number = pin.pin_number
-        form.description = pin.description
-        form.is_thermometer = pin.is_thermometer
-        form.name = pin.name
-
-    return render(request, "pins/pin-create-edit.html", {'form': form})
+def pin_create(request):
+    return render(request, "pins/pin-create-edit.html", {'form': PinForm()})
 
 
 @login_required(login_url="login/")
@@ -73,7 +64,9 @@ def pin_edit(request, id):
     except Pin.DoesNotExist:
         raise Http404("Could not find that pin!")
 
-    return render(request, "pins/pin-create.html", {"pin": pin})
+    form = PinForm(instance=pin)
+
+    return render(request, "pins/pin-create.html", {"pin": form})
 
 
 @login_required(login_url="login/")

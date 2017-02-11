@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row">
 
-        <a href="{% url 'pin_create_edit' %}" class="btn btn-success">Create</a>
+        <a href="{% url 'pin_create' %}" class="btn btn-success">Create</a>
 
         <table class="table table-striped">
             <thead>
@@ -62,7 +62,7 @@
                 alert("Oh No!! Something when wrong");
             }
         }).fail(function(e){
-            alert("Oh No!! Something when wrong");
+            alert("Oh No!! Something when very wrong");
         });
     });
 
