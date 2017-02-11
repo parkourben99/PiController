@@ -10,7 +10,11 @@
 
                 <div class="panel panel-default">
 
-                    {% for field in form %}
+                    {% for hidden in form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    {% for field in form.visible_fields %}
 
                         <div class="form-group">
                             {{ field.errors }}
