@@ -28,7 +28,7 @@ urlpatterns = [
     url(r'^update/$', views.update, name='update'),
 
     url(r'^pins/$', views.pins, name='pins'),
-    url(r'^pins/create$', views.pin_create, name='pin_create_edit'),
+    url(r'^pins/create$', views.pin_create, name='pin_create'),
     url(r'^pins/create/post$', views.pin_post, name='pin_post'),
     url(r'^pins/delete/(?P<id>\d+)/$', views.pin_delete, name='pin_delete'),
     url(r'^pins/(?P<id>\d+)/$', views.pin_edit, name='pin_edit'),

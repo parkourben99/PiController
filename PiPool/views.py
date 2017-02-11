@@ -66,7 +66,7 @@ def pin_edit(request, id):
 
     form = PinForm(instance=pin)
 
-    return render(request, "pins/pin-create.html", {"pin": form})
+    return render(request, "pins/pin-create-edit.html", {"pin": form})
 
 
 @login_required(login_url="login/")

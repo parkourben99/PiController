@@ -24,7 +24,7 @@
                         <td>{{ pin.description }}</td>
                         <td>{{ pin.pin_number }}</td>
                         <td>{{ pin.is_thermometer }}</td>
-                        <td><a href="{% url 'pin_edit' pin.id %}">Edit</a></td>
+                        <td><a class="btn btn-info" href="{% url 'pin_edit' pin.id %}">Edit</a></td>
                         <td><a data-id="{{ pin.id }}" class="js-delete btn btn-warning">Delete</a></td>
                     </tr>
                 {% endfor %}
@@ -52,7 +52,7 @@
             type: "POST",
             url: url,
             dataType: "json",
-            data: { pin : pin, csrfmiddlewaretoken : '{{ csrf_token }}' }
+            data: { csrfmiddlewaretoken : '{{ csrf_token }}' }
         }).done(function(data) {
             console.log(data);
 
