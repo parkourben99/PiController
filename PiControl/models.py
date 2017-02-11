@@ -31,7 +31,6 @@ class Pin(models.Model):
     def get_temp(self):
         if self.thermometer:
             self.thermometer.refresh()
-
             return self.thermometer.celsius
 
         return '?'

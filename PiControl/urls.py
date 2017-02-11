@@ -18,8 +18,8 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
 
-from PiPool import views
-from PiPool.forms import LoginForm
+from PiControl import views
+from PiControl.forms import LoginForm
 
 urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}, name='login'),
@@ -40,8 +40,5 @@ urlpatterns = [
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # todo
-# edit not populating html inputs fields
-# edit & create form validation
 # production working correctly - static files not working
-# add update button to git pull
 

@@ -1,5 +1,4 @@
-from PiPool.models import Pin
-from PiPool.forms import PinForm
+from PiControl.models import Pin
 import RPIO
 import rollbar
 import sys
@@ -34,20 +33,3 @@ class PinController(object):
 
     def get_all_pins(self):
         return {'pins': self.my_pins}
-
-    def pin_update_create(self, form):
-        # try:
-        #     pin = self.my_pins.get(form.id)
-        # except AttributeError:
-
-
-        # print(form.pin_number.value)
-        #
-        # pin.pin_number = form.pin_number
-        # pin.description = form.description
-        # pin.is_thermometer = form.is_thermometer
-        # pin.name = form.name
-        # pin.save()
-
-        self.set_all_pins()
-

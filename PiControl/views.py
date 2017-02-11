@@ -3,23 +3,23 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, Http404, render_to_response
 from django.template import RequestContext
 
-from PiPool.models import Pin
-from PiPool.models import Git
-from PiPool.pin_controller import PinController
+from PiControl.models import Pin
+from PiControl.models import Git
+from PiControl.pin_controller import PinController
 from .forms import PinForm
 
 # Create the pin controller instance
-controller = PinController()
+pin_controller = PinController()
 
 
 @login_required(login_url="login/")
 def dashboard(request):
-    return render(request, "dashboard.html", controller.get_dashboard_data())
+    return render(request, "dashboard.html", pin_controller.get_dashboard_data())
 
 
 @login_required(login_url="login/")
 def pins(request):
-    return render(request, "pins/pins.html", controller.get_all_pins())
+    return render(request, "pins/pins.html", pin_controller.get_all_pins())
 
 
 @login_required(login_url="login/")
@@ -30,12 +30,12 @@ def pin_create(request):
 @login_required(login_url="login/")
 def pin_delete(request, id):
     try:
-        pin = controller.my_pins.get(id=id)
+        pin = pin_controller.my_pins.get(id=id)
     except Pin.DoesNotExist:
         raise Http404("Could not find that pin!")
 
     result = pin.delete()
-    controller.set_all_pins()
+    pin_controller.set_all_pins()
 
     # todo return bool not {object:bool}
     return JsonResponse({'success': result})
@@ -49,7 +49,7 @@ def pin_post(request):
     id = int(request.POST.get('id', 0))
 
     if id > 0:
-        pin = controller.my_pins.get(id=id)
+        pin = pin_controller.my_pins.get(id=id)
     else:
         pin = Pin()
 
@@ -57,7 +57,7 @@ def pin_post(request):
 
     if form.is_valid():
         form.save()
-        controller.set_all_pins()
+        pin_controller.set_all_pins()
 
         return HttpResponseRedirect("/pins")
 
@@ -67,7 +67,7 @@ def pin_post(request):
 @login_required(login_url="login/")
 def pin_edit(request, id):
     try:
-        pin = controller.my_pins.get(id=id)
+        pin = pin_controller.my_pins.get(id=id)
     except Pin.DoesNotExist:
         raise Http404("Could not find that pin!")
 
@@ -85,7 +85,7 @@ def pin_set(request):
     result = False
 
     try:
-        pin = controller.my_pins.get(id=pin_id)
+        pin = pin_controller.my_pins.get(id=pin_id)
     except Pin.DoesNotExist:
         return JsonResponse({'success': False, 'state': state, 'message': 'Can not find pin'})
 
