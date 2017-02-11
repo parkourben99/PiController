@@ -17,10 +17,12 @@ def dashboard(request):
     return render(request, "dashboard.html", controller.get_dashboard_data())
 
 
+@login_required(login_url="login/")
 def pins(request):
-    return render(request, "pins.html", controller.get_all_pins())
+    return render(request, "pins/pins.html", controller.get_all_pins())
 
 
+@login_required(login_url="login/")
 def pin_create_edit(request, id=None):
     form = PinForm()
 
@@ -31,9 +33,10 @@ def pin_create_edit(request, id=None):
         form.is_thermometer = pin.is_thermometer
         form.name = pin.name
 
-    return render(request, "pin-create-edit.html", {'form': form})
+    return render(request, "pins/pin-create-edit.html", {'form': form})
 
 
+@login_required(login_url="login/")
 def pin_delete(request, id):
     try:
         pin = controller.my_pins.get(id=id)
@@ -46,6 +49,7 @@ def pin_delete(request, id):
     return JsonResponse({'success': result})
 
 
+@login_required(login_url="login/")
 def pin_post(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/pins")
@@ -56,18 +60,20 @@ def pin_post(request):
         controller.pin_update_create(form)
         return HttpResponseRedirect("/pins")
 
-    return render(request, "pin-create-edit.html", {'form': form})
+    return render(request, "pins/pin-create-edit.html", {'form': form})
 
 
+@login_required(login_url="login/")
 def pin_edit(request, id):
     try:
         pin = controller.my_pins.get(id=id)
     except Pin.DoesNotExist:
         raise Http404("Could not find that pin!")
 
-    return render(request, "pin-create.html", {"pin": pin})
+    return render(request, "pins/pin-create.html", {"pin": pin})
 
 
+@login_required(login_url="login/")
 def pin_set(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/")
@@ -90,6 +96,7 @@ def pin_set(request):
     return JsonResponse({'success': result, 'state': new_state})
 
 
+@login_required(login_url="login/")
 def update(request):
     git = Git()
     status = git.check()
@@ -101,16 +108,18 @@ def update(request):
             git.update()
             return JsonResponse({'success': True})
 
-    return render(request, "update.html", {"status": status})
+    return render(request, "git/update.html", {"status": status})
 
 
+@login_required(login_url="login/")
 def handler404(request):
-    response = render_to_response('404.html', {}, context_instance=RequestContext(request))
+    response = render_to_response('errors/404.html', {}, context_instance=RequestContext(request))
     response.status_code = 404
     return response
 
 
+@login_required(login_url="login/")
 def handler500(request):
-    response = render_to_response('500.html', {}, context_instance=RequestContext(request))
+    response = render_to_response('errors/500.html', {}, context_instance=RequestContext(request))
     response.status_code = 500
     return response

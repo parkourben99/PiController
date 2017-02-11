@@ -1,5 +1,5 @@
 django
 python-dotenv
-RPIO
+-e git://github.com/parkourben99/RPIO.git
 rollbar
 gitpython
