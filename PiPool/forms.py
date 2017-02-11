@@ -15,15 +15,9 @@ class PinForm(forms.ModelForm):
         model = Pin
         fields = ('name', 'description', 'pin_number', 'is_thermometer', 'id')
         widgets = {
-            'id': forms.IntegerField(widget=forms.HiddenInput(), required=False),
-            'name': forms.CharField(attrs={'class': 'form-control'}),
-            'description': forms.CharField(attrs={'class': 'form-control'}),
-            'pin_number': forms.CharField(attrs={'class': 'form-control'}),
-            'is_thermometer': forms.CharField(attrs={'class': 'form-control'})
+            'id': forms.HiddenInput(),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
+            'pin_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'is_thermometer': forms.CheckboxInput(attrs={'class': 'form-control'})
         }
-
-    # id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
-    # name = forms.CharField(label='Name', max_length=120, required=True)
-    # description = forms.CharField(label='description', max_length=120)
-    # pin_number = forms.IntegerField(label='Pin #', required=True)
-    # is_thermometer = forms.BooleanField(label='Thermometer', required=False)
