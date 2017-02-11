@@ -12,9 +12,11 @@
                     </div>
 
                     <div class="pad-all">
-                        <p class="text-muted">{{ status }}</p>
+                        <p class="text-muted">{% 'Update Available' if status else 'Up to date' %}</p>
                         <div class="pad-btm">
-
+                            {% if status %}
+                                <button class="btn btn-success js-update">Update</button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -27,6 +29,27 @@
 
 {% block javascript %}
 <script>
+
+    $('.js-update').click(function(){
+
+        $.ajax({
+            type: "POST",
+            url: {% url 'update' %},
+            dataType: "json",
+            data: { csrfmiddlewaretoken : '{{ csrf_token }}' }
+        }).done(function(data) {
+            console.log(data);
+
+            if(data.success){
+                window.loaction.reload();
+            } else {
+                alert("Oh No!! Something when wrong");
+            }
+        }).fail(function(e){
+            alert("Oh No!! Something when very wrong");
+        });
+
+    });
 
 
 </script>
