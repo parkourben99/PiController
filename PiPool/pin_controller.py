@@ -40,6 +40,8 @@ class PinController(object):
         except AttributeError:
             pin = Pin()
 
+        print(form)
+
         pin.pin_number = form.pin_number
         pin.description = form.description
         pin.is_thermometer = form.is_thermometer
