@@ -20,15 +20,21 @@ class Pin(models.Model):
         super().__init__(*args, **kwargs)
 
         if self.is_thermometer:
-            self.thermometer = Thermometer('28') #todo update this one day
+            try:
+                self.thermometer = Thermometer('28') #todo update this one day
+            except:
+                self.thermometer = None
 
     def get_direction(self):
         return RPIO.OUT if self.is_thermometer is False else RPIO.IN
 
     def get_temp(self):
-        self.thermometer.refresh()
+        if self.thermometer:
+            self.thermometer.refresh()
 
-        return self.thermometer.celsius
+            return self.thermometer.celsius
+
+        return '?'
 
     def get_state(self):
         try:

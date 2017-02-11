@@ -46,8 +46,10 @@ def pin_post(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/pins")
 
-    if request.POST.get('id', 0) > 0:
-        pin = controller.my_pins.get(id=request.POST.get('id'))
+    id = int(request.POST.get('id', 0))
+
+    if id > 0:
+        pin = controller.my_pins.get(id=id)
     else:
         pin = Pin()
 
