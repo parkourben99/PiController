@@ -93,6 +93,8 @@ class Git(object):
         return bool(diff)
 
     def update(self):
-        # todo pull from branch
-        self.repo.remote().pull()
-        return True
+        try:
+            self.repo.remote().pull()
+            return True
+        except git.GitCommandError:
+            return False
