@@ -35,9 +35,9 @@ class PinController(object):
         return {'pins': self.my_pins}
 
     def pin_update_create(self, form):
-        if form.id:
+        try:
             pin = self.my_pins.get(form.id)
-        else:
+        except AttributeError:
             pin = Pin()
 
         pin.pin_number = form.pin_number

@@ -14,4 +14,4 @@ class PinForm(forms.Form):
     name = forms.CharField(label='Name', max_length=120, required=True)
     description = forms.CharField(label='description', max_length=120)
     pin_number = forms.IntegerField(label='Pin #', required=True)
-    is_thermometer = forms.BooleanField(label='Thermometer')
+    is_thermometer = forms.BooleanField(label='Thermometer', required=False)
