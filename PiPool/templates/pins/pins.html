@@ -46,8 +46,7 @@
 
         var row = $(this).parents('.js-tr');
 
-        var baseUrl = '{% url 'pin_delete' %}';
-        var url = baseUrl + id;
+        var url = '/pins/delete/' + id;
 
         $.ajax({
             type: "POST",

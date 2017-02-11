@@ -12,7 +12,14 @@
                     </div>
 
                     <div class="pad-all">
-                        <p class="text-muted">{% 'Update Available' if status else 'Up to date' %}</p>
+                        <p class="text-muted">
+                            {% if status %}
+                                Update Available
+                            {% else %}
+                                Up to date
+                            {% endif %}
+                        </p>
+
                         <div class="pad-btm">
                             {% if status %}
                                 <button class="btn btn-success js-update">Update</button>
