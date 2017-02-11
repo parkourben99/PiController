@@ -50,7 +50,7 @@ def pin_post(request):
         pin = controller.my_pins.get(id=request.POST.get('id'))
     else:
         pin = Pin()
-        
+
     form = PinForm(request.POST, instance=pin)
 
     if form.is_valid():
@@ -99,15 +99,13 @@ def pin_set(request):
 @login_required(login_url="login/")
 def update(request):
     git = Git()
-    status = git.check()
 
     if request.method == 'POST':
-        result = False
-
-        if status:
-            result = git.update()
+        result = git.update()
 
         return JsonResponse({'success': result})
+
+    status = git.check()
 
     return render(request, "git/update.html", {"status": status})
 
