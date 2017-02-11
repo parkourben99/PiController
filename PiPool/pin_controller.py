@@ -40,10 +40,7 @@ class PinController(object):
         #     pin = self.my_pins.get(form.id)
         # except AttributeError:
 
-        pin = Pin()
 
-        a = PinForm(form, instance=pin)
-        a.save()
         # print(form.pin_number.value)
         #
         # pin.pin_number = form.pin_number

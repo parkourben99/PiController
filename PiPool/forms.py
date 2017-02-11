@@ -14,7 +14,7 @@ class PinForm(forms.ModelForm):
     class Meta:
         model = Pin
         fields = ('name', 'description', 'pin_number', 'is_thermometer')
-     
+
     #
     # id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     # name = forms.CharField(label='Name', max_length=120, required=True)

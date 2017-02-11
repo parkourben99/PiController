@@ -54,10 +54,13 @@ def pin_post(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/pins")
 
-    form = PinForm(request.POST)
+    pin = Pin()
+    form = PinForm(request.POST, instance=pin)
 
     if form.is_valid():
-        controller.pin_update_create(form)
+        form.save()
+        controller.set_all_pins()
+
         return HttpResponseRedirect("/pins")
 
     return render(request, "pins/pin-create-edit.html", {'form': form})
