@@ -78,6 +78,7 @@ class Thermometer(object):
             temp_string = lines[1][equals_pos + 2:]
             temp_c = float(temp_string) / 1000.0
             self.celsius = round(temp_c, 1)
+            self.fahrenheit = ((self.celsius * 9) / 5.0) + 32
 
     def refresh(self):
         os.system('modprobe w1-gpio')
