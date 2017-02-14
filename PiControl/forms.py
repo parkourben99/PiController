@@ -5,9 +5,11 @@ from .models import Pin
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label="Username", max_length=30,
-                               widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username', 'placeholder': 'Username'}))
+                               widget=forms.TextInput(attrs={'class': 'form-control',
+                                                             'name': 'username', 'placeholder': 'Username'}))
     password = forms.CharField(label="Password", max_length=30,
-                               widget=forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}))
+                               widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                                                 'name': 'password', 'placeholder': 'Password'}))
 
 
 class PinForm(forms.ModelForm):
