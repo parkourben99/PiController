@@ -28,4 +28,6 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # production working correctly - static files not working
 # fix git update return value / not breaking
 # throw error if env not loaded
-
+# any url without auth redirect back to /login
+# load app name into master.html
+# refactor views/controller/settings
