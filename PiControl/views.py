@@ -49,14 +49,13 @@ def pin_post(request):
 
     form = PinForm(request.POST, instance=pin)
 
-    if form.is_lvalid():
+    if form.is_valid():
         form.save()
         pin_controller.set_all_pins()
 
         return HttpResponseRedirect("/pins")
 
     return render(request, "pins/pin-create-edit.html", {'form': form})
-
 
 
 def pin_edit(request, id):
