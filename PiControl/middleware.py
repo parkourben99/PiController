@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.conf import settings
+from re import compile
 
 
 class LoginRequiredMiddleware:
