@@ -5,6 +5,7 @@ from django.conf import settings
 class LoginRequiredMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
+        self.exempt_urls = [compile(settings.LOGIN_URL.lstrip('/'))] 
 
     """
     Middleware that requires a user to be authenticated to view any page other
@@ -21,6 +22,8 @@ class LoginRequiredMiddleware:
         assert hasattr(request, 'user')
 
         if not request.user.is_authenticated():
-            return HttpResponseRedirect(settings.LOGIN_URL)
+            path = request.path_info.lstrip('/') 
+            if not any(m.match(path) for m in self.exempt_urls):
+                return HttpResponseRedirect(settings.LOGIN_URL)
 
         return response
