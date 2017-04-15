@@ -40,40 +40,33 @@
 <div class="container">
     <div class="row">
 
+        <div class="col-md-6 col-lg-3">
+            <div class="panel text-center">
+                <div class="pad-all">
+                    <h3>Temp</h3>
+                    <div class="input-group number-spinner">
+                        <span class="input-group-btn data-dwn">
+                            <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
+                        </span>
+                        <input type="text" class="form-control text-center js-temp" value="{{ temp_control.temp }}" min="20" max="60" data-inc="1">
+                        <span class="input-group-btn data-up">
+                            <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
+                        </span>
+                    </div>
 
-    <div class="col-md-6 col-lg-3">
-        <div class="panel text-center">
-            <div class="panel-body">
-                <h4 class="mar-no">{{ temp_control.name }}</h4>
-                <p> {{ temp_control.range }} </p>
-                <p> {{ temp_control.temp }} </p>
-            </div>
-
-            <div class="pad-all">
-                <h3>Temp</h3>
-                <div class="input-group number-spinner">
-                    <span class="input-group-btn data-dwn">
-                        <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
-                    </span>
-                    <input type="text" class="form-control text-center js-temp" value="{{ temp_control.temp }}" min="20" max="60" data-inc="1">
-                    <span class="input-group-btn data-up">
-                        <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
-                    </span>
-                </div>
-
-                <h3>Range</h3>
-                <div class="input-group number-spinner">
-                    <span class="input-group-btn data-dwn">
-                        <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
-                    </span>
-                    <input type="text" class="form-control text-center js-range" value="{{ temp_control.range }}" min="1" max="10" data-inc="0.5">
-                    <span class="input-group-btn data-up">
-                        <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
-                    </span>
+                    <h3>Range</h3>
+                    <div class="input-group number-spinner">
+                        <span class="input-group-btn data-dwn">
+                            <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
+                        </span>
+                        <input type="text" class="form-control text-center js-range" value="{{ temp_control.range }}" min="1" max="10" data-inc="0.5">
+                        <span class="input-group-btn data-up">
+                            <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     </div>
 </div>

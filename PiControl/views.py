@@ -105,9 +105,8 @@ def update(request):
 
 
 def maintain(request):
-    try:
-        temp_control = TempControl.objects.first()
-    except Exception:
+    temp_control = TempControl.objects.first()
+    if temp_control != None:
         rollbar.report_message("Unable to find the temp control, creating a new one")
         temp_control = TempControl()
         temp_control.name = "Control the spas temperature"
@@ -135,8 +134,8 @@ def maintain_update(request):
         temp_control.range = range
         temp_control.save()
         result = True
-    except Exception as e:
-        rollbar.report_message("Unable to save update for temp control", e)
+    except Exception:
+        rollbar.report_message("Unable to save update for temp control")
         result = False
 
     return JsonResponse({'success': result})
