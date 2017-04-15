@@ -55,7 +55,7 @@
                     <span class="input-group-btn data-dwn">
                         <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
                     </span>
-                    <input type="text" class="form-control text-center js-temp" value="1" min="20" max="60">
+                    <input type="text" class="form-control text-center js-temp" value="{{ temp_control.temp }}" min="20" max="60" data-inc="1">
                     <span class="input-group-btn data-up">
                         <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
                     </span>
@@ -66,7 +66,7 @@
                     <span class="input-group-btn data-dwn">
                         <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
                     </span>
-                    <input type="text" class="form-control text-center js-range" value="0.5" min="1" max="10">
+                    <input type="text" class="form-control text-center js-range" value="{{ temp_control.range }}" min="1" max="10" data-inc="0.5">
                     <span class="input-group-btn data-up">
                         <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
                     </span>
@@ -109,11 +109,12 @@
             btn = $(this);
             input = btn.closest('.number-spinner').find('input');
             btn.closest('.number-spinner').find('button').prop("disabled", false);
+            var inc = parseFloat(input.data('inc'));
 
             if (btn.attr('data-dir') == 'up') {
                 action = setInterval(function(){
                     if ( input.attr('max') == undefined || parseInt(input.val()) < parseInt(input.attr('max')) ) {
-                        input.val(parseInt(input.val())+1);
+                        input.val(parseInt(input.val())+inc);
                     }else{
                         btn.prop("disabled", true);
                         clearInterval(action);
@@ -122,7 +123,7 @@
             } else {
                 action = setInterval(function(){
                     if ( input.attr('min') == undefined || parseInt(input.val()) > parseInt(input.attr('min')) ) {
-                        input.val(parseInt(input.val())-1);
+                        input.val(parseInt(input.val())-inc);
                     }else{
                         btn.prop("disabled", true);
                         clearInterval(action);
