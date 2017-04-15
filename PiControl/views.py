@@ -108,6 +108,7 @@ def maintain(request):
     try:
         temp_control = TempControl.objects.first()
     except Exception:
+        rollbar.report_message("Unable to find the temp control, creating a new one")
         temp_control = TempControl()
         temp_control.name = "Control the spas temperature"
         temp_control.range = 2.5
@@ -115,7 +116,7 @@ def maintain(request):
         temp_control.temp_pin_id = 1
         temp_control.pump_pin_id = 2
         temp_control.heater_pin_id = 3
-        temp_control.save()
+        temp_control.save(force_insert=True)
 
     return render(request, "maintain/index.html", {'control': temp_control})
 
