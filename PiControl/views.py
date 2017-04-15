@@ -106,7 +106,8 @@ def update(request):
 
 def maintain(request):
     temp_control = TempControl.objects.first()
-    if temp_control != None:
+
+    if not temp_control:
         rollbar.report_message("Unable to find the temp control, creating a new one")
         temp_control = TempControl()
         temp_control.name = "Control the spas temperature"
@@ -117,7 +118,7 @@ def maintain(request):
         temp_control.heater_pin_id = 3
         temp_control.save(force_insert=True)
 
-    return render(request, "maintain/index.html", {'control': temp_control})
+    return render(request, "maintain/index.html", {'temp_control': temp_control})
 
 
 def maintain_update(request):
