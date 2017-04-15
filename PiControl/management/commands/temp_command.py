@@ -1,14 +1,15 @@
 from django.core.management.base import BaseCommand, CommandError
-from PiControl.models import Pin
+from PiControl.models import TempControl
 
 
-class TempControl(BaseCommand):
+class TempCommand(BaseCommand):
     help = 'Maintain the temp for the pool'
-    temp = 23
 
     def handle(self, *args, **options):
+        temp_control = TempControl.objects.first()
+        temp_control.maintain()
 
-        self.stdout.write(self.style.SUCCESS('Successfully closed poll'))
+        self.stdout.write(self.style.SUCCESS('Success'))
 
 
 # Rasberry Pi Spa Pool Controller

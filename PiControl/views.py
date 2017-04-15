@@ -2,10 +2,11 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, Http404, render_to_response
 from django.template import RequestContext
 
-from PiControl.models import Pin
+from PiControl.models import Pin, TempControl
 from PiControl.models import Git
 from PiControl.pin_controller import PinController
 from .forms import PinForm
+import rollbar
 
 # Create the pin controller instance
 pin_controller = PinController()
@@ -101,6 +102,43 @@ def update(request):
     status = git.check()
 
     return render(request, "git/update.html", {"status": status})
+
+
+def maintain(request):
+    try:
+        temp_control = TempControl.objects.first()
+    except Exception:
+        temp_control = TempControl()
+        temp_control.name = "Control the spas temperature"
+        temp_control.range = 2.5
+        temp_control.temp = 23
+        temp_control.temp_pin_id = 1
+        temp_control.pump_pin_id = 2
+        temp_control.heater_pin_id = 3
+        temp_control.save()
+
+    return render(request, "maintain/index.html", {'control': temp_control})
+
+
+def maintain_update(request):
+    if request.method != 'POST':
+        return HttpResponseRedirect("/")
+
+    temp_control = TempControl.objects.first()
+
+    temp = request.POST['temp']
+    range = request.POST['range']
+
+    try:
+        temp_control.temp = temp
+        temp_control.range = range
+        temp_control.save()
+        result = True
+    except Exception as e:
+        rollbar.report_message("Unable to save update for temp control", e)
+        result = False
+
+    return JsonResponse({'success': result})
 
 
 def handler404(request):

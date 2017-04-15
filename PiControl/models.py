@@ -6,6 +6,53 @@ import time
 import git
 
 
+class TempControl(models.Model):
+    name = models.CharField(max_length=200, null=False)
+    manuel = models.BooleanField(default=False, null=False)
+    temp = models.DecimalField(..., max_digits=5, decimal_places=2, null=False)
+    range = models.DecimalField(..., max_digits=5, decimal_places=2, null=False, default=2)
+    temp_pin_id = models.IntegerField(null=False)
+    pump_pin_id = models.IntegerField(null=False)
+    heater_pin_id = models.IntegerField(null=False)
+
+    def __get_pin(self, id):
+        return Pin.objects.filter(id=id)
+
+    def maintain(self):
+        if self.manuel:
+            return
+
+        pin = self.__get_pin(self.temp_pin_id)
+
+        if not pin:
+            Exception("No pins has been set, unable to maintain")
+        else:
+            temp = pin.get_temp()
+            too_hot = temp + range
+            too_cold = temp - range
+
+            if temp <= too_cold:
+                self.__turn_on()
+                return
+
+            if temp >= too_hot:
+                self.__turn_off()
+                return
+
+    def __turn_on(self):
+        self.__set_state(True)
+
+    def __turn_off(self):
+        self.__set_state(False)
+
+    def __set_state(self, state):
+        pump = self.__get_pin(self.pump_pin_id)
+        heater = self.__get_pin(self.heater_pin_id)
+
+        pump.set_state(state)
+        heater.set_state(state)
+
+
 class Pin(models.Model):
     name = models.CharField(max_length=200, null=False)
     description = models.CharField(max_length=200, null=False)

@@ -1,0 +1,139 @@
+{% extends 'master.html' %}
+
+{% block head %}
+<style>
+    .container {
+    padding-top: 40px;
+}
+
+@media ( max-width: 585px ) {
+    .input-group span.input-group-btn,.input-group input,.input-group button{
+        display: block;
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+    }
+    .input-group {
+        position: relative;
+    }
+    .input-group span.data-up{
+        position: absolute;
+        top: 0;
+    }
+    .input-group span.data-dwn{
+        position: absolute;
+        bottom: 0;
+    }
+    .form-control.text-center {
+        margin: 34px 0;
+    }
+    .input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group{
+        margin-left:0;
+    }
+
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+
+
+    <div class="col-md-6 col-lg-3">
+        <div class="panel text-center">
+            <div class="panel-body">
+                <h4 class="mar-no">{{ temp_control.name }}</h4>
+                <p> {{ temp_control.range }} </p>
+                <p> {{ temp_control.temp }} </p>
+            </div>
+
+            <div class="pad-all">
+                <h3>Temp</h3>
+                <div class="input-group number-spinner">
+                    <span class="input-group-btn data-dwn">
+                        <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
+                    </span>
+                    <input type="text" class="form-control text-center js-temp" value="1" min="20" max="60">
+                    <span class="input-group-btn data-up">
+                        <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
+                    </span>
+                </div>
+
+                <h3>Range</h3>
+                <div class="input-group number-spinner">
+                    <span class="input-group-btn data-dwn">
+                        <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
+                    </span>
+                    <input type="text" class="form-control text-center js-range" value="0.5" min="1" max="10">
+                    <span class="input-group-btn data-up">
+                        <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+    function update(){
+
+        var range = $('.js-range').val();
+        var temp = $('.js-temp').val();
+
+        $.ajax({
+            type: "POST",
+            url: '{% url 'maintain_update' %}',
+            dataType: "json",
+            data: { csrfmiddlewaretoken : '{{ csrf_token }}', range : range, temp : temp }
+        }).done(function(data) {
+            console.log(data);
+
+            if(!data.success){
+                alert("Oh No!! Something when wrong");
+            }
+        }).fail(function(e){
+            alert("Oh No!! Something when very wrong");
+        });
+    });
+
+    $(function() {
+        var action;
+        $(".number-spinner button").mousedown(function () {
+            btn = $(this);
+            input = btn.closest('.number-spinner').find('input');
+            btn.closest('.number-spinner').find('button').prop("disabled", false);
+
+            if (btn.attr('data-dir') == 'up') {
+                action = setInterval(function(){
+                    if ( input.attr('max') == undefined || parseInt(input.val()) < parseInt(input.attr('max')) ) {
+                        input.val(parseInt(input.val())+1);
+                    }else{
+                        btn.prop("disabled", true);
+                        clearInterval(action);
+                    }
+                }, 50);
+            } else {
+                action = setInterval(function(){
+                    if ( input.attr('min') == undefined || parseInt(input.val()) > parseInt(input.attr('min')) ) {
+                        input.val(parseInt(input.val())-1);
+                    }else{
+                        btn.prop("disabled", true);
+                        clearInterval(action);
+                    }
+                }, 50);
+            }
+        }).mouseup(function(){
+            clearInterval(action);
+            update();
+        });
+    });
+
+</script>
+{% endblock %}
