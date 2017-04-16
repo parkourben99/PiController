@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('PiControl', '0001_initial', '0002_pin_tempcontrol'),
+        ('PiControl', '0001_initial'),
     ]
 
     operations = [
