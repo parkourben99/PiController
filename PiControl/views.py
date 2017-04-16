@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, Http404, render_to_response
 from django.template import RequestContext
 import datetime
+from django.conf import settings
 
 from PiControl.models import Pin, TempControl
 from PiControl.models import Git
@@ -131,9 +132,10 @@ def manuel_toggle(request):
 
     try:
         temp_control.manuel = state
-        temp_control.manuel_at = None if not state else datetime.datetime.now()
+        temp_control.manuel_at = None if not state else datetime.datetime.now().replace(tzinfo=settings.TIME_ZONE)
         temp_control.save()
 
+        temp_control.__turn_on()
         result = True
     except Exception:
         rollbar.report_message("Unable to manuel_toggle state: " + str(state))

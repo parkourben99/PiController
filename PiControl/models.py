@@ -152,6 +152,8 @@ class TempControl(models.Model):
     def maintain(self):
         if self.manuel:
             future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
+            self.manuel_at = self.manuel_at.replace(tzinfo=None)
+            future = future.replace(tzinfo=None)
             print(self.manuel_at)
             print(future)
             if self.manuel_at > future:
@@ -199,5 +201,6 @@ class TempControl(models.Model):
             pump.set_state_upside_down(True)
         else:
             pump.set_state_upside_down(state)
+            time.sleep(3)
 
         heater.set_state_upside_down(state)
