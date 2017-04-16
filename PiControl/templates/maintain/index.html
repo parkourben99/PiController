@@ -43,6 +43,12 @@
         <div class="col-md-6 col-lg-3">
             <div class="panel text-center">
                 <div class="pad-all">
+
+                    <div>
+                        <h3>Manual Control</h3>
+                        <button class="btn btn-block btn-success js-manual" data-state="1">On</button>
+                    </div>
+
                     <h3>Temp</h3>
                     <div class="input-group number-spinner">
                         <span class="input-group-btn data-dwn">
@@ -76,7 +82,6 @@
 {% block javascript %}
 <script>
     function update(){
-
         var range = $('.js-range').val();
         var temp = $('.js-temp').val();
 
@@ -96,38 +101,59 @@
         });
     }
 
-    $(function() {
-        var action;
-        $(".number-spinner button").mousedown(function () {
-            btn = $(this);
-            input = btn.closest('.number-spinner').find('input');
-            btn.closest('.number-spinner').find('button').prop("disabled", false);
-            var inc = parseFloat(input.data('inc'));
+    $('.js-temp').blur(update);
+    $('.js-range').blur(update);
 
-            if (btn.attr('data-dir') == 'up') {
-                action = setInterval(function(){
-                    if ( input.attr('max') == undefined || parseInt(input.val()) < parseInt(input.attr('max')) ) {
-                        input.val(parseInt(input.val())+inc);
-                    }else{
-                        btn.prop("disabled", true);
-                        clearInterval(action);
-                    }
-                }, 50);
+    $(".number-spinner button").mousedown(function () {
+        var btn = $(this);
+        var input = btn.closest('.number-spinner').find('input');
+        btn.closest('.number-spinner').find('button').prop("disabled", false);
+        var inc = parseFloat(input.data('inc'));
+
+        if (btn.attr('data-dir') == 'up') {
+
+            if ( input.attr('max') == undefined || parseFloat(input.val()) < parseInt(input.attr('max')) ) {
+                input.val(parseFloat(input.val())+inc);
             } else {
-                action = setInterval(function(){
-                    if ( input.attr('min') == undefined || parseInt(input.val()) > parseInt(input.attr('min')) ) {
-                        input.val(parseInt(input.val())-inc);
-                    }else{
-                        btn.prop("disabled", true);
-                        clearInterval(action);
-                    }
-                }, 50);
+                btn.prop("disabled", true);
             }
 
-            update();
-        }).mouseup(function(){
-            clearInterval(action);
+        } else {
+
+            if ( input.attr('min') == undefined || parseFloat(input.val()) > parseInt(input.attr('min')) ) {
+                input.val(parseFloat(input.val())-inc);
+            } else {
+                btn.prop("disabled", true);
+            }
+        }
+
+        update();
+    });
+
+    $('.js-manual').click(function(){
+        var state = $(this).data('state');
+
+        if(state){
+            $(this).removeClass('btn-success').addClass('btn-danger').html('Off').data('state', !state);
+        } else {
+            $(this).addClass('btn-success').removeClass('btn-danger').html('On').data('state', !state);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '{% url 'manuel_toggle' %}',
+            dataType: "json",
+            data: { csrfmiddlewaretoken : '{{ csrf_token }}', state : state }
+        }).done(function(data) {
+            console.log(data);
+
+            if(!data.success){
+                alert("Oh No!! Something when wrong");
+            }
+        }).fail(function(e){
+            alert("Oh No!! Something when very wrong");
         });
+
     });
 
 </script>

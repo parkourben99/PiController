@@ -2,12 +2,11 @@ from django.core.management.base import BaseCommand, CommandError
 from PiControl.models import TempControl
 
 
-class TempCommand(BaseCommand):
+class Command(BaseCommand):
     help = 'Maintain the temp for the pool'
 
     def handle(self, *args, **options):
-        temp_control = TempControl.objects.first()
-        temp_control.maintain()
+        TempControl.objects.first().maintain()
 
         self.stdout.write(self.style.SUCCESS('Success'))
 
@@ -35,3 +34,6 @@ class TempCommand(BaseCommand):
 #
 #
 # *= adjustble through GUI on Touch screen
+
+# crontab -e
+# */3 * * * * python3 /home/PiPool/projects/PiController/manage.py control-temp

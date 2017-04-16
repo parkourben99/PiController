@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^update/$', views.update, name='update'),
     url(r'^maintain/$', views.maintain, name='maintain'),
     url(r'^maintain/update$', views.maintain_update, name='maintain_update'),
+    url(r'^maintain/manuel', views.manuel_toggle, name='manuel_toggle'),
 
     url(r'^pins/$', views.pins, name='pins'),
     url(r'^pins/create$', views.pin_create, name='pin_create'),
@@ -30,6 +31,5 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 # production working correctly - static files not working
 # fix git update return value / not breaking
 # throw error if env not loaded
-# any url without auth redirect back to /login
 # load app name into master.html
 # refactor views/controller/settings

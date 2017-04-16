@@ -3,6 +3,7 @@ import os
 import glob
 import time
 import git
+import datetime
 
 try:
     import RPIO
@@ -24,7 +25,7 @@ class Pin(models.Model):
 
         if self.is_thermometer:
             try:
-                self.thermometer = Thermometer('28') #todo update this one day
+                self.thermometer = Thermometer('28')  # todo update this one day
             except:
                 self.thermometer = None
 
@@ -110,9 +111,16 @@ class Git(object):
             return False
 
 
+class TimeBand(models.Model):
+    start_at = models.DateTimeField(null=True)
+    end_at = models.DateTimeField(null=True)
+    active = models.BooleanField(default=True, null=False)
+
+
 class TempControl(models.Model):
     name = models.CharField(max_length=200, null=False)
     manuel = models.BooleanField(default=False, null=False)
+    manuel_at = models.DateTimeField(null=True)
     temp = models.DecimalField(max_digits=5, decimal_places=2, null=False)
     range = models.DecimalField(max_digits=5, decimal_places=2, null=False, default=2)
     temp_pin_id = models.IntegerField(null=False)
@@ -120,11 +128,41 @@ class TempControl(models.Model):
     heater_pin_id = models.IntegerField(null=False)
 
     def __get_pin(self, id):
-        return Pin.objects.filter(id=id)
+        return Pin.objects.filter(id=id).first()
+
+    def __get_manuel_period(self):
+        return 30
+
+    def __allowed_to_run(self):
+        now = datetime.datetime.now()
+        result = False
+
+        time_bands = TimeBand.objects.all()
+
+        for time_band in time_bands:
+            if now > time_band.start_at and now < time_band.end_at:
+                result = True
+                break
+
+        return result
 
     def maintain(self):
         if self.manuel:
-            return
+            future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
+            if self.manuel_at > future:
+                self.manuel = False
+                self.manuel_at = None
+                self.save()
+
+                self.__turn_off()
+                return
+        else:
+            pass
+            # todo finish this:
+            # create view and way to edit, store day as int and time not datetime
+            # if not self.__allowed_to_run:
+            #     self.__turn_off()
+            #     return
 
         pin = self.__get_pin(self.temp_pin_id)
 
@@ -153,5 +191,9 @@ class TempControl(models.Model):
         pump = self.__get_pin(self.pump_pin_id)
         heater = self.__get_pin(self.heater_pin_id)
 
-        pump.set_state(state)
+        if self.manuel:
+            pump.set_state(True)
+        else:
+            pump.set_state(state)
+
         heater.set_state(state)

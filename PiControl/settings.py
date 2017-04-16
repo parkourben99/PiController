@@ -136,6 +136,6 @@ LOGIN_REDIRECT_URL = '/'
 ROLLBAR = {
     'access_token': os.environ.get("ROLLBAR_KEY", "someSecretKey"),
     'environment': 'development' if DEBUG else 'production',
-    'branch': 'master',
+    'branch': 'PiPool',
     'root': BASE_DIR,
 }

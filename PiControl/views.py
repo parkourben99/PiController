@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, Http404, render_to_response
 from django.template import RequestContext
+import datetime
 
 from PiControl.models import Pin, TempControl
 from PiControl.models import Git
@@ -119,6 +120,26 @@ def maintain(request):
         temp_control.save(force_insert=True)
 
     return render(request, "maintain/index.html", {'temp_control': temp_control})
+
+
+def manuel_toggle(request):
+    if request.method != 'POST':
+        return HttpResponseRedirect("/")
+
+    temp_control = TempControl.objects.first()
+    state = True if request.POST['state'] == '1' or request.POST['state'].lower() == 'true' else False
+
+    try:
+        temp_control.manuel = state
+        temp_control.manuel_at = None if not state else datetime.datetime.now()
+        temp_control.save()
+
+        result = True
+    except Exception:
+        rollbar.report_message("Unable to manuel_toggle state: " + str(state))
+        result = False
+
+    return JsonResponse({'success': result})
 
 
 def maintain_update(request):
