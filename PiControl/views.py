@@ -78,8 +78,6 @@ def pin_set(request):
     state = True if request.POST['state'] == '1' or request.POST['state'].lower() == 'true' else False
     result = False
 
-    state = not state
-
     try:
         pin = pin_controller.my_pins.get(id=pin_id)
     except Pin.DoesNotExist:
