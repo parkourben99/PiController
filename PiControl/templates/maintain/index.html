@@ -109,11 +109,6 @@
         inputChange(btn);
     });
 
-    $(".number-spinner button").touchstart(function () {
-        var btn = $(this);
-        inputChange(btn);
-    });
-
     function inputChange(btn){
         var input = btn.closest('.number-spinner').find('input');
         btn.closest('.number-spinner').find('button').prop("disabled", false);
