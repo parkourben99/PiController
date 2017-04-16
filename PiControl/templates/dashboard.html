@@ -107,9 +107,9 @@
             console.log(data);
 
             if(data.success){
-                buttonText = "Turn " + (data.state ? "off" : "on");
+                buttonText = "Turn " + (data.state ? "on" : "off");
 
-                $(button).data('state', data.state ? 0 : 1);
+                $(button).data('state', data.state ? 1 : 0);
             } else {
                 alert("Oh No!! Something when wrong");
             }
