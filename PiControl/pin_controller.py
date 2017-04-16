@@ -1,12 +1,7 @@
 from PiControl.models import Pin
 import rollbar
 import sys
-
-try:
-    import RPIO
-except:
-    class RPIO(object): pass
-
+import RPIO
 
 
 class PinController(object):

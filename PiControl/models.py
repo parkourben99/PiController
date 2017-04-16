@@ -4,11 +4,7 @@ import glob
 import time
 import git
 import datetime
-
-try:
-    import RPIO
-except:
-    class RPIO(object): pass
+import RPIO
 
 
 class Pin(models.Model):
