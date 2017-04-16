@@ -202,8 +202,13 @@ class TempControl(models.Model):
 
         if self.manuel:
             pump.set_state_upside_down(True)
-        else:
             pump.set_state_upside_down(state)
-            time.sleep(3)
-
-        heater.set_state_upside_down(state)
+        else:
+            if state:
+                pump.set_state_upside_down(state)
+                time.sleep(3)
+                heater.set_state_upside_down(state)
+            else:
+                heater.set_state_upside_down(state)
+                time.sleep(3)
+                pump.set_state_upside_down(state)
