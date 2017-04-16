@@ -187,6 +187,9 @@ class TempControl(models.Model):
                 self.__turn_off()
                 return
 
+    def outside_turn_on(self):
+        self.__set_state(True)
+
     def __turn_on(self):
         self.__set_state(True)
 

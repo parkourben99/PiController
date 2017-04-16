@@ -132,12 +132,14 @@ def manuel_toggle(request):
 
     if state != temp_control.manuel:
         try:
+            now = datetime.datetime.now() + datetime.timedelta(hours=12)
+
             temp_control.manuel = state
-            temp_control.manuel_at = None if not state else (datetime.datetime.now() + datetime.timedelta(hours=12))
+            temp_control.manuel_at = None if not state else now
             temp_control.save()
 
             if state:
-                temp_control.__turn_on()
+                temp_control.outside_turn_on()
         except Exception:
             rollbar.report_message("Unable to manuel_toggle state: " + str(state))
             result = False
