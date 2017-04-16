@@ -161,8 +161,7 @@ class TempControl(models.Model):
                 return
         else:
             pass
-            # todo finish this:
-            # create view and way to edit
+            # todo finish: create view and way to edit
             # if not self.__allowed_to_run:
             #     self.__turn_off()
             #     return

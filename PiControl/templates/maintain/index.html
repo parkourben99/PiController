@@ -46,7 +46,7 @@
 
                     <div>
                         <h3>Manual Control</h3>
-                        <button class="btn btn-block btn-success js-manual" data-state="1">On</button>
+                        <button class="btn btn-block btn-success js-manual" data-state="{{ temp_control.manuel }}">On</button>
                     </div>
 
                     <h3>Temp</h3>
@@ -106,6 +106,15 @@
 
     $(".number-spinner button").mousedown(function () {
         var btn = $(this);
+        inputChange(btn);
+    });
+
+    $(".number-spinner button").touchstart(function () {
+        var btn = $(this);
+        inputChange(btn);
+    });
+
+    function inputChange(btn){
         var input = btn.closest('.number-spinner').find('input');
         btn.closest('.number-spinner').find('button').prop("disabled", false);
         var inc = parseFloat(input.data('inc'));
@@ -128,7 +137,7 @@
         }
 
         update();
-    });
+    }
 
     $('.js-manual').click(function(){
         var state = $(this).data('state');
