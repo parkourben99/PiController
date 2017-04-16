@@ -68,7 +68,7 @@
 
                     <div class="pad-all">
                         <h4 class="text">
-                            <i class="fa fa-thermometer-three-quarters"></i><span class="js-thermometer-temp"> {{ thermometer.get_temp }}</span>&#x2103;
+                            <i class="fa fa-thermometer-three-quarters"></i> <span class="js-thermometer-temp">{{ thermometer.get_temp }}</span>&#x2103;
                         </h4>
                     </div>
                 </div>
@@ -136,6 +136,7 @@
         $('.js-thermometer').each(function(){
 
             var id = $(this).data('id');
+            var item $(this);
         
             $.ajax({
                 type: "POST",
@@ -146,7 +147,7 @@
                 console.log(data);
 
                 if(data.success){
-                    $(this).find('.js-thermometer-temp').html(data.temp);
+                    item.find('.js-thermometer-temp').html(data.temp);
                     setTimeout(refreshThermometer, 1000);
                 }
 
