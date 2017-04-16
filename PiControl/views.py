@@ -151,6 +151,20 @@ def maintain_update(request):
     return JsonResponse({'success': result})
 
 
+def get_temp(request):
+    if request.method == 'POST':
+        pin_id = request.POST['id']
+    else:
+        pin_id = request.GET['id']
+
+    try:
+        pin = pin_controller.my_pins.get(id=pin_id)
+    except Pin.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Pin not found'})
+
+    return JsonResponse({'success': False, 'temp': pin.get_temp()})
+
+
 def handler404(request):
     response = render_to_response('errors/404.html', {}, context_instance=RequestContext(request))
     response.status_code = 404

@@ -60,7 +60,7 @@
 
         {% for thermometer in thermometers  %}
             <div class="col-md-6 col-lg-3">
-                <div class="panel text-center">
+                <div class="panel text-center js-thermometer" data-id="{{ thermometer.id }}">
                     <div class="panel-body">
                         <h4 class="mar-no">{{ thermometer.name }}</h4>
                         <p>{{ thermometer.description }}</p>
@@ -68,7 +68,7 @@
 
                     <div class="pad-all">
                         <h4 class="text">
-                            <i class="fa fa-thermometer-three-quarters"></i> {{ thermometer.get_temp }}&#x2103;
+                            <i class="fa fa-thermometer-three-quarters"></i><span class="js-thermometer-temp"> {{ thermometer.get_temp }}&#x2103;</span>
                         </h4>
                     </div>
                 </div>
@@ -135,28 +135,31 @@
 
         console.log('refreshThermometer');
 
-        // $('.js-thermometer-refresh').attr('disabled', true).find('fa-refresh').addClass('fa-spin');
+        $('.js-thermometer').each(function(){
+
+            var id = $(this).data('id');
+
+            // $('.js-thermometer-refresh').attr('disabled', true).find('fa-refresh').addClass('fa-spin');
         
-        // $.ajax({
-        //     type: "POST",
-        //     url: '{% url 'pin_set' %}',
-        //     dataType: "json",
-        //     data: { pin : pin, state : state, csrfmiddlewaretoken : '{{ csrf_token }}' }
-        // }).done(function(data) {
-        //     console.log(data);
+            $.ajax({
+                type: "POST",
+                url: '{% url 'get_temp' %}',
+                dataType: "json",
+                data: { pin : pin, csrfmiddlewaretoken : '{{ csrf_token }}' }
+            }).done(function(data) {
+                console.log(data);
 
-        //     if(data.success){
-        //         buttonText = "Turn " + (data.state ? "On" : "Off");
-        //     } else {
-        //         alert("Oh No!! Something when wrong");
-        //     }
+                if(data.success){
+                    $(this).find('.js-thermometer-temp').html(data.temp);
+                }
 
-        //     $(button).html(buttonText).attr('disabled', false);
-        // }).fail(function(e){
-        //     $(button).html(buttonText).attr('disabled', false);
-        //     console.log("something went wrong", e);
-        // });
+            }).fail(function(e){
+                console.log("something went wrong", e);
+            });
 
+        });
+
+        setTimeout(refreshThermometer, 1000);
     }
 
     $('.js-toggle').click(function(){
