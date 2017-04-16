@@ -11,9 +11,9 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'next_page': 'login'}, name='logout'),
 
     url(r'^update/$', views.update, name='update'),
-    url(r'^maintain/$', views.maintain, name='maintain'),
     url(r'^maintain/update$', views.maintain_update, name='maintain_update'),
     url(r'^maintain/manuel', views.manuel_toggle, name='manuel_toggle'),
+    url(r'^get_temp/$', views.get_temp, name='get_temp'),
 
     url(r'^pins/$', views.pins, name='pins'),
     url(r'^pins/create$', views.pin_create, name='pin_create'),

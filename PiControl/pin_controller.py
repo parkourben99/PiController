@@ -1,4 +1,4 @@
-from PiControl.models import Pin
+from PiControl.models import Pin, TempControl
 import rollbar
 import sys
 import RPIO
@@ -27,7 +27,24 @@ class PinController(object):
                 self.my_pins.exclude(id=pin.id)
 
     def get_dashboard_data(self):
-        data = {'thermometers': self.get_thermometers(), 'pins': self.my_pins.filter(is_thermometer=False)}
+        temp_control = TempControl.objects.first()
+
+        if not temp_control:
+            rollbar.report_message("Unable to find the temp control, creating a new one")
+            temp_control = TempControl()
+            temp_control.name = "Control the spas temperature"
+            temp_control.range = 2.5
+            temp_control.temp = 23
+            temp_control.temp_pin_id = 1
+            temp_control.pump_pin_id = 2
+            temp_control.heater_pin_id = 3
+            temp_control.save(force_insert=True)
+
+        data = {
+            'thermometers': self.get_thermometers(),
+            'pins': self.my_pins.filter(is_thermometer=False),
+            'temp_control': temp_control
+        }
 
         return data
 

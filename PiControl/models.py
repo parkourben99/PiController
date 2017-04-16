@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 import os
 import glob
@@ -47,6 +48,9 @@ class Pin(models.Model):
     def set_state(self, state):
         return RPIO.output(self.pin_number, RPIO.HIGH if state else RPIO.LOW)
 
+    def set_state_upside_down(self, state):
+        return RPIO.output(self.pin_number, RPIO.HIGH if not state else RPIO.LOW)
+
 
 class Thermometer(object):
     def __init__(self, serial):
@@ -91,7 +95,7 @@ class Thermometer(object):
 class Git(object):
     def __init__(self):
         self.repo = git.Repo(os.getcwd())
-        self.branch = 'origin/master'
+        self.branch = 'origin/PiPool'
 
     def check(self):
         self.repo.remote().fetch()
@@ -148,6 +152,10 @@ class TempControl(models.Model):
     def maintain(self):
         if self.manuel:
             future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
+            self.manuel_at = self.manuel_at.replace(tzinfo=None)
+            future = future.replace(tzinfo=None)
+            print(self.manuel_at)
+            print(future)
             if self.manuel_at > future:
                 self.manuel = False
                 self.manuel_at = None
@@ -167,9 +175,9 @@ class TempControl(models.Model):
         if not pin:
             Exception("No pins has been set, unable to maintain")
         else:
-            temp = pin.get_temp()
-            too_hot = temp + range
-            too_cold = temp - range
+            temp = Decimal(pin.get_temp())
+            too_hot = self.temp + self.range
+            too_cold = self.temp - self.range
 
             if temp <= too_cold:
                 self.__turn_on()
@@ -178,6 +186,9 @@ class TempControl(models.Model):
             if temp >= too_hot:
                 self.__turn_off()
                 return
+
+    def outside_turn_on(self):
+        self.__set_state(True)
 
     def __turn_on(self):
         self.__set_state(True)
@@ -190,8 +201,14 @@ class TempControl(models.Model):
         heater = self.__get_pin(self.heater_pin_id)
 
         if self.manuel:
-            pump.set_state(True)
+            pump.set_state_upside_down(True)
+            pump.set_state_upside_down(state)
         else:
-            pump.set_state(state)
-
-        heater.set_state(state)
+            if state:
+                pump.set_state_upside_down(state)
+                time.sleep(3)
+                heater.set_state_upside_down(state)
+            else:
+                heater.set_state_upside_down(state)
+                time.sleep(3)
+                pump.set_state_upside_down(state)

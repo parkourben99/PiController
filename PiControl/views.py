@@ -105,39 +105,27 @@ def update(request):
     return render(request, "git/update.html", {"status": status})
 
 
-def maintain(request):
-    temp_control = TempControl.objects.first()
-
-    if not temp_control:
-        rollbar.report_message("Unable to find the temp control, creating a new one")
-        temp_control = TempControl()
-        temp_control.name = "Control the spas temperature"
-        temp_control.range = 2.5
-        temp_control.temp = 23
-        temp_control.temp_pin_id = 1
-        temp_control.pump_pin_id = 2
-        temp_control.heater_pin_id = 3
-        temp_control.save(force_insert=True)
-
-    return render(request, "maintain/index.html", {'temp_control': temp_control})
-
-
 def manuel_toggle(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/")
 
     temp_control = TempControl.objects.first()
     state = True if request.POST['state'] == '1' or request.POST['state'].lower() == 'true' else False
+    result = True
 
-    try:
-        temp_control.manuel = state
-        temp_control.manuel_at = None if not state else datetime.datetime.now()
-        temp_control.save()
+    if state != temp_control.manuel:
+        try:
+            now = datetime.datetime.now() + datetime.timedelta(hours=12)
 
-        result = True
-    except Exception:
-        rollbar.report_message("Unable to manuel_toggle state: " + str(state))
-        result = False
+            temp_control.manuel = state
+            temp_control.manuel_at = None if not state else now
+            temp_control.save()
+
+            if state:
+                temp_control.outside_turn_on()
+        except Exception:
+            rollbar.report_message("Unable to manuel_toggle state: " + str(state))
+            result = False
 
     return JsonResponse({'success': result})
 
@@ -161,6 +149,20 @@ def maintain_update(request):
         result = False
 
     return JsonResponse({'success': result})
+
+
+def get_temp(request):
+    if request.method == 'POST':
+        pin_id = request.POST['id']
+    else:
+        pin_id = request.GET['id']
+
+    try:
+        pin = pin_controller.my_pins.get(id=pin_id)
+    except Pin.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Pin not found'})
+
+    return JsonResponse({'success': True, 'temp': pin.get_temp()})
 
 
 def handler404(request):
