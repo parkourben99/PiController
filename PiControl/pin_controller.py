@@ -40,7 +40,11 @@ class PinController(object):
             temp_control.heater_pin_id = 3
             temp_control.save(force_insert=True)
 
-        data = {'thermometers': self.get_thermometers(), 'pins': self.my_pins.filter(is_thermometer=False), 'temp-control': temp_control}
+        data = {
+            'thermometers': self.get_thermometers(),
+            'pins': self.my_pins.filter(is_thermometer=False),
+            'temp_control': temp_control
+        }
 
         return data
 
