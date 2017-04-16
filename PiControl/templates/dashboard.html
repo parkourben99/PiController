@@ -68,7 +68,7 @@
 
                     <div class="pad-all">
                         <h4 class="text">
-                            <i class="fa fa-thermometer-three-quarters"></i><span class="js-thermometer-temp"> {{ thermometer.get_temp }}&#x2103;</span>
+                            <i class="fa fa-thermometer-three-quarters"></i><span class="js-thermometer-temp"> {{ thermometer.get_temp }}</span>&#x2103;
                         </h4>
                     </div>
                 </div>
@@ -138,19 +138,18 @@
         $('.js-thermometer').each(function(){
 
             var id = $(this).data('id');
-
-            // $('.js-thermometer-refresh').attr('disabled', true).find('fa-refresh').addClass('fa-spin');
         
             $.ajax({
                 type: "POST",
                 url: '{% url 'get_temp' %}',
                 dataType: "json",
-                data: { pin : pin, csrfmiddlewaretoken : '{{ csrf_token }}' }
+                data: { id : id, csrfmiddlewaretoken : '{{ csrf_token }}' }
             }).done(function(data) {
                 console.log(data);
 
                 if(data.success){
                     $(this).find('.js-thermometer-temp').html(data.temp);
+                    setTimeout(refreshThermometer, 1000);
                 }
 
             }).fail(function(e){
@@ -158,8 +157,6 @@
             });
 
         });
-
-        setTimeout(refreshThermometer, 1000);
     }
 
     $('.js-toggle').click(function(){
