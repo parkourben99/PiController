@@ -46,7 +46,12 @@
 
                     <div>
                         <h3>Manual Control</h3>
-                        <button class="btn btn-block btn-success js-manual" data-state="{{ temp_control.manuel }}">On</button>
+                        {% if temp_control.manuel %}
+                            <button class="btn btn-block btn-success js-manual" data-state="True">On</button>
+                        {% else %}
+                            <button class="btn btn-block danger js-manual" data-state="False">Off</button>
+                        {% endif %}
+
                     </div>
 
                     <h3>Temp</h3>

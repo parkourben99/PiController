@@ -152,8 +152,6 @@ class TempControl(models.Model):
     def maintain(self):
         if self.manuel:
             future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
-            self.manuel_at = self.manuel_at.replace(tzinfo=None) + datetime.timedelta(hours=12)
-            future = future.replace(tzinfo=None)
             print(self.manuel_at)
             print(future)
             if self.manuel_at > future:

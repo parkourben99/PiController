@@ -128,19 +128,19 @@ def manuel_toggle(request):
 
     temp_control = TempControl.objects.first()
     state = True if request.POST['state'] == '1' or request.POST['state'].lower() == 'true' else False
+    result = True
 
-    try:
-        temp_control.manuel = state
-        temp_control.manuel_at = None if not state else datetime.datetime.now()
-        temp_control.save()
+    if state != temp_control.manuel:
+        try:
+            temp_control.manuel = state
+            temp_control.manuel_at = None if not state else (datetime.datetime.now() + datetime.timedelta(hours=12))
+            temp_control.save()
 
-        if state:
-            temp_control.__turn_on()
-            
-        result = True
-    except Exception:
-        rollbar.report_message("Unable to manuel_toggle state: " + str(state))
-        result = False
+            if state:
+                temp_control.__turn_on()
+        except Exception:
+            rollbar.report_message("Unable to manuel_toggle state: " + str(state))
+            result = False
 
     return JsonResponse({'success': result})
 
