@@ -162,7 +162,7 @@ def get_temp(request):
     except Pin.DoesNotExist:
         return JsonResponse({'success': False, 'message': 'Pin not found'})
 
-    return JsonResponse({'success': False, 'temp': pin.get_temp()})
+    return JsonResponse({'success': True, 'temp': pin.get_temp()})
 
 
 def handler404(request):
