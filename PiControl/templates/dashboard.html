@@ -16,7 +16,7 @@
                         <p class="text-muted">{{ pin.description }}</p>
                         <div class="pad-btm">
                             <button class="btn btn-success js-toggle" data-id="{{ pin.id }}"
-                                    data-state="{{ pin.get_state_opposite }}">Turn {{ pin.get_state|yesno:"off,on" }}</button>
+                                    data-state="{{ pin.get_state_opposite }}">Turn {{ pin.get_state|yesno:"on,off" }}</button>
                         </div>
                     </div>
                 </div>
@@ -107,9 +107,11 @@
             console.log(data);
 
             if(data.success){
-                buttonText = "Turn " + (data.state ? "on" : "off");
+                console.log(data.state);
 
-                $(button).data('state', data.state ? 1 : 0);
+                buttonText = "Turn " + (data.state ? "off" : "on");
+
+                $(button).data('state', data.state ? 0 : 1);
             } else {
                 alert("Oh No!! Something when wrong");
             }
