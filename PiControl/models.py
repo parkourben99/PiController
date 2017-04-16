@@ -112,9 +112,10 @@ class Git(object):
 
 
 class TimeBand(models.Model):
-    start_at = models.DateTimeField(null=True)
-    end_at = models.DateTimeField(null=True)
+    start_at = models.TimeField(null=True)
+    end_at = models.TimeField(null=True)
     active = models.BooleanField(default=True, null=False)
+    day_of_week = models.IntegerField(null=False)
 
 
 class TempControl(models.Model):
@@ -135,14 +136,16 @@ class TempControl(models.Model):
 
     def __allowed_to_run(self):
         now = datetime.datetime.now()
+        time = now.time()
         result = False
 
-        time_bands = TimeBand.objects.all()
+        time_bands = TimeBand.objects.filter(active=True)
 
         for time_band in time_bands:
-            if now > time_band.start_at and now < time_band.end_at:
-                result = True
-                break
+            if now.day == time_band.day_of_week:
+                if time > time_band.start_at and time < time_band.end_at:
+                    result = True
+                    break
 
         return result
 
@@ -159,7 +162,7 @@ class TempControl(models.Model):
         else:
             pass
             # todo finish this:
-            # create view and way to edit, store day as int and time not datetime
+            # create view and way to edit
             # if not self.__allowed_to_run:
             #     self.__turn_off()
             #     return

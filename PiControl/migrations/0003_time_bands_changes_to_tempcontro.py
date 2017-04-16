@@ -18,8 +18,9 @@ class Migration(migrations.Migration):
             name='TimeBand',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('start_at', models.DateTimeField(null=False)),
-                ('end_at', models.DateTimeField(null=False)),
+                ('start_at', models.TimeField(null=False)),
+                ('end_at', models.TimeField(null=False)),
+                ('day_of_week', models.IntegerField(null=False)),
                 ('active', models.BooleanField(default=True)),
             ],
         ),
