@@ -16,7 +16,7 @@
                         <p class="text-muted">{{ pin.description }}</p>
                         <div class="pad-btm">
                             <button class="btn btn-success js-toggle" data-id="{{ pin.id }}"
-                                    data-state="{{ pin.get_state_opposite }}">Turn {{ pin.get_state|yesno:"on,off,off" }}</button>
+                                    data-state="{{ pin.get_state_opposite }}">Turn {{ pin.get_state|yesno:"off,on" }}</button>
                         </div>
                     </div>
                 </div>
