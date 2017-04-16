@@ -105,23 +105,6 @@ def update(request):
     return render(request, "git/update.html", {"status": status})
 
 
-def maintain(request):
-    temp_control = TempControl.objects.first()
-
-    if not temp_control:
-        rollbar.report_message("Unable to find the temp control, creating a new one")
-        temp_control = TempControl()
-        temp_control.name = "Control the spas temperature"
-        temp_control.range = 2.5
-        temp_control.temp = 23
-        temp_control.temp_pin_id = 1
-        temp_control.pump_pin_id = 2
-        temp_control.heater_pin_id = 3
-        temp_control.save(force_insert=True)
-
-    return render(request, "maintain/index.html", {'temp_control': temp_control})
-
-
 def manuel_toggle(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/")

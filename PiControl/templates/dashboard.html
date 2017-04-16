@@ -1,5 +1,40 @@
 {% extends 'master.html' %}
 
+{% block head %}
+<style>
+    .container {
+    padding-top: 40px;
+}
+
+@media ( max-width: 585px ) {
+    .input-group span.input-group-btn,.input-group input,.input-group button{
+        display: block;
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+    }
+    .input-group {
+        position: relative;
+    }
+    .input-group span.data-up{
+        position: absolute;
+        top: 0;
+    }
+    .input-group span.data-dwn{
+        position: absolute;
+        bottom: 0;
+    }
+    .form-control.text-center {
+        margin: 34px 0;
+    }
+    .input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group{
+        margin-left:0;
+    }
+
+}
+</style>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
@@ -40,6 +75,44 @@
             </div>
         {% endfor %}
 
+        <div class="col-md-6 col-lg-3">
+            <div class="panel text-center">
+                <div class="pad-all">
+
+                    <div>
+                        <h3>Manual Control</h3>
+                        {% if temp_control.manuel %}
+                            <button class="btn btn-block btn-danger js-manual" data-state="0">Off</button>
+                        {% else %}
+                            <button class="btn btn-block btn-success js-manual" data-state="1">On</button>
+                        {% endif %}
+                    </div>
+
+                    <h3>Temp</h3>
+                    <div class="input-group number-spinner">
+                        <span class="input-group-btn data-dwn">
+                            <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
+                        </span>
+                        <input type="text" class="form-control text-center js-temp" value="{{ temp_control.temp }}" min="20" max="60" data-inc="1">
+                        <span class="input-group-btn data-up">
+                            <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
+                        </span>
+                    </div>
+
+                    <h3>Range</h3>
+                    <div class="input-group number-spinner">
+                        <span class="input-group-btn data-dwn">
+                            <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
+                        </span>
+                        <input type="text" class="form-control text-center js-range" value="{{ temp_control.range }}" min="1" max="10" data-inc="0.5">
+                        <span class="input-group-btn data-up">
+                            <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {% if pins.count == 0 %}
             <div class="col-md-6 col-lg-3">
                 <div class="panel text-center">
@@ -54,36 +127,37 @@
 
 {% block javascript %}
 <script>
+    $('.js-thermometer-refresh').click(refreshThermometer());
 
-    // $('.js-thermometer-refresh').click(refreshThermometer());
+    setTimeout(refreshThermometer);
 
-    // setTimout(refreshThermometer);
+    function refreshThermometer(){
 
-    // function refreshThermometer(){
+        console.log('refreshThermometer');
 
-    //     $('.js-thermometer-refresh').attr('disabled', true).find('fa-refresh').addClass('fa-spin');
+        // $('.js-thermometer-refresh').attr('disabled', true).find('fa-refresh').addClass('fa-spin');
         
-    //     $.ajax({
-    //         type: "POST",
-    //         url: '{% url 'pin_set' %}',
-    //         dataType: "json",
-    //         data: { pin : pin, state : state, csrfmiddlewaretoken : '{{ csrf_token }}' }
-    //     }).done(function(data) {
-    //         console.log(data);
+        // $.ajax({
+        //     type: "POST",
+        //     url: '{% url 'pin_set' %}',
+        //     dataType: "json",
+        //     data: { pin : pin, state : state, csrfmiddlewaretoken : '{{ csrf_token }}' }
+        // }).done(function(data) {
+        //     console.log(data);
 
-    //         if(data.success){
-    //             buttonText = "Turn " + (data.state ? "On" : "Off");
-    //         } else {
-    //             alert("Oh No!! Something when wrong");
-    //         }
+        //     if(data.success){
+        //         buttonText = "Turn " + (data.state ? "On" : "Off");
+        //     } else {
+        //         alert("Oh No!! Something when wrong");
+        //     }
 
-    //         $(button).html(buttonText).attr('disabled', false);
-    //     }).fail(function(e){
-    //         $(button).html(buttonText).attr('disabled', false);
-    //         console.log("something went wrong", e);
-    //     });
+        //     $(button).html(buttonText).attr('disabled', false);
+        // }).fail(function(e){
+        //     $(button).html(buttonText).attr('disabled', false);
+        //     console.log("something went wrong", e);
+        // });
 
-    // }
+    }
 
     $('.js-toggle').click(function(){
         var id = $(this).data('id');
@@ -123,5 +197,83 @@
         });
     }
 
+    function update(){
+        var range = $('.js-range').val();
+        var temp = $('.js-temp').val();
+
+        $.ajax({
+            type: "POST",
+            url: '{% url 'maintain_update' %}',
+            dataType: "json",
+            data: { csrfmiddlewaretoken : '{{ csrf_token }}', range : range, temp : temp }
+        }).done(function(data) {
+            console.log(data);
+
+            if(!data.success){
+                alert("Oh No!! Something when wrong");
+            }
+        }).fail(function(e){
+            alert("Oh No!! Something when very wrong");
+        });
+    }
+
+    $('.js-temp').blur(update);
+    $('.js-range').blur(update);
+
+    $(".number-spinner button").mousedown(function () {
+        var btn = $(this);
+        inputChange(btn);
+    });
+
+    function inputChange(btn){
+        var input = btn.closest('.number-spinner').find('input');
+        btn.closest('.number-spinner').find('button').prop("disabled", false);
+        var inc = parseFloat(input.data('inc'));
+
+        if (btn.attr('data-dir') == 'up') {
+
+            if ( input.attr('max') == undefined || parseFloat(input.val()) < parseInt(input.attr('max')) ) {
+                input.val(parseFloat(input.val())+inc);
+            } else {
+                btn.prop("disabled", true);
+            }
+
+        } else {
+
+            if ( input.attr('min') == undefined || parseFloat(input.val()) > parseInt(input.attr('min')) ) {
+                input.val(parseFloat(input.val())-inc);
+            } else {
+                btn.prop("disabled", true);
+            }
+        }
+
+        update();
+    }
+
+    $('.js-manual').click(function(){
+        var state = $(this).data('state');
+
+        if(state){
+            $(this).removeClass('btn-success').addClass('btn-danger').html('Off').data('state', !state);
+        } else {
+            $(this).addClass('btn-success').removeClass('btn-danger').html('On').data('state', !state);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '{% url 'manuel_toggle' %}',
+            dataType: "json",
+            data: { csrfmiddlewaretoken : '{{ csrf_token }}', state : state }
+        }).done(function(data) {
+            console.log(data);
+
+            if(!data.success){
+                alert("Oh No!! Something when wrong");
+            }
+        }).fail(function(e){
+            alert("Oh No!! Something when very wrong");
+        });
+
+    });
 </script>
 {% endblock %}
