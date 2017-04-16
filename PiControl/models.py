@@ -91,7 +91,7 @@ class Thermometer(object):
 class Git(object):
     def __init__(self):
         self.repo = git.Repo(os.getcwd())
-        self.branch = 'origin/master'
+        self.branch = 'origin/PiPool'
 
     def check(self):
         self.repo.remote().fetch()
