@@ -54,7 +54,6 @@
             dataType: "json",
             data: { csrfmiddlewaretoken : '{{ csrf_token }}' }
         }).done(function(data) {
-            console.log(data);
 
             if(data.success){
                 row.remove();

@@ -130,11 +130,7 @@
     setTimeout(refreshThermometer, 1000);
 
     function refreshThermometer(){
-
-        console.log('refreshThermometer');
-
         $('.js-thermometer').each(function(){
-
             var id = $(this).data('id');
             var item = $(this);
         
@@ -144,7 +140,6 @@
                 dataType: "json",
                 data: { id : id, csrfmiddlewaretoken : '{{ csrf_token }}' }
             }).done(function(data) {
-                console.log(data);
 
                 if(data.success){
                     item.find('.js-thermometer-temp').html(data.temp);
@@ -154,7 +149,6 @@
             }).fail(function(e){
                 console.log("something went wrong", e);
             });
-
         });
     }
 
@@ -177,11 +171,8 @@
             dataType: "json",
             data: { pin : pin, state : state, csrfmiddlewaretoken : '{{ csrf_token }}' }
         }).done(function(data) {
-            console.log(data);
 
             if(data.success){
-                console.log(data.state);
-
                 buttonText = "Turn " + (data.state ? "on" : "off");
 
                 $(button).data('state', data.state ? 0 : 1);
@@ -206,11 +197,11 @@
             dataType: "json",
             data: { csrfmiddlewaretoken : '{{ csrf_token }}', range : range, temp : temp }
         }).done(function(data) {
-            console.log(data);
 
             if(!data.success){
                 alert("Oh No!! Something when wrong");
             }
+
         }).fail(function(e){
             alert("Oh No!! Something when very wrong");
         });
@@ -264,7 +255,6 @@
             dataType: "json",
             data: { csrfmiddlewaretoken : '{{ csrf_token }}', state : state }
         }).done(function(data) {
-            console.log(data);
 
             if(!data.success){
                 alert("Oh No!! Something when wrong");

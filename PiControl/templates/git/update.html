@@ -47,13 +47,13 @@
             dataType: "json",
             data: { csrfmiddlewaretoken : '{{ csrf_token }}' }
         }).done(function(data) {
-            console.log(data);
 
             if(data.success){
                 window.location.reload();
             } else {
                 alert("Oh No!! Something when wrong");
             }
+
         }).fail(function(e){
             alert("Oh No!! Something when very wrong");
         });
