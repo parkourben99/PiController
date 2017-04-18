@@ -27,7 +27,8 @@ APP_NAME = os.environ.get("APP_NAME", "SomethingAwesome")
 SECRET_KEY = os.environ.get("SECRET_KEY", "someSecretKey")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", False)
+DEBUG = os.environ.get("APP_ENV", False)
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
 

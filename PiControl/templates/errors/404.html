@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <!-- start: Meta -->
     <meta charset="utf-8">
     <title>PiPool - 404</title>
-    <!-- end: Meta -->
+
     <style type="text/css">
         html {
         text-align: center;
@@ -18,14 +16,14 @@
         font-weight: 100;
         }
     </style>
-
 </head>
 
 <body>
-<img src="{% static 'img/sad-clown-404.jpg' %}" />
-<h1>Enrico the Clown is sad.</h1>
+    {% load staticfiles %}
+    <img src="{% static 'img/sad-clown-404.jpg' %}" />
+    <h1>Enrico the Clown is sad.</h1>
 
-<h3>He can't find the page you're looking for, but sincerely hopes you'll forgive him.</h3>
-<h2>Error code: 404</h2>
+    <h3>He can't find the page you're looking for, but sincerely hopes you'll forgive him.</h3>
+    <h2>Error code: 404</h2>
 </body>
 </html>

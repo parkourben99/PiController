@@ -28,7 +28,6 @@ urlpatterns = [
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # todo
-# production working correctly - static files not working
 # fix git update return value / not breaking
 # throw error if env not loaded
 # load app name into master.html
