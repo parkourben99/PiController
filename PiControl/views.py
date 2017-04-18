@@ -163,15 +163,3 @@ def get_temp(request):
         return JsonResponse({'success': False, 'message': 'Pin not found'})
 
     return JsonResponse({'success': True, 'temp': pin.get_temp()})
-
-
-def handler404(request):
-    response = render_to_response('errors/404.html', {}, context_instance=RequestContext(request))
-    response.status_code = 404
-    return response
-
-
-def handler500(request):
-    response = render_to_response('errors/500.html', {}, context_instance=RequestContext(request))
-    response.status_code = 500
-    return response
