@@ -34,6 +34,3 @@ class Command(BaseCommand):
 #
 #
 # *= adjustble through GUI on Touch screen
-
-# crontab -e
-# */3 * * * * python3 /home/pi/projects/PiController/manage.py control-temp

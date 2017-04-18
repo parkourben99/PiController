@@ -12,5 +12,7 @@ sudo systemctl restart nginx
 sudo systemctl start gunicorn
 sudo systemctl enable gunicorn
 
-Cron
+crontab -e
 */1 * * * * bash /home/pi/projects/PiController/.meta/scripts/cron.sh
+
+sudo systemctl restart gunicorn
