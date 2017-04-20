@@ -160,8 +160,7 @@ class TempControl(models.Model):
             future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
             self.manuel_at = self.manuel_at.replace(tzinfo=None)
             future = future.replace(tzinfo=None)
-            print(self.manuel_at)
-            print(future)
+
             if self.manuel_at > future:
                 self.manuel = False
                 self.manuel_at = None
@@ -182,9 +181,9 @@ class TempControl(models.Model):
             Exception("No pins has been set, unable to maintain")
         else:
             temp = Decimal(pin.get_temp())
-            too_cold = self.temp - self.range
+            cold = self.temp - self.range
 
-            if temp <= too_cold:
+            if temp <= cold:
                 self.__turn_on()
                 return
 
