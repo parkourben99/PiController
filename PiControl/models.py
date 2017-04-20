@@ -181,14 +181,13 @@ class TempControl(models.Model):
             Exception("No pins has been set, unable to maintain")
         else:
             temp = Decimal(pin.get_temp())
-            too_hot = self.temp + self.range
             too_cold = self.temp - self.range
 
             if temp <= too_cold:
                 self.__turn_on()
                 return
 
-            if temp >= too_hot:
+            if temp >= self.temp:
                 self.__turn_off()
                 return
 
