@@ -25,8 +25,8 @@ class Pin(models.Model):
             try:
                 self.thermometer = Thermometer('28')  # todo update this one day
             except:
-                rollbar.report_exc_info()
-                rollbar.report_message('could not set thermometer')
+                # rollbar.report_exc_info()
+                # rollbar.report_message('could not set thermometer')
                 self.thermometer = None
 
     def get_direction(self):
