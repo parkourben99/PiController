@@ -93,7 +93,7 @@
                         <span class="input-group-btn data-dwn">
                             <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
                         </span>
-                        <input type="text" class="form-control text-center js-temp" value="{{ temp_control.temp }}" min="20" max="60 data-inc="1">
+                        <input type="text" class="form-control text-center js-temp" value="{{ temp_control.temp }}" min="20" max="60" data-inc="1" disabled>
                         <span class="input-group-btn data-up">
                             <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
                         </span>
@@ -104,7 +104,7 @@
                         <span class="input-group-btn data-dwn">
                             <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
                         </span>
-                        <input type="text" class="form-control text-center js-range" value="{{ temp_control.range }}" min="1" max="10" data-inc="0.5">
+                        <input type="text" class="form-control text-center js-range" value="{{ temp_control.range }}" min="1" max="10" data-inc="0.5" disabled>
                         <span class="input-group-btn data-up">
                             <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
                         </span>
@@ -206,9 +206,6 @@
             alert("Oh No!! Something when very wrong");
         });
     }
-
-    $('.js-temp').blur(update);
-    $('.js-range').blur(update);
 
     $(".number-spinner button").mousedown(function () {
         var btn = $(this);

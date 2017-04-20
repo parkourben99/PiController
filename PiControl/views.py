@@ -140,12 +140,18 @@ def maintain_update(request):
     range = request.POST['range']
 
     try:
-        temp_control.temp = temp
-        temp_control.range = range
-        temp_control.save()
-        result = True
-    except Exception:
-        rollbar.report_message("Unable to save update for temp control")
+        temp = float(temp)
+        range = float(range)
+
+        try:
+            temp_control.temp = temp
+            temp_control.range = range
+            temp_control.save()
+            result = True
+        except:
+            rollbar.report_message("Unable to save update for temp control")
+            result = False
+    except:
         result = False
 
     return JsonResponse({'success': result})
