@@ -1,12 +1,17 @@
 from django.core.management.base import BaseCommand, CommandError
 from PiControl.models import TempControl
+import rollbar
 
 
 class Command(BaseCommand):
     help = 'Maintain the temp for the pool'
 
     def handle(self, *args, **options):
-        TempControl.objects.first().maintain()
+        try:
+            TempControl.objects.first().maintain()
+        except:
+            rollbar.report_exc_info()
+            rollbar.report_message('maintain command failure')
 
         self.stdout.write(self.style.SUCCESS('Success'))
 

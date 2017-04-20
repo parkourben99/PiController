@@ -6,6 +6,7 @@ import time
 import git
 import datetime
 import RPIO
+import rollbar
 
 
 class Pin(models.Model):
@@ -24,6 +25,8 @@ class Pin(models.Model):
             try:
                 self.thermometer = Thermometer('28')  # todo update this one day
             except:
+                rollbar.report_exc_info()
+                rollbar.report_message('could not set thermometer')
                 self.thermometer = None
 
     def get_direction(self):
@@ -40,6 +43,7 @@ class Pin(models.Model):
         try:
             return RPIO.input(self.pin_number)
         except:
+            rollbar.report_message('could not get_state')
             return None
 
     def get_state_opposite(self):
@@ -108,6 +112,7 @@ class Git(object):
             self.repo.remote().pull()
             return True
         except git.GitCommandError:
+            rollbar.report_message('could not update git')
             return False
 
 
