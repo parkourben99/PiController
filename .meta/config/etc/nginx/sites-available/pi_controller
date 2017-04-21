@@ -10,7 +10,7 @@ server {
     server_name localhost; #custom domain goes here
 
     access_log /home/pi/projects/PiController/logs/nginx-access.log;
-    error_log /webapps/hello_django/logs/nginx-error.log;
+    error_log /home/pi/projects/PiController/logs/nginx-error.log;
 
     location = /favicon.ico { 
         access_log off; 
@@ -34,6 +34,6 @@ server {
         # redirects, we set the Host: header above already.
         proxy_redirect off;
 
-        proxy_pass pi_controller;
+        proxy_pass http://pi_controller;
     }
 }
