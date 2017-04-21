@@ -42,7 +42,7 @@ class PinController(object):
 
         data = {
             'thermometers': self.get_thermometers(),
-            'pins': self.my_pins.filter(is_thermometer=False),
+            'pins': [], #self.my_pins.filter(is_thermometer=False),
             'temp_control': temp_control
         }
 

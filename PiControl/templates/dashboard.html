@@ -127,7 +127,7 @@
 
 {% block javascript %}
 <script>
-    refreshThermometer();
+    setTimeout(refreshThermometer, 10000);
 
     function refreshThermometer(){
         $('.js-thermometer').each(function(){
