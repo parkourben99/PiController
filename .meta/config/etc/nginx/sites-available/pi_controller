@@ -1,0 +1,39 @@
+upstream pi_controller {
+    # fail_timeout=0 means we always retry an upstream even if it failed
+    # to return a good HTTP response
+
+    server unix:/home/pi/projects/PiController/run/gunicorn.sock fail_timeout=0;
+}
+
+server {
+    listen 80 default_server;
+    server_name localhost; #custom domain goes here
+
+    access_log /home/pi/projects/PiController/logs/nginx-access.log;
+    error_log /webapps/hello_django/logs/nginx-error.log;
+
+    location = /favicon.ico { 
+        access_log off; 
+        log_not_found off; 
+    }
+
+    location /static/ {
+        root /home/pi/projects/PiController;
+    }
+
+    location / {
+        # an HTTP header important enough to have its own Wikipedia entry:
+        # http://en.wikipedia.org/wiki/X-Forwarded-For
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        # pass the Host: header from the client right along so redirects
+        # can be set properly within the Rack application
+        proxy_set_header Host $http_host;
+
+        # we don't want nginx trying to do something clever with
+        # redirects, we set the Host: header above already.
+        proxy_redirect off;
+
+        proxy_pass pi_controller;
+    }
+}
