@@ -13,9 +13,7 @@
 
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
-        <!--<li class="bg_lb">-->
-            <a href="{% url 'pin_create' %}" class="btn btn-success"><i class="fa fa-plus"></i> Create</a>
-        <!--</li>-->
+        <a href="{% url 'pin_create' %}" class="btn btn-success"><i class="fa fa-plus"></i> Create</a>
       </ul>
     </div>
 
@@ -27,15 +25,13 @@
                     <h5>Current Pins</h5>
                 </div>
 
-                <div class="widget-content">
+                <div class="widget-content nopadding">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Description</th>
-                                <th>Pin Number</th>
+                                <th>Pin #</th>
                                 <th>Thermometer</th>
-                                <th></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -43,11 +39,14 @@
                             {% for pin in pins %}
                                 <tr class="js-tr">
                                     <td>{{ pin.name }}</td>
-                                    <td>{{ pin.description }}</td>
                                     <td>{{ pin.pin_number }}</td>
-                                    <td>{{ pin.is_thermometer|yesno:"Yeah,No,Maybe" }}</td>
-                                    <td><a class="btn btn-info" href="{% url 'pin_edit' pin.id %}">Edit</a></td>
-                                    <td><a data-id="{{ pin.id }}" class="js-delete btn btn-warning">Delete</a></td>
+                                    <td>{{ pin.is_thermometer|yesno:"<i class='fa fa-tick'></i>","<i class='fa fa-cross'></i>","<i class='fa fa-cross'></i>"" }}</td>
+                                    <td>
+                                        <a class="btn btn-info" href="{% url 'pin_edit' pin.id %}"><i class="fa fa-pencil"></i></a>
+                                    </td>
+                                    <td>
+                                        <a data-id="{{ pin.id }}" class="js-delete btn btn-warning"><i class="fa fa-trash"></i></a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

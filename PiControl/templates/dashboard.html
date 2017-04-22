@@ -44,6 +44,27 @@
 </div>
 
 <div class="container-fluid">
+    
+    <div class="widget-box widget-plain">
+      <div class="center">
+        <ul class="stat-boxes2">
+
+            {% for thermometer in thermometers  %}
+                <li>
+                    <div class="left peity_bar_neutral js-thermometer" data-id="{{ thermometer.id }}">
+                        <span>
+                            <i class="fa fa-thermometer-three-quarters"></i> <span class="js-thermometer-temp">{{ thermometer.get_temp }}</span>&#x2103;
+                        </span>
+                    </div>
+                    <div class="right"> <strong>{{ thermometer.name }}</strong></div>
+                </li>
+            {% endfor %}
+
+        </ul>
+      </div>
+    </div>
+
+
     <div class="row-fluid">
 
         {% for pin in pins %}
