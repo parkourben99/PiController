@@ -6,15 +6,11 @@ $(document).ready(function(){
         var location = window.location.href;
         location = location.substr(7);
         location = location.substr(0, location.length -1);
+        location = location.replace(window.location.host, '');
 
         var current = $(this).find('a').attr('href');
         if(current)
         	current = current.substr(0, current.length -1);
-
-        current = current.replace(window.location.host, '');
-
-        console.log(current);
-        console.log(location);
 
         if(current == location){
             $(this).addClass('current');
