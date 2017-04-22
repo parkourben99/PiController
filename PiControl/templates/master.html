@@ -20,7 +20,7 @@
 
         <div id="user-nav" class="navbar navbar-inverse">
           <ul class="nav">
-            <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome {{ user.get_username }}</span><b class="caret"></b></a>
+            <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="fa fa-user"></i>  <span class="text">Welcome {{ user.get_username }}</span><b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#"><i class="fa fa-user"></i> My Profile</a></li>
                 <li class="divider"></li>
@@ -31,7 +31,7 @@
           </ul>
         </div>
 
-        <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+        <div id="sidebar"><a href="#" class="visible-phone"><i class="fa fa-home"></i> Dashboard</a>
           <ul>
             <li class="js-menu"><a href="/"><i class="fa fa-home"></i> <span>Dashboard</span></a> </li>
             <li class="js-menu"> <a href="{% url 'pins' %}"><i class="fa fa-map-pin"></i> <span>Pins</span></a> </li>
