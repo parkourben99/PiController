@@ -156,11 +156,7 @@ $(document).ready(function(){
 		}
 		
 	});
-	
 
-	$('#lightbox').live('click', function() { 
-		$('#lightbox').hide(200);
-	});
 	
 });
 
