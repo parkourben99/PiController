@@ -3,10 +3,16 @@ $(document).ready(function(){
 
     $('.js-menu').each(function(){
 
-        console.log($(this).href);
-        console.log(window.location.href);
+        var location = window.location.href;
+        location = location.substr(7);
 
-        if($(this).href == window.location.href){
+        var current = $(this).find('a').href;
+        current = current.substr(0, current.length -1);
+
+        console.log(current);
+        console.log(location);
+
+        if(current == location){
             $(this).addClass('current');
         }
     });
