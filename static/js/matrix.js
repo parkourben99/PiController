@@ -13,7 +13,7 @@ $(document).ready(function(){
         	current = current.substr(0, current.length -1);
 
         if(current == location){
-            $(this).addClass('current');
+            $(this).addClass('active');
         }
     });
 	
