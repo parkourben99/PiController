@@ -11,6 +11,8 @@ $(document).ready(function(){
         if(current)
         	current = current.substr(0, current.length -1);
 
+        current = current.replace(window.location.host, '');
+
         console.log(current);
         console.log(location);
 
