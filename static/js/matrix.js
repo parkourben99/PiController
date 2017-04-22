@@ -1,7 +1,11 @@
 
 $(document).ready(function(){
 
-	
+    $('.js-menu').each(function(){
+        if($(this).href == window.location.href){
+            $(this).addClass('current');
+        }
+    });
 	
 	// === Sidebar navigation === //
 	
