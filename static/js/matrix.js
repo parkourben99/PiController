@@ -2,6 +2,10 @@
 $(document).ready(function(){
 
     $('.js-menu').each(function(){
+
+        console.log($(this).href);
+        console.log(window.location.href);
+
         if($(this).href == window.location.href){
             $(this).addClass('current');
         }
