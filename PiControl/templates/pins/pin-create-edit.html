@@ -2,42 +2,55 @@
 
 {% block content %}
 
-    <div class="container">
-        <div class="row">
+<div id="content-header">
+    <div id="breadcrumb">
+        <a href="/" title="Dashboard" class="tip-bottom"><i class="fa fa-home"></i> Dashboard</a>
+        <a href="{% url 'pins' %}">Pins</a>
+        <a href="#" class="current">Create</a>
+    </div>
+</div>
 
-           <form method="post" action="{% url 'pin_post' %}">
-                {% csrf_token %}
+<div class="container-fluid">
+    <div class="row-fluid">
 
-                <div class="panel panel-default">
-
-                    {% for hidden in form.hidden_fields %}
-                        {{ hidden }}
-                    {% endfor %}
-
-                    {% for field in form.visible_fields %}
-
-                        <div class="form-group">
-                            {{ field.errors }}
-                            {{ field.label_tag }}
-                            {{ field }}
-                        </div>
-
-                    {% endfor %}
-
-                    <button type="submit" class="btn btn-info">Save</button>
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <h5>Create Pin</h5>
                 </div>
 
+                <div class="widget-content">
 
-            </form>
+                    <form method="post" action="{% url 'pin_post' %}">
+                        {% csrf_token %}
 
+                        <!--<div class="panel panel-default">-->
+
+                            {% for hidden in form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+
+                            {% for field in form.visible_fields %}
+
+                                <div class="form-group">
+                                    {{ field.errors }}
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                </div>
+
+                            {% endfor %}
+
+                            <button type="submit" class="btn btn-info">Save</button>
+                        <!--</div>-->
+
+                    </form>
+
+                </div>
+
+            </div>
         </div>
+
     </div>
+</div>
 
-{% endblock %}
-
-{% block javascript %}
-<script>
-
-
-</script>
 {% endblock %}

@@ -2,34 +2,59 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="row">
+<div id="content-header">
+    <div id="breadcrumb">
+        <a href="/" title="Dashboard" class="tip-bottom"><i class="fa fa-home"></i> Dashboard</a>
+        <a href="#" class="current">Pins</a>
+    </div>
+</div>
 
-        <a href="{% url 'pin_create' %}" class="btn btn-success">Create</a>
+<div class="container-fluid">
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Pin Number</th>
-                    <th>Is thermometer</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for pin in pins %}
-                    <tr class="js-tr">
-                        <td>{{ pin.name }}</td>
-                        <td>{{ pin.description }}</td>
-                        <td>{{ pin.pin_number }}</td>
-                        <td>{{ pin.is_thermometer|yesno:"Yeah,No,Maybe" }}</td>
-                        <td><a class="btn btn-info" href="{% url 'pin_edit' pin.id %}">Edit</a></td>
-                        <td><a data-id="{{ pin.id }}" class="js-delete btn btn-warning">Delete</a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="quick-actions_homepage">
+      <ul class="quick-actions">
+        <li class="bg_lb">
+            <a href="{% url 'pin_create' %}" class="btn btn-success"><i class="fa fa-plus"></i> Create</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="row-fluid">
+
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <h5>Current Pins</h5>
+                </div>
+
+                <div class="widget-content">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Pin Number</th>
+                                <th>Is thermometer</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pin in pins %}
+                                <tr class="js-tr">
+                                    <td>{{ pin.name }}</td>
+                                    <td>{{ pin.description }}</td>
+                                    <td>{{ pin.pin_number }}</td>
+                                    <td>{{ pin.is_thermometer|yesno:"Yeah,No,Maybe" }}</td>
+                                    <td><a class="btn btn-info" href="{% url 'pin_edit' pin.id %}">Edit</a></td>
+                                    <td><a data-id="{{ pin.id }}" class="js-delete btn btn-warning">Delete</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
 
     </div>
 </div>

@@ -1,48 +1,53 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title>PiPool</title>
-</head>
-<body>
-	{% load staticfiles %}
-	
-	<meta charset="utf-8">
-	<meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<html lang="en">
+    <head>
+        {% load staticfiles %}
+        <title>PiPool</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+        <link rel="stylesheet" href="css/matrix-style.css" />
+        <link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
 
-	{% block head %}
-	{% endblock %}
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <div id="header">
+          <h1><a href="/">PiPool</a></h1>
+        </div>
 
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button class="navbar-toggle collapsed" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button> 
-				<a class="navbar-brand" href="/">Home</a> 
-				<a class="navbar-brand" href="{% url 'pins' %}">Pins</a>
-			</div>
+        <div id="user-nav" class="navbar navbar-inverse">
+          <ul class="nav">
+            <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome {{ user.get_username }}</span><b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="#"><i class="icon-user"></i> My Profile</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout"><i class="icon-key"></i> Log Out</a></li>
+              </ul>
+            </li>
+            <li class=""><a title="" href="/logout"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+          </ul>
+        </div>
 
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a href="/logout">Logout</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+        <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
+          <ul>
+            <li class="active"><a href="/"><i class="fa fa-home"></i> <span>Dashboard</span></a> </li>
+            <li> <a href="{% url 'pins' %}"><i class="fa fa-map-pin"></i> <span>Pins</span></a> </li>
+          </ul>
+        </div>
 
-	{% block content %} 
-	{% endblock %} 
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
 
-	<script src="{% static 'js/jquery.min.js' %}"></script>
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/matrix.js"></script>
 
-	{% block javascript %} 
-	{% endblock %}
-</body>
+        {% block javascript %}
+        {% endblock %}
+    </body>
 </html>
