@@ -5,8 +5,9 @@ $(document).ready(function(){
 
         var location = window.location.href;
         location = location.substr(7);
+        location = location.substr(0, location.length -1);
 
-        var current = $(this).find('a').first().href;
+        var current = $(this).find('a').attr('href');
         if(current)
         	current = current.substr(0, current.length -1);
 
