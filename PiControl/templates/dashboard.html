@@ -109,25 +109,6 @@
         </div>
     </div>
 
-    {% for pin in pins %}
-        <div class="row-fluid">
-            <div class="span3">
-                <div class="widget-box">
-                    <div class="widget-content">
-                        <h4>{{ pin.name }}</h4>
-                        <p>{{ pin.description }}</p>
-
-                        <div>
-                            <button class="btn btn-success js-toggle" data-id="{{ pin.id }}"
-                                        data-state="{{ pin.get_state_opposite }}">Turn {{ pin.get_state|yesno:"on,off" }}</button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
-
     {% if pins.count == 0 %}
         <div class="row-fluid">
             <div class="span3">
@@ -139,8 +120,7 @@
             </div>
         </div>
     {% endif %}
-
-
+    
 </div>
 
 {% endblock %}
@@ -169,41 +149,6 @@
             }).fail(function(e){
                 console.log("something went wrong", e);
             });
-        });
-    }
-
-    $('.js-toggle').click(function(){
-        var id = $(this).data('id');
-        var state = $(this).data('state');
-        togglePinState(id, state, this);
-    });
-
-    function togglePinState(pin, state, button){
-        var loading = "<i class='fa fa-spin fa-refresh'></i>";
-
-        buttonText = $(button).html();
-        $(button).html(loading).attr('disabled', true);
-
-
-        $.ajax({
-            type: "POST",
-            url: '{% url 'pin_set' %}',
-            dataType: "json",
-            data: { pin : pin, state : state, csrfmiddlewaretoken : '{{ csrf_token }}' }
-        }).done(function(data) {
-
-            if(data.success){
-                buttonText = "Turn " + (data.state ? "on" : "off");
-
-                $(button).data('state', data.state ? 0 : 1);
-            } else {
-                alert("Oh No!! Something when wrong");
-            }
-
-            $(button).html(buttonText).attr('disabled', false);
-        }).fail(function(e){
-            $(button).html(buttonText).attr('disabled', false);
-            console.log("something went wrong", e);
         });
     }
 
