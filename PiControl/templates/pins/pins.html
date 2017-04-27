@@ -40,7 +40,7 @@
                                 <tr class="js-tr">
                                     <td>{{ pin.name }}</td>
                                     <td>{{ pin.pin_number }}</td>
-                                    <td>{{ pin.is_thermometer|yesno:"<i class='fa fa-tick'></i>","<i class='fa fa-cross'></i>","<i class='fa fa-cross'></i>" }}</td>
+                                    <td>{{ pin.is_thermometer|yesno:"<i class='fa fa-tick'></i>","<i class='fa fa-cross'></i>" }}</td>
                                     <td>
                                         <a class="btn btn-info" href="{% url 'pin_edit' pin.id %}"><i class="fa fa-pencil"></i></a>
                                     </td>
