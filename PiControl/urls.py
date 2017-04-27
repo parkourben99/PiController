@@ -22,7 +22,10 @@ urlpatterns = [
     url(r'^pins/(?P<id>\d+)/$', views.pin_edit, name='pin_edit'),
 
     url(r'^schedule/$', views.pins, name='schedule'),
-
+    url(r'^schedule/create$', views.schedule_create, name='schedule_create'),
+    url(r'^schedule/create/post$', views.schedule_post, name='schedule_post'),
+    url(r'^schedule/delete/(?P<id>\d+)/$', views.schedule_delete, name='schedule_delete'),
+    url(r'^schedule/(?P<id>\d+)/$', views.schedule_edit, name='schedule_edit'),
 
     url(r'^pin-set/$', views.pin_set, name='pin_set'),
     url(r'^$', views.dashboard, name='dashboard'),

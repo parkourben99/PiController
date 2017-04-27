@@ -172,3 +172,15 @@ def get_temp(request):
 
 
 def schedule(request): pass
+
+
+def schedule_edit(request): pass
+
+
+def schedule_create(request): pass
+
+
+def schedule_post(request): pass
+
+
+def schedule_delete(request): pass

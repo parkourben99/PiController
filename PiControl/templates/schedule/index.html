@@ -5,7 +5,7 @@
 <div id="content-header">
     <div id="breadcrumb">
         <a href="/" title="Dashboard" class="tip-bottom"><i class="fa fa-home"></i> Dashboard</a>
-        <a href="#" class="current">Pins</a>
+        <a href="#" class="current">Schedule</a>
     </div>
 </div>
 
@@ -13,7 +13,7 @@
 
     <div class="quick-actions_homepage">
       <ul class="quick-actions">
-        <a href="{% url 'pin_create' %}" class="btn btn-success"><i class="fa fa-plus"></i> Create</a>
+        <a href="{% url 'schedule_create' %}" class="btn btn-success"><i class="fa fa-plus"></i> Create</a>
       </ul>
     </div>
 
@@ -22,30 +22,32 @@
         <div class="span12">
             <div class="widget-box">
                 <div class="widget-title">
-                    <h5>Current Pins</h5>
+                    <h5>Current Schedule</h5>
                 </div>
 
                 <div class="widget-content nopadding">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Pin #</th>
-                                <th>Thermometer</th>
+                                <th>Day</th>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Active</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for pin in pins %}
+                            {% for days in day %}
                                 <tr class="js-tr">
-                                    <td>{{ pin.name }}</td>
-                                    <td>{{ pin.pin_number }}</td>
-                                    <td>{{ pin.is_thermometer|yesno:"<i class='fa fa-tick'></i>","<i class='fa fa-cross'></i>","<i class='fa fa-cross'></i>" }}</td>
+                                    <td>{{ day.day_of_week }}</td>
+                                    <td>{{ day.start_at }}</td>
+                                    <td>{{ day.end_at }}</td>
+                                    <td>{{ day.active|yesno:"<i class='fa fa-tick'></i>","<i class='fa fa-cross'></i>","<i class='fa fa-cross'></i>" }}</td>
                                     <td>
-                                        <a class="btn btn-info" href="{% url 'pin_edit' pin.id %}"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-info" href="{% url 'schedule_edit' day.id %}"><i class="fa fa-pencil"></i></a>
                                     </td>
                                     <td>
-                                        <a data-id="{{ pin.id }}" class="js-delete btn btn-warning"><i class="fa fa-trash"></i></a>
+                                        <a data-id="{{ day.id }}" class="js-delete btn btn-warning"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -66,12 +68,12 @@
     $('.js-delete').click(function(){
         var id = $(this).data('id');
 
-        var result = confirm('Are you sure you want to delete this pin?');
+        var result = confirm('Are you sure you want to delete this day from the schedule?');
         if(!result) return;
 
         var row = $(this).parents('.js-tr');
 
-        var url = '/pins/delete/' + id + '/';
+        var url = '/schedule/delete/' + id + '/';
 
         $.ajax({
             type: "POST",

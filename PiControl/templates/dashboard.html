@@ -52,22 +52,30 @@
 <div class="container-fluid">
 
     <div class="quick-actions_homepage">
-        <ul class="quick-actions">
-            {% if temp_control.manuel %}
-                <li class="bg_lo js-manual" data-state="0">
-                    <i class="fa fa-magic"></i><span> Manual Off</span>
-                </li>
-            {% else %}
-                <li class="bg_lg js-manual" data-state="1">
-                    <i class="fa fa-magic"></i><span> Manual On</span>
-                </li>
-            {% endif %}
-
-            <li class="bg_ly">
-                <a href="{% url 'schedule' %}"><i class="fa fa-calendar"></i> Schedule</a>
-            </li>
-      </ul>
+        {% if temp_control.manuel %}
+            <button class="btn btn-block btn-danger js-manual" data-state="0">Manual Off</button>
+        {% else %}
+            <button class="btn btn-block btn-success js-manual" data-state="1">Manual On</button>
+        {% endif %}
     </div>
+
+    {% for thermometer in thermometers  %}
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="widget-box">
+                    <div class="widget-content text-center js-thermometer" data-id="{{ thermometer.id }}">
+                        <h4>{{ thermometer.name }}</h4>
+                        <p>{{ thermometer.description }}</p>
+                        <div class="pad-all">
+                            <h4 class="text">
+                                <i class="fa fa-thermometer-three-quarters"></i> <span class="js-thermometer-temp">{{ thermometer.get_temp }}</span>&#x2103;
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 
     <div class="row-fluid">
         <div class="span12">
@@ -103,24 +111,6 @@
             </div>
         </div>
     </div>
-
-    {% for thermometer in thermometers  %}
-        <div class="row-fluid">
-            <div class="span3">
-                <div class="widget-box">
-                    <div class="widget-content text-center js-thermometer" data-id="{{ thermometer.id }}">
-                        <h4>{{ thermometer.name }}</h4>
-                        <p>{{ thermometer.description }}</p>
-                        <div class="pad-all">
-                            <h4 class="text">
-                                <i class="fa fa-thermometer-three-quarters"></i> <span class="js-thermometer-temp">{{ thermometer.get_temp }}</span>&#x2103;
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
 
     {% for pin in pins %}
         <div class="row-fluid">
