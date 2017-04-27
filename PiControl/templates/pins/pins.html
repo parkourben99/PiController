@@ -12,9 +12,7 @@
 <div class="container-fluid">
 
     <div class="quick-actions_homepage">
-      <ul class="quick-actions">
-        <a href="{% url 'pin_create' %}" class="btn btn-success"><i class="fa fa-plus"></i> Create</a>
-      </ul>
+        <a href="{% url 'pin_create' %}" class="btn btn-block btn-success"><i class="fa fa-plus"></i> Create</a>
     </div>
 
     <div class="row-fluid">
@@ -40,11 +38,9 @@
                                 <tr class="js-tr">
                                     <td>{{ pin.name }}</td>
                                     <td>{{ pin.pin_number }}</td>
-                                    <td><i class='fa fa-{{ pin.is_thermometer|yesno:"tick,cross,cross" }}'></i></td>
+                                    <td><i class='fa fa-{{ pin.is_thermometer|yesno:"check,times,times" }}'></i></td>
                                     <td>
                                         <a class="btn btn-info" href="{% url 'pin_edit' pin.id %}"><i class="fa fa-pencil"></i></a>
-                                    </td>
-                                    <td>
                                         <a data-id="{{ pin.id }}" class="js-delete btn btn-warning"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>

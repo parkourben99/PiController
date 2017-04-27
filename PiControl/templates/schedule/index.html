@@ -42,7 +42,7 @@
                                     <td>{{ day.day_of_week }}</td>
                                     <td>{{ day.start_at }}</td>
                                     <td>{{ day.end_at }}</td>
-                                    <td>{{ day.active|yesno:"<i class='fa fa-tick'></i>","<i class='fa fa-cross'></i>","<i class='fa fa-cross'></i>" }}</td>
+                                    <td><i class='fa fa-{{ day.active|yesno:"check,times,times" }}'></i></td>
                                     <td>
                                         <a class="btn btn-info" href="{% url 'schedule_edit' day.id %}"><i class="fa fa-pencil"></i></a>
                                     </td>
