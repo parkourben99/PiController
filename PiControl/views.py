@@ -3,7 +3,7 @@ from django.shortcuts import render, Http404, render_to_response
 from django.template import RequestContext
 import datetime
 
-from PiControl.models import Pin, TempControl
+from PiControl.models import Pin, TempControl, TimeBand
 from PiControl.models import Git
 from PiControl.pin_controller import PinController
 from .forms import PinForm
@@ -171,7 +171,10 @@ def get_temp(request):
     return JsonResponse({'success': True, 'temp': pin.get_temp()})
 
 
-def schedule(request): pass
+def schedule(request):
+    days = TimeBand.objects.all()
+
+    return render(request, "schedule/index.html", {"days": days})
 
 
 def schedule_edit(request): pass
@@ -183,4 +186,13 @@ def schedule_create(request): pass
 def schedule_post(request): pass
 
 
-def schedule_delete(request): pass
+def schedule_delete(request):
+    try:
+        time_band = TimeBand.objects.get(id=id)
+    except TimeBand.DoesNotExist:
+        raise Http404("Could not find that pin!")
+
+    result = time_band.delete()
+
+    # todo return bool not {object:bool}
+    return JsonResponse({'success': result})
