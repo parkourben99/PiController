@@ -169,3 +169,6 @@ def get_temp(request):
         return JsonResponse({'success': False, 'message': 'Pin not found'})
 
     return JsonResponse({'success': True, 'temp': pin.get_temp()})
+
+
+def schedule(request): pass

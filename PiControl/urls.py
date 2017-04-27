@@ -21,6 +21,9 @@ urlpatterns = [
     url(r'^pins/delete/(?P<id>\d+)/$', views.pin_delete, name='pin_delete'),
     url(r'^pins/(?P<id>\d+)/$', views.pin_edit, name='pin_edit'),
 
+    url(r'^schedule/$', views.pins, name='schedule'),
+
+
     url(r'^pin-set/$', views.pin_set, name='pin_set'),
     url(r'^$', views.dashboard, name='dashboard'),
 ]
