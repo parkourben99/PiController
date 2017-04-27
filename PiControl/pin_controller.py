@@ -34,7 +34,7 @@ class PinController(object):
             temp_control = TempControl()
             temp_control.name = "Control the spas temperature"
             temp_control.range = 2.5
-            temp_control.temp = 23
+            temp_control.temp = 39
             temp_control.temp_pin_id = 1
             temp_control.pump_pin_id = 2
             temp_control.heater_pin_id = 3

@@ -65,7 +65,7 @@
                         <p>{{ thermometer.description }}</p>
                         <div class="pad-all">
                             <h4 class="text">
-                                <i class="fa fa-thermometer-three-quarters"></i> <span class="js-thermometer-temp">{{ thermometer.get_temp }}</span>&#x2103;
+                                <i class="fa fa-thermometer-three-quarters"></i> <span class="js-thermometer-temp">0</span>&#x2103;
                             </h4>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
 
 {% block javascript %}
 <script>
-    setTimeout(refreshThermometer, 10000);
+    setTimeout(refreshThermometer, 3000);
 
     function refreshThermometer(){
         $('.js-thermometer').each(function(){
