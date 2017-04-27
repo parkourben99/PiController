@@ -69,110 +69,91 @@
       </ul>
     </div>
 
-
-    <!--<div class="widget-box widget-plain">-->
-      <!--<div class="center">-->
-        <!--<ul class="stat-boxes2">-->
-
-            <!--{% for thermometer in thermometers  %}-->
-                <!--<li>-->
-                    <!--<div class="left peity_bar_neutral js-thermometer" data-id="{{ thermometer.id }}">-->
-                        <!--<span>-->
-                            <!--<i class="fa fa-thermometer-three-quarters"></i> <span class="js-thermometer-temp">{{ thermometer.get_temp }}</span>&#x2103;-->
-                        <!--</span>-->
-                    <!--</div>-->
-                    <!--<div class="right"> <strong>{{ thermometer.name }}</strong></div>-->
-                <!--</li>-->
-            <!--{% endfor %}-->
-
-        <!--</ul>-->
-      <!--</div>-->
-    <!--</div>-->
-
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="widget-box">
-          <div class="widget-title">
-            <h5>Temperature Control</h5>
-          </div>
-          <div class="widget-content">
-
-              <h3>Temp</h3>
-                <div class="input-group number-spinner">
-                    <span class="input-group-btn data-dwn">
-                        <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
-                    </span>
-                    <input type="text" class="form-control text-center js-temp" value="{{ temp_control.temp }}" min="20" max="60" data-inc="1" disabled>
-                    <span class="input-group-btn data-up">
-                        <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
-                    </span>
-                </div>
-
-                <h3>Range</h3>
-                <div class="input-group number-spinner">
-                    <span class="input-group-btn data-dwn">
-                        <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
-                    </span>
-                    <input type="text" class="form-control text-center js-range" value="{{ temp_control.range }}" min="1" max="10" data-inc="0.5" disabled>
-                    <span class="input-group-btn data-up">
-                        <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
-                    </span>
-                </div>
-
-          </div>
-      </div>
-    </div>
-
-
     <div class="row-fluid">
         <div class="span12">
-        <div class="widget-box">
-          <div class="widget-content">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <h5>Temperature Control</h5>
+                </div>
+                <div class="widget-content">
 
-        {% for pin in pins %}
-            <div class="col-md-6 col-lg-3">
-                <div class="panel text-center">
-                    <div class="panel-body">
-                        <h4 class="mar-no">{{ pin.name }}</h4>
+                    <h3>Temp</h3>
+                    <div class="input-group number-spinner">
+                        <span class="input-group-btn data-dwn">
+                            <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
+                        </span>
+                        <input type="text" class="form-control text-center js-temp" value="{{ temp_control.temp }}" min="20" max="60" data-inc="1" disabled>
+                        <span class="input-group-btn data-up">
+                            <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
+                        </span>
                     </div>
 
-                    <div class="pad-all">
-                        <p class="text-muted">{{ pin.description }}</p>
-                        <div class="pad-btm">
-                            <button class="btn btn-success js-toggle" data-id="{{ pin.id }}"
-                                    data-state="{{ pin.get_state_opposite }}">Turn {{ pin.get_state|yesno:"on,off" }}</button>
+                    <h3>Range</h3>
+                    <div class="input-group number-spinner">
+                        <span class="input-group-btn data-dwn">
+                            <button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>
+                        </span>
+                        <input type="text" class="form-control text-center js-range" value="{{ temp_control.range }}" min="1" max="10" data-inc="0.5" disabled>
+                        <span class="input-group-btn data-up">
+                            <button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% for thermometer in thermometers  %}
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="widget-box">
+                    <div class="widget-content text-center js-thermometer" data-id="{{ thermometer.id }}">
+                        <h4>{{ thermometer.name }}</h4>
+                        <p>{{ thermometer.description }}</p>
+                        <div class="pad-all">
+                            <h4 class="text">
+                                <i class="fa fa-thermometer-three-quarters"></i> <span class="js-thermometer-temp">{{ thermometer.get_temp }}</span>&#x2103;
+                            </h4>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
 
-        {% for thermometer in thermometers  %}
-            <div class="col-md-6 col-lg-3">
-                <div class="panel text-center js-thermometer" data-id="{{ thermometer.id }}">
-                    <div class="panel-body">
-                        <h4 class="mar-no">{{ thermometer.name }}</h4>
-                        <p>{{ thermometer.description }}</p>
-                    </div>
+    {% for pin in pins %}
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="widget-box">
+                    <div class="widget-content">
+                        <h4>{{ pin.name }}</h4>
+                        <p>{{ pin.description }}</p>
 
-                    <div class="pad-all">
-                        <h4 class="text">
-                            <i class="fa fa-thermometer-three-quarters"></i> <span class="js-thermometer-temp">{{ thermometer.get_temp }}</span>&#x2103;
-                        </h4>
+                        <div>
+                            <button class="btn btn-success js-toggle" data-id="{{ pin.id }}"
+                                        data-state="{{ pin.get_state_opposite }}">Turn {{ pin.get_state|yesno:"on,off" }}</button>
+                        </div>
+
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
 
-
-        {% if pins.count == 0 %}
-            <div class="col-md-6 col-lg-3">
-                <div class="panel text-center">
-                    <h2>Looks like you have no pins set up. Create a new one <a href="{% url 'pin_create' %}">here.</a></h2>
+    {% if pins.count == 0 %}
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="widget-box">
+                    <div class="widget-content">
+                        <h2>Looks like you have no pins set up. Create a new one <a href="{% url 'pin_create' %}">here.</a></h2>
+                    </div>
                 </div>
             </div>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
+
+
 </div>
 
 {% endblock %}
