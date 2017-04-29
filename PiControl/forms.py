@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from .models import Pin
+from .models import Pin, TimeBand
 
 
 class LoginForm(AuthenticationForm):
@@ -23,4 +23,19 @@ class PinForm(forms.ModelForm):
             'description': forms.TextInput(attrs={'class': 'form-control'}),
             'pin_number': forms.TextInput(attrs={'class': 'form-control'}),
             'is_thermometer': forms.CheckboxInput(attrs={'class': 'form-control'})
+        }
+
+
+class TimeBandForm(forms.ModelForm):
+    id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
+    day_of_week = forms.ChoiceField(choices={'Monday': 0, 'Tuesday': 1, 'Wednesday' : 2, 'Thursday': 3, 'Friday': 4, 'Saturday': 5, 'Sunday': 6})
+
+    class Meta:
+        model = TimeBand
+        fields = ('start_at', 'end_at', 'active', 'day_of_week')
+        widgets = {
+            'start_at': forms.TextInput(attrs={'class': 'form-control js-start-at'}),
+            'end_at': forms.TextInput(attrs={'class': 'form-control js-end-at'}),
+            'day_of_week': forms.Select(attrs={'class': 'form-control'}),
+            'active': forms.CheckboxInput(attrs={'class': 'form-control'}),
         }

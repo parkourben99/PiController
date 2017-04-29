@@ -1,0 +1,80 @@
+{% extends 'master.html' %}
+
+{% block content %}
+
+<div id="content-header">
+    <div id="breadcrumb">
+        <a href="/" title="Dashboard" class="tip-bottom"><i class="fa fa-home"></i> Dashboard</a>
+        <a href="{% url 'schedule' %}">Schedule</a>
+        <a href="#" class="current">Create</a>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+
+        <div class="span12">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <h5>Create Sechedule</h5>
+                </div>
+
+                <div class="widget-content">
+
+                    <form method="post" action="{% url 'schedule_post' %}" class=".js-form">
+                        {% csrf_token %}
+
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+
+                        {% for field in form.visible_fields %}
+
+                            <div class="form-group">
+                                {{ field.errors }}
+                                {{ field.label_tag }}
+                                {{ field }}
+                            </div>
+
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-info">Save</button>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+
+    $('.js-start-at .js-end-at').timepicker({
+        timeFormat: 'h:mm p',
+        interval: 30,
+        minTime: '10',
+        maxTime: '6:00pm',
+        startTime: '10:00',
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true
+    });
+
+    $('.js-form').submit(function(e){
+        e.preventdefalt();
+
+        var start = $('.js-start-at').val();
+        var end = $('.js-end-at').val();
+
+
+        console.log('submitting', start, end);
+    });
+
+</script>
+{% endblock %}

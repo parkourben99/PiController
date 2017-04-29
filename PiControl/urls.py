@@ -34,7 +34,11 @@ urlpatterns = [
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # todo
+
+# display on dashboard a count down till next schedule
+# schedule - create,edit,delete
+# uncomment schedule code in manage function
+# test if schedule works
+
 # fix git update return value / not breaking
-# throw error if env not loaded
-# load app name into master.html
-# refactor views/controller/settings
+# refactor views/controller

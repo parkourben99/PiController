@@ -1,12 +1,12 @@
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, Http404, render_to_response
-from django.template import RequestContext
+from django.shortcuts import render, Http404
 import datetime
+from django.core.urlresolvers import reverse
 
 from PiControl.models import Pin, TempControl, TimeBand
 from PiControl.models import Git
 from PiControl.pin_controller import PinController
-from .forms import PinForm
+from .forms import PinForm, TimeBandForm
 import rollbar
 
 # Create the pin controller instance
@@ -177,16 +177,42 @@ def schedule(request):
     return render(request, "schedule/index.html", {"days": days})
 
 
-def schedule_edit(request): pass
+def schedule_edit(request, id):
+    try:
+        time_band = TimeBand.objects.get(id=id)
+    except TimeBand.DoesNotExist:
+        raise Http404("Could not find that pin!")
+
+    form = TimeBandForm(instance=time_band)
+    return render(request, "schedule/create-edit.html", {"form": form})
 
 
-def schedule_create(request): pass
+def schedule_create(request):
+    return render(request, "schedule/create-edit.html", {"form": TimeBandForm()})
 
 
-def schedule_post(request): pass
+def schedule_post(request):
+    if request.method != 'POST':
+        return HttpResponseRedirect(reverse('schedule'))
+
+    id = request.POST.get('id')
+
+    if id.isdigit():
+        time_band = TimeBand.objects.get(id=id)
+    else:
+        time_band = TimeBand()
+
+    form = TimeBandForm(request.POST, instance=time_band)
+
+    if form.is_valid():
+        form.save()
+
+        return HttpResponseRedirect(reverse('schedule'))
+
+    return render(request, "schedule/create-edit.html", {'form': form})
 
 
-def schedule_delete(request):
+def schedule_delete(request, id):
     try:
         time_band = TimeBand.objects.get(id=id)
     except TimeBand.DoesNotExist:
