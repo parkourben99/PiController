@@ -1,11 +1,4 @@
 {% extends 'master.html' %}
-{% load staticfiles %}
-
-{% block head %}
-
-    <link href="{% static 'css/jquery.timepicker.min.css' %}" rel="stylesheet">
-
-{% endblock %}
 
 {% block content %}
 
@@ -23,7 +16,7 @@
         <div class="span12">
             <div class="widget-box">
                 <div class="widget-title">
-                    <h5>Create Sechedule</h5>
+                    <h5>Create Schedule</h5>
                 </div>
 
                 <div class="widget-content">
@@ -46,7 +39,6 @@
                         {% endfor %}
 
                         <button type="submit" class="btn btn-info">Save</button>
-
                     </form>
 
                 </div>
@@ -60,7 +52,6 @@
 {% endblock %}
 
 {% block javascript %}
-<script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
 <script>
 
     $('.js-start-at .js-end-at').timepicker({
@@ -75,7 +66,7 @@
     });
 
     $('.js-form').submit(function(e){
-        e.preventdefalt();
+        e.preventdefault();
 
         var start = $('.js-start-at').val();
         var end = $('.js-end-at').val();
