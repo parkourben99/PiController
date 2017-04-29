@@ -29,7 +29,7 @@ class PinForm(forms.ModelForm):
 class TimeBandForm(forms.ModelForm):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     day_of_week = forms.ChoiceField(choices=((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday')))
-    active = forms.BooleanField(initial=True)
+    active = forms.BooleanField(initial=True, required=False)
 
     class Meta:
         model = TimeBand
