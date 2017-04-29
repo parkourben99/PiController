@@ -1,5 +1,11 @@
 {% extends 'master.html' %}
 
+{% block head %}
+
+    <link href="{% static 'css/jquery.timepicker.min.css' %}" rel="stylesheet">
+
+{% endblock %}
+
 {% block content %}
 
 <div id="content-header">
@@ -53,6 +59,7 @@
 {% endblock %}
 
 {% block javascript %}
+<script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
 <script>
 
     $('.js-start-at .js-end-at').timepicker({
