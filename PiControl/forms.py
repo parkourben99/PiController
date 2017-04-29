@@ -33,7 +33,7 @@ class TimeBandForm(forms.ModelForm):
 
     class Meta:
         model = TimeBand
-        fields = ('start_at', 'end_at', 'active', 'day_of_week')
+        fields = ('start_at', 'end_at', 'active', 'day_of_week', 'id')
         widgets = {
             'start_at': forms.TextInput(attrs={'class': 'form-control js-start-at'}),
             'end_at': forms.TextInput(attrs={'class': 'form-control js-end-at'}),
