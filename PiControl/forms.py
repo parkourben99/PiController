@@ -29,6 +29,7 @@ class PinForm(forms.ModelForm):
 class TimeBandForm(forms.ModelForm):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     day_of_week = forms.ChoiceField(choices=((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday')))
+    active = forms.BooleanField(initial=True)
 
     class Meta:
         model = TimeBand
@@ -37,5 +38,5 @@ class TimeBandForm(forms.ModelForm):
             'start_at': forms.TextInput(attrs={'class': 'form-control js-start-at'}),
             'end_at': forms.TextInput(attrs={'class': 'form-control js-end-at'}),
             'day_of_week': forms.Select(attrs={'class': 'form-control'}),
-            'active': forms.CheckboxInput(attrs={'class': 'form-control'}),
+            'active': forms.CheckboxInput(attrs={'class': 'form-control'}, ),
         }

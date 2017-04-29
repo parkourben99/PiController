@@ -119,8 +119,8 @@ class Git(object):
 class TimeBand(models.Model):
     start_at = models.TimeField(null=True)
     end_at = models.TimeField(null=True)
-    active = models.BooleanField(default=True, null=False)
     day_of_week = models.IntegerField(null=False)
+    active = models.BooleanField(default=True, null=False)
 
 
 class TempControl(models.Model):
