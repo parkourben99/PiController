@@ -188,7 +188,7 @@ class TempControl(models.Model):
                 self.__turn_off()
                 return
         else:
-            if not self.__allowed_to_run:
+            if not self.__allowed_to_run():
                 self.__turn_off()
                 return
 
