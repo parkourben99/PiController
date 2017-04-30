@@ -48,8 +48,8 @@ class TimeBandForm(forms.ModelForm):
         model = TimeBand
         fields = ('start_at', 'end_at', 'active', 'day_of_week', 'id')
         widgets = {
-            'start_at': forms.TimeField(attrs={'class': 'form-control js-start-at'}),
-            'end_at': forms.TimeField(attrs={'class': 'form-control js-end-at'}),
+            'start_at': forms.TimeInput(attrs={'class': 'form-control js-start-at'}),
+            'end_at': forms.TimeInput(attrs={'class': 'form-control js-end-at'}),
             'day_of_week': forms.Select(attrs={'class': 'form-control'}),
             'active': forms.CheckboxInput(attrs={'class': 'form-control'})
         }
