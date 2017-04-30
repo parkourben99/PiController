@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from PiControl.models import TempControl
 import rollbar
 from django.conf import settings
@@ -13,6 +13,5 @@ class Command(BaseCommand):
             TempControl.objects.first().maintain()
         except:
             rollbar.report_exc_info()
-            rollbar.report_message('maintain command failure')
 
         self.stdout.write(self.style.SUCCESS('Success'))

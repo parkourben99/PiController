@@ -165,8 +165,10 @@ class TempControl(models.Model):
         time_bands = TimeBand.objects.filter(active=True)
 
         for time_band in time_bands:
+            print(time_bands)
             if now.weekday() == time_band.day_of_week:
                 if time > time_band.start_at and time < time_band.end_at:
+                    print('__allowed_to_run true')
                     result = True
                     break
 
