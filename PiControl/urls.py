@@ -34,7 +34,5 @@ urlpatterns = [
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # todo
-# display on dashboard a count down till next schedule
-
 # fix git update return value / not breaking
 # refactor views/controller

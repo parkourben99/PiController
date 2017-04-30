@@ -127,6 +127,20 @@ class TimeBand(models.Model):
 
         return days[self.day_of_week][1]
 
+    @classmethod
+    def get_next(cls):
+        bands = TimeBand.objects.all()
+        next = None
+        now = datetime.datetime.now().weekday()
+        
+        # for band in bands:
+        #     if band.day_of_week == now:
+
+        #'2017/04/30 21:01:01',
+
+        return None #'2017/04/30 21:01:01'
+
+
 class TempControl(models.Model):
     name = models.CharField(max_length=200, null=False)
     manuel = models.BooleanField(default=False, null=False)
@@ -151,7 +165,7 @@ class TempControl(models.Model):
         time_bands = TimeBand.objects.filter(active=True)
 
         for time_band in time_bands:
-            if now.weekday == time_band.day_of_week:
+            if now.weekday() == time_band.day_of_week:
                 if time > time_band.start_at and time < time_band.end_at:
                     result = True
                     break

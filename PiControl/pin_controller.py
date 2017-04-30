@@ -1,4 +1,4 @@
-from PiControl.models import Pin, TempControl
+from PiControl.models import Pin, TempControl, TimeBand
 import rollbar
 import sys
 import RPIO
@@ -41,7 +41,7 @@ class PinController(object):
             temp_control.save(force_insert=True)
 
         data = {
-            'time_remaining': '2017/04/30 21:01:01',
+            'time_remaining': TimeBand.get_next(),
             'thermometers': self.get_thermometers(),
             'temp_control': temp_control
         }

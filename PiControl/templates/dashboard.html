@@ -45,7 +45,8 @@
     <div id="breadcrumb">
         <a href="/" title="Dashboard" class="current"><i class="fa fa-home"></i> Home</a>
         {% if time_remaining %}
-        <div class="js-countdown"></div>
+            Next Scheduled in
+            <div class="js-countdown"></div>
         {% endif %}
     </div>
 </div>
@@ -234,7 +235,7 @@
 
     {% if time_remaining %}
         $('.js-countdown').countdown("{{ time_remaining }}", function(event) {
-            $(this).text( event.strftime('%D days %H:%M:%S'));
+            $(this).text(event.strftime('%D days %H:%M:%S'));
         });
     {% endif %}
 </script>
