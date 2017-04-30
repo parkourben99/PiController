@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
 from .models import Pin, TimeBand
+from datetime import datetime
 
 
 class LoginForm(AuthenticationForm):
@@ -30,6 +31,14 @@ class TimeBandForm(forms.ModelForm):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     day_of_week = forms.ChoiceField(choices=((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday')))
     active = forms.BooleanField(initial=True, required=False)
+
+    def clean_start_at(self):
+        start_at = self.cleaned_data['start_at']
+
+        time = datetime.strptime('%I:%M %p', start_at)
+        time = time.strftime("%H:%M:%S")
+
+        return time
 
     class Meta:
         model = TimeBand
