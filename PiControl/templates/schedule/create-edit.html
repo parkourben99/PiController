@@ -60,8 +60,7 @@
 {% block javascript %}
 <script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
 <script>
-
-    $('.js-start-at .js-end-at').timepicker({
+    var TimePicker = {
         timeFormat: 'h:mm p',
         interval: 30,
         minTime: '10',
@@ -70,10 +69,13 @@
         dynamic: false,
         dropdown: true,
         scrollbar: true
-    });
+    };
+
+    $('.js-start-at').timepicker(TimePicker);
+    $('.js-end-at').timepicker(TimePicker);
 
     $('.js-form').submit(function(e){
-        e.preventdefalt();
+        e.preventdefault();
 
         var start = $('.js-start-at').val();
         var end = $('.js-end-at').val();
