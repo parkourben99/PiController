@@ -38,9 +38,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for days in day %}
+                            {% for day in days %}
                                 <tr class="js-tr">
-                                    <td>{{ day.day_of_week }}</td>
+                                    <td>{{ day.get_week_day }}</td>
                                     <td>{{ day.start_at }}</td>
                                     <td>{{ day.end_at }}</td>
                                     <td><i class='fa fa-{{ day.active|yesno:"check,times,times" }}'></i></td>

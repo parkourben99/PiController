@@ -122,6 +122,10 @@ class TimeBand(models.Model):
     day_of_week = models.IntegerField(null=False)
     active = models.BooleanField(default=True, null=False)
 
+    def get_week_day(self):
+        days = ((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday'))
+
+        return days[self.day_of_week][1]
 
 class TempControl(models.Model):
     name = models.CharField(max_length=200, null=False)

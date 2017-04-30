@@ -34,11 +34,6 @@ urlpatterns = [
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # todo
-
-# timepicker not working
-# jquery method to validate start time is before end time
-# index page not loading anything...
-
 # display on dashboard a count down till next schedule
 # uncomment schedule code in manage function
 # test if schedule works
