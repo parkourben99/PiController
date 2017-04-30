@@ -132,7 +132,7 @@ class TimeBand(models.Model):
         bands = TimeBand.objects.all()
         next = None
         now = datetime.datetime.now().weekday()
-        
+
         # for band in bands:
         #     if band.day_of_week == now:
 
@@ -218,6 +218,8 @@ class TempControl(models.Model):
     def __set_state(self, state):
         pump = self.__get_pin(self.pump_pin_id)
         heater = self.__get_pin(self.heater_pin_id)
+
+        print('set_state ' + state)
 
         if self.manuel:
             pump.set_state_upside_down(True)
