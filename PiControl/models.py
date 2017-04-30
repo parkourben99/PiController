@@ -219,7 +219,7 @@ class TempControl(models.Model):
         pump = self.__get_pin(self.pump_pin_id)
         heater = self.__get_pin(self.heater_pin_id)
 
-        print('set_state ' + state)
+        print('set_state ' + str(state))
 
         if self.manuel:
             pump.set_state_upside_down(True)
