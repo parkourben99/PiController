@@ -31,7 +31,7 @@ def pin_delete(request, id):
     except Pin.DoesNotExist:
         raise Http404("Could not find that pin!")
 
-    result = list(pin.delete()[1])[0]
+    result = list(pin.delete()[1].values())[0]
     pin_controller.set_all_pins()
 
     return JsonResponse({'success': result})
@@ -217,6 +217,6 @@ def schedule_delete(request, id):
     except TimeBand.DoesNotExist:
         raise Http404("Could not find that pin!")
 
-    result = list(time_band.delete()[1])[0]
+    result = list(time_band.delete()[1].values())[0]
 
     return JsonResponse({'success': result})
