@@ -12,7 +12,7 @@ sudo systemctl start gunicorn
 sudo systemctl enable gunicorn
 
 crontab -e
-*/1 * * * * bash /home/pi/projects/PiController/.meta/scripts/cron.sh
+*/2 * * * * bash /home/pi/projects/PiController/.meta/scripts/cron.sh
 
 after updating need to resart gunicorn
 sudo systemctl restart gunicorn
