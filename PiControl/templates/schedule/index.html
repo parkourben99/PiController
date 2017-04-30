@@ -46,8 +46,6 @@
                                     <td><i class='fa fa-{{ day.active|yesno:"check,times,times" }}'></i></td>
                                     <td>
                                         <a class="btn btn-info" href="{% url 'schedule_edit' day.id %}"><i class="fa fa-pencil"></i></a>
-                                    </td>
-                                    <td>
                                         <a data-id="{{ day.id }}" class="js-delete btn btn-warning"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>

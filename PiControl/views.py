@@ -220,5 +220,4 @@ def schedule_delete(request, id):
 
     result = time_band.delete()
 
-    # todo return bool not {object:bool}
-    return JsonResponse({'success': result})
+    return JsonResponse({'success': result.TimeBand})

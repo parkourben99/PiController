@@ -35,8 +35,12 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # todo
 
+# timepicker not working
+# jquery method to validate start time is before end time
+# test delete
+# index page not loading anything...
+
 # display on dashboard a count down till next schedule
-# schedule - create,edit,delete
 # uncomment schedule code in manage function
 # test if schedule works
 
