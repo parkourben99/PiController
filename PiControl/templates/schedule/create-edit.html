@@ -61,9 +61,8 @@
 <script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
 <script>
     var TimePicker = {
-        timeFormat: 'hh:mm',
+        timeFormat: 'H:mm',
         interval: 30,
-        minTime: '10',
         maxTime: '10:00pm',
         startTime: '10:00am',
         dynamic: false,
@@ -73,16 +72,5 @@
 
     $('.js-start-at').timepicker(TimePicker);
     $('.js-end-at').timepicker(TimePicker);
-
-    $('.js-form').submit(function(e){
-        e.preventdefault();
-
-        var start = $('.js-start-at').val();
-        var end = $('.js-end-at').val();
-
-
-        console.log('submitting', start, end);
-    });
-
 </script>
 {% endblock %}
