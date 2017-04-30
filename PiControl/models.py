@@ -165,10 +165,8 @@ class TempControl(models.Model):
         time_bands = TimeBand.objects.filter(active=True)
 
         for time_band in time_bands:
-            print(time_bands)
             if now.weekday() == time_band.day_of_week:
                 if time > time_band.start_at and time < time_band.end_at:
-                    print('__allowed_to_run true')
                     result = True
                     break
 
@@ -220,8 +218,6 @@ class TempControl(models.Model):
     def __set_state(self, state):
         pump = self.__get_pin(self.pump_pin_id)
         heater = self.__get_pin(self.heater_pin_id)
-
-        print('set_state ' + str(state))
 
         if self.manuel:
             pump.set_state_upside_down(True)
