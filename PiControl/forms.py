@@ -1,7 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
 from .models import Pin, TimeBand
-from datetime import datetime
 
 
 class LoginForm(AuthenticationForm):
@@ -33,16 +32,13 @@ class TimeBandForm(forms.ModelForm):
     active = forms.BooleanField(initial=True, required=False)
 
     def clean_end_at(self):
-        start = self.cleaned_data['start_at']
-        end = self.cleaned_data['end_at']
-
-        start_at = datetime.strptime('%H:%M', start)
-        end_at = datetime.strptime('%H:%M', end)
+        start_at = self.cleaned_data['start_at']
+        end_at = self.cleaned_data['end_at']
 
         if start_at >= end_at:
             raise forms.ValidationError(u'The end time must be after the start time')
 
-        return end
+        return end_at
 
     class Meta:
         model = TimeBand
