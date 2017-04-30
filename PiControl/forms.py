@@ -32,14 +32,6 @@ class TimeBandForm(forms.ModelForm):
     day_of_week = forms.ChoiceField(choices=((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday')))
     active = forms.BooleanField(initial=True, required=False)
 
-    def clean_start_at(self):
-        start_at = self.cleaned_data['start_at']
-
-        time = datetime.strptime('%I:%M %p', start_at)
-        time = time.strftime("%H:%M:%S")
-
-        return time
-
     class Meta:
         model = TimeBand
         fields = ('start_at', 'end_at', 'active', 'day_of_week', 'id')
