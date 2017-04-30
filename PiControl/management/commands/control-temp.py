@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from PiControl.models import TempControl
 import rollbar
+from django.conf import settings
 
 
 class Command(BaseCommand):
@@ -8,6 +9,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         try:
+            rollbar.init(settings.ROLLBAR.access_token)
             TempControl.objects.first().maintain()
         except:
             rollbar.report_exc_info()
