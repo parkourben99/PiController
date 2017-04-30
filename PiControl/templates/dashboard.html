@@ -1,4 +1,5 @@
 {% extends 'master.html' %}
+{% load staticfiles %}
 
 {% block head %}
 <style>
@@ -126,6 +127,7 @@
 {% endblock %}
 
 {% block javascript %}
+<script src="{% static 'js/jquery.countdown.min.js' %}"></script>
 <script>
     setTimeout(refreshThermometer, 3000);
 
@@ -226,5 +228,11 @@
         });
 
     });
+
+    {% if time_remaining %}
+        $('.js-countdown').countdown("{{ time_remaining }}", function(event) {
+            $(this).text( event.strftime('%D days %H:%M:%S'));
+        });
+    {% endif %}
 </script>
 {% endblock %}

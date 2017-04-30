@@ -172,11 +172,9 @@ class TempControl(models.Model):
                 self.__turn_off()
                 return
         else:
-            pass
-            # todo finish: create view and way to edit
-            # if not self.__allowed_to_run:
-            #     self.__turn_off()
-            #     return
+            if not self.__allowed_to_run:
+                self.__turn_off()
+                return
 
         pin = self.__get_pin(self.temp_pin_id)
 
