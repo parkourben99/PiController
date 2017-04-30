@@ -220,4 +220,4 @@ def schedule_delete(request, id):
 
     result = time_band.delete()
 
-    return JsonResponse({'success': result.TimeBand})
+    return JsonResponse({'success': result[1]})
