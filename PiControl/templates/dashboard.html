@@ -44,6 +44,9 @@
 <div id="content-header">
     <div id="breadcrumb">
         <a href="/" title="Dashboard" class="current"><i class="fa fa-home"></i> Home</a>
+        {% if time_remaining %}
+        <div class="js-countdown"></div>
+        {% endif %}
     </div>
 </div>
 
