@@ -119,8 +119,26 @@ class Git(object):
 class TimeBand(models.Model):
     start_at = models.TimeField(null=True)
     end_at = models.TimeField(null=True)
-    active = models.BooleanField(default=True, null=False)
     day_of_week = models.IntegerField(null=False)
+    active = models.BooleanField(default=True, null=False)
+
+    def get_week_day(self):
+        days = ((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday'))
+
+        return days[self.day_of_week][1]
+
+    @classmethod
+    def get_next(cls):
+        bands = TimeBand.objects.all()
+        next = None
+        now = datetime.datetime.now().weekday()
+
+        # for band in bands:
+        #     if band.day_of_week == now:
+
+        #'2017/04/30 21:01:01',
+
+        return None #'2017/04/30 21:01:01'
 
 
 class TempControl(models.Model):
@@ -147,7 +165,7 @@ class TempControl(models.Model):
         time_bands = TimeBand.objects.filter(active=True)
 
         for time_band in time_bands:
-            if now.day == time_band.day_of_week:
+            if now.weekday() == time_band.day_of_week:
                 if time > time_band.start_at and time < time_band.end_at:
                     result = True
                     break
@@ -168,11 +186,9 @@ class TempControl(models.Model):
                 self.__turn_off()
                 return
         else:
-            pass
-            # todo finish: create view and way to edit
-            # if not self.__allowed_to_run:
-            #     self.__turn_off()
-            #     return
+            if not self.__allowed_to_run():
+                self.__turn_off()
+                return
 
         pin = self.__get_pin(self.temp_pin_id)
 

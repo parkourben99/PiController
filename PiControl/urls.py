@@ -21,6 +21,12 @@ urlpatterns = [
     url(r'^pins/delete/(?P<id>\d+)/$', views.pin_delete, name='pin_delete'),
     url(r'^pins/(?P<id>\d+)/$', views.pin_edit, name='pin_edit'),
 
+    url(r'^schedule/$', views.schedule, name='schedule'),
+    url(r'^schedule/create$', views.schedule_create, name='schedule_create'),
+    url(r'^schedule/create/post$', views.schedule_post, name='schedule_post'),
+    url(r'^schedule/delete/(?P<id>\d+)/$', views.schedule_delete, name='schedule_delete'),
+    url(r'^schedule/(?P<id>\d+)/$', views.schedule_edit, name='schedule_edit'),
+
     url(r'^pin-set/$', views.pin_set, name='pin_set'),
     url(r'^$', views.dashboard, name='dashboard'),
 ]
@@ -29,6 +35,4 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # todo
 # fix git update return value / not breaking
-# throw error if env not loaded
-# load app name into master.html
-# refactor views/controller/settings
+# refactor views/controller
