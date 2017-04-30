@@ -32,7 +32,7 @@ class TimeBandForm(forms.ModelForm):
     day_of_week = forms.ChoiceField(choices=((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday')))
     active = forms.BooleanField(initial=True, required=False)
 
-    def clean_send_at(self):
+    def clean_end_at(self):
         start = self.cleaned_data['start_at']
         end = self.cleaned_data['end_at']
 
