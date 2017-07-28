@@ -151,6 +151,10 @@ class TempControl(models.Model):
     pump_pin_id = models.IntegerField(null=False)
     heater_pin_id = models.IntegerField(null=False)
 
+    # added 28/07/17 to manually turn off spa
+    manuel_off = models.BooleanField(default=False, null=False)
+    manuel_off_at = models.DateTimeField(null=True)
+
     def __get_pin(self, id):
         return Pin.objects.filter(id=id).first()
 
@@ -173,6 +177,19 @@ class TempControl(models.Model):
         return result
 
     def maintain(self):
+        # if current set to off, don't let anything else happen for 30 mins or until its toggled
+        if self.manuel_off:
+            future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
+            self.manuel_off_at = self.manuel_off_at.replace(tzinfo=None)
+            future = future.replace(tzinfo=None)
+
+            if self.manuel_off_at > future:
+                self.manuel_off = False
+                self.manuel_off_at = None
+                self.save()
+
+            return
+
         if self.manuel:
             future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
             self.manuel_at = self.manuel_at.replace(tzinfo=None)
@@ -208,6 +225,9 @@ class TempControl(models.Model):
 
     def outside_turn_on(self):
         self.__set_state(True)
+
+    def outside_turn_off(self):
+        self.__set_state(False)
 
     def __turn_on(self):
         self.__set_state(True)

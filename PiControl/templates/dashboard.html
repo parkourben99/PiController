@@ -59,6 +59,13 @@
         {% else %}
             <button class="btn btn-block btn-success js-manual" data-state="1">Manual On</button>
         {% endif %}
+
+
+        {% if temp_control.manuel %}
+            <button class="btn btn-block btn-danger js-manual-off" data-state="0">im sitting in the spa button Off</button>
+        {% else %}
+            <button class="btn btn-block btn-success js-manual-off" data-state="1">im sitting in the spa button On</button>
+        {% endif %}
     </div>
 
     {% for thermometer in thermometers  %}
@@ -220,6 +227,31 @@
         $.ajax({
             type: "POST",
             url: '{% url 'manuel_toggle' %}',
+            dataType: "json",
+            data: { csrfmiddlewaretoken : '{{ csrf_token }}', state : state }
+        }).done(function(data) {
+
+            if(!data.success){
+                alert("Oh No!! Something when wrong");
+            }
+        }).fail(function(e){
+            alert("Oh No!! Something when very wrong");
+        });
+
+    });
+
+    $('.js-manual-off').click(function(){
+        var state = $(this).data('state');
+
+        if(state){
+            $(this).removeClass('bg-lo').addClass('bg-lg').html(' im sitting in the spa button Off').data('state', !state);
+        } else {
+            $(this).addClass('bg-lg').removeClass('bg-lo').html(' im sitting in the spa button On').data('state', !state);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '{% url 'manuel_toggle_off' %}',
             dataType: "json",
             data: { csrfmiddlewaretoken : '{{ csrf_token }}', state : state }
         }).done(function(data) {

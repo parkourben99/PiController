@@ -129,6 +129,31 @@ def manuel_toggle(request):
     return JsonResponse({'success': result})
 
 
+def manuel_toggle_off(request):
+    if request.method != 'POST':
+        return HttpResponseRedirect("/")
+
+    temp_control = TempControl.objects.first()
+    state = True if request.POST['state'] == '1' or request.POST['state'].lower() == 'true' else False
+    result = True
+
+    if state != temp_control.manuel_off:
+        try:
+            now = datetime.datetime.now() + datetime.timedelta(hours=12)
+
+            temp_control.manuel_off = state
+            temp_control.manuel_off_at = None if not state else now
+            temp_control.save()
+
+            if state:
+                temp_control.outside_turn_off()
+        except Exception:
+            rollbar.report_message("Unable to manuel_toggle_off state: " + str(state))
+            result = False
+
+    return JsonResponse({'success': result})
+
+
 def maintain_update(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/")
