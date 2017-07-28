@@ -251,7 +251,7 @@
 
         $.ajax({
             type: "POST",
-            url: '{% url 'manuel_toggle_off' %}',
+            url: '{% url 'abcdef' %}',
             dataType: "json",
             data: { csrfmiddlewaretoken : '{{ csrf_token }}', state : state }
         }).done(function(data) {

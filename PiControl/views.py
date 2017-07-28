@@ -129,7 +129,7 @@ def manuel_toggle(request):
     return JsonResponse({'success': result})
 
 
-def manuel_toggle_off(request):
+def abcdef(request):
     if request.method != 'POST':
         return HttpResponseRedirect("/")
 

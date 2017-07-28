@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^update/$', views.update, name='update'),
     url(r'^maintain/update$', views.maintain_update, name='maintain_update'),
     url(r'^maintain/manuel', views.manuel_toggle, name='manuel_toggle'),
-    url(r'^maintain/manuel_off', views.manuel_toggle_off, name='manuel_toggle_off'),
+    url(r'^maintain/abcdef', views.abcdef, name='abcdef'),
     url(r'^get_temp/$', views.get_temp, name='get_temp'),
 
     url(r'^pins/$', views.pins, name='pins'),
