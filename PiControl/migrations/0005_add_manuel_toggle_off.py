@@ -5,8 +5,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    initial = True
-
     dependencies = [
         ('PiControl', '0004_merge_20170416_1556'),
     ]
