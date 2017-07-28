@@ -6,10 +6,10 @@ from .models import Pin, TimeBand
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label="Username", max_length=30,
                                widget=forms.TextInput(attrs={'class': 'form-control',
-                                                             'name': 'username', 'placeholder': 'Username'}))
+                                                             'name': 'username', 'placeholder': 'Username', 'style': 'width: 87%'}))
     password = forms.CharField(label="Password", max_length=30,
                                widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                                                 'name': 'password', 'placeholder': 'Password'}))
+                                                                 'name': 'password', 'placeholder': 'Password', 'style': 'width: 87%'}))
 
 
 class PinForm(forms.ModelForm):
