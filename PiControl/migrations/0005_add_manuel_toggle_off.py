@@ -6,7 +6,8 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('PiControl', '0004_merge_20170416_1556'),
+        ('PiControl', '0002_pin_tempcontrol'),
+        ('PiControl', '0003_time_bands_changes_to_tempcontro'),
     ]
 
     operations = [
