@@ -219,10 +219,12 @@
         var state = $(this).data('state');
 
         if(state){
-            $(this).removeClass('btn-success').addClass('bg-danger').html(' im sitting in the spa button Off').data('state', !state);
+            $(this).removeClass('btn-success').addClass('btn-danger').html(' Manual Off').data('state', !state);
         } else {
-            $(this).addClass('btn-success').removeClass('bg-danger').html(' im sitting in the spa button On').data('state', !state);
+            $(this).addClass('btn-success').removeClass('btn-danger').html(' Manual On').data('state', !state);
         }
+
+
 
         $.ajax({
             type: "POST",
@@ -244,9 +246,9 @@
         var state = $(this).data('state');
 
         if(state){
-            $(this).removeClass('btn-success').addClass('bg-danger').html(' im sitting in the spa button Off').data('state', !state);
+            $(this).removeClass('btn-success').addClass('btn-danger').html(' im sitting in the spa button Off').data('state', !state);
         } else {
-            $(this).addClass('btn-success').removeClass('bg-danger').html(' im sitting in the spa button On').data('state', !state);
+            $(this).addClass('btn-success').removeClass('btn-danger').html(' im sitting in the spa button On').data('state', !state);
         }
 
         $.ajax({
