@@ -183,6 +183,8 @@ class TempControl(models.Model):
             self.manuel_off_at = self.manuel_off_at.replace(tzinfo=None)
             future = future.replace(tzinfo=None)
 
+            print("currently set to manuel off")
+
             if self.manuel_off_at > future:
                 self.manuel_off = False
                 self.manuel_off_at = None
@@ -194,6 +196,8 @@ class TempControl(models.Model):
             future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
             self.manuel_at = self.manuel_at.replace(tzinfo=None)
             future = future.replace(tzinfo=None)
+
+            print("currently set to manuel")
 
             if self.manuel_at > future:
                 self.manuel = False
@@ -214,6 +218,8 @@ class TempControl(models.Model):
         else:
             temp = Decimal(pin.get_temp())
             cold = self.temp - self.range
+
+            print(", current temp is {}".format(temp))
 
             if temp <= cold:
                 self.__turn_on()
@@ -238,6 +244,8 @@ class TempControl(models.Model):
     def __set_state(self, state):
         pump = self.__get_pin(self.pump_pin_id)
         heater = self.__get_pin(self.heater_pin_id)
+
+        print("setting state to {}".format(state))
 
         if self.manuel:
             pump.set_state_upside_down(True)

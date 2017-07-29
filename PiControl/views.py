@@ -137,8 +137,6 @@ def abcdef(request):
     state = True if request.POST['state'] == '1' or request.POST['state'].lower() == 'true' else False
     result = True
 
-    rollbar.report_message('manuel_toggle_off state: ' + str(state))
-
     if state != temp_control.manuel_off:
         try:
             now = datetime.datetime.now() + datetime.timedelta(hours=12)
