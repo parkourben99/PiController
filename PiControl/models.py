@@ -246,7 +246,7 @@ class TempControl(models.Model):
         pump = self.__get_pin(self.pump_pin_id)
         heater = self.__get_pin(self.heater_pin_id)
 
-        rollbar.report_message(("setting state to {}".format(state))
+        rollbar.report_message("setting state to {}".format(state))
 
         if self.manuel:
             pump.set_state_upside_down(True)
