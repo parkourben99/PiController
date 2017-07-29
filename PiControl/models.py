@@ -183,7 +183,7 @@ class TempControl(models.Model):
             self.manuel_off_at = self.manuel_off_at.replace(tzinfo=None)
             future = future.replace(tzinfo=None)
 
-            print("currently set to manuel off")
+            rollbar.report_message("currently set to manuel off")
 
             if self.manuel_off_at > future:
                 self.manuel_off = False
@@ -197,7 +197,7 @@ class TempControl(models.Model):
             self.manuel_at = self.manuel_at.replace(tzinfo=None)
             future = future.replace(tzinfo=None)
 
-            print("currently set to manuel")
+            rollbar.report_message("currently set to manuel")
 
             if self.manuel_at > future:
                 self.manuel = False
@@ -208,6 +208,7 @@ class TempControl(models.Model):
                 return
         else:
             if not self.__allowed_to_run():
+                rollbar.report_message("not allowed to run")
                 self.__turn_off()
                 return
 
@@ -219,7 +220,7 @@ class TempControl(models.Model):
             temp = Decimal(pin.get_temp())
             cold = self.temp - self.range
 
-            print(", current temp is {}".format(temp))
+            rollbar.report_message(", current temp is {}".format(temp))
 
             if temp <= cold:
                 self.__turn_on()
@@ -245,7 +246,7 @@ class TempControl(models.Model):
         pump = self.__get_pin(self.pump_pin_id)
         heater = self.__get_pin(self.heater_pin_id)
 
-        print("setting state to {}".format(state))
+        rollbar.report_message(("setting state to {}".format(state))
 
         if self.manuel:
             pump.set_state_upside_down(True)
