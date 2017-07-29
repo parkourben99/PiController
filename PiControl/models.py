@@ -177,15 +177,12 @@ class TempControl(models.Model):
         return result
 
     def maintain(self):
-        rollbar.report_message("manuel command")
-
         # if current set to off, don't let anything else happen for 30 mins or until its toggled
         if self.manuel_off:
             future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
             self.manuel_off_at = self.manuel_off_at.replace(tzinfo=None)
             future = future.replace(tzinfo=None)
 
-            rollbar.report_message("currently set to manuel off")
 
             if self.manuel_off_at > future:
                 self.manuel_off = False
@@ -199,8 +196,6 @@ class TempControl(models.Model):
             self.manuel_at = self.manuel_at.replace(tzinfo=None)
             future = future.replace(tzinfo=None)
 
-            rollbar.report_message("currently set to manuel")
-
             if self.manuel_at > future:
                 self.manuel = False
                 self.manuel_at = None
@@ -210,21 +205,16 @@ class TempControl(models.Model):
                 return
         else:
             if not self.__allowed_to_run():
-                rollbar.report_message("not allowed to run")
                 self.__turn_off()
                 return
 
         pin = self.__get_pin(self.temp_pin_id)
-        rollbar.report_message("have the pin")
 
         if not pin:
-            rollbar.report_message("no pin")
             Exception("No pins has been set, unable to maintain")
         else:
             temp = Decimal(pin.get_temp())
             cold = self.temp - self.range
-
-            rollbar.report_message(", current temp is {}".format(str(temp)))
 
             if temp <= cold:
                 self.__turn_on()
@@ -249,8 +239,6 @@ class TempControl(models.Model):
     def __set_state(self, state):
         pump = self.__get_pin(self.pump_pin_id)
         heater = self.__get_pin(self.heater_pin_id)
-
-        rollbar.report_message("setting state to {}".format(str(state)))
 
         if self.manuel:
             pump.set_state_upside_down(True)
