@@ -218,12 +218,13 @@ class TempControl(models.Model):
         rollbar.report_message("have the pin")
 
         if not pin:
+            rollbar.report_message("no pin")
             Exception("No pins has been set, unable to maintain")
         else:
             temp = Decimal(pin.get_temp())
             cold = self.temp - self.range
 
-            rollbar.report_message(", current temp is {}".format(temp))
+            rollbar.report_message(", current temp is {}".format(str(temp)))
 
             if temp <= cold:
                 self.__turn_on()
@@ -249,7 +250,7 @@ class TempControl(models.Model):
         pump = self.__get_pin(self.pump_pin_id)
         heater = self.__get_pin(self.heater_pin_id)
 
-        rollbar.report_message("setting state to {}".format(state))
+        rollbar.report_message("setting state to {}".format(str(state)))
 
         if self.manuel:
             pump.set_state_upside_down(True)
