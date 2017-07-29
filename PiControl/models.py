@@ -177,6 +177,8 @@ class TempControl(models.Model):
         return result
 
     def maintain(self):
+        rollbar.report_message("manuel command")
+
         # if current set to off, don't let anything else happen for 30 mins or until its toggled
         if self.manuel_off:
             future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
@@ -213,6 +215,7 @@ class TempControl(models.Model):
                 return
 
         pin = self.__get_pin(self.temp_pin_id)
+        rollbar.report_message("have the pin")
 
         if not pin:
             Exception("No pins has been set, unable to maintain")
