@@ -1,3 +1,4 @@
+from django.db import OperationalError
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, Http404
 import datetime
@@ -10,7 +11,10 @@ from .forms import PinForm, ScheduleForm
 import rollbar
 
 # Create the pin controller instance
-pin_controller = PinController()
+try:
+    pin_controller = PinController()
+except OperationalError:
+    print("Please run the migrations")
 
 
 def dashboard(request):
