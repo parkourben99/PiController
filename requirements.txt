@@ -1,6 +1,6 @@
 django
 python-dotenv
--e git://github.com/parkourben99/RPIO.git
+-e git://github.com/parkourben99/RPIO.git#egg=RPIO
 rollbar
 gitpython
 gunicorn

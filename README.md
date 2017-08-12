@@ -2,6 +2,8 @@
 
 sudo apt-get update && apt-get install nginx
 
+sudo pip3 install -r requirements.txt
+
 cp PiControl/.env.example PiControl/.env
 
 sudo cp .meta/config/etc/nginx/sites-available/pi_controller /etc/nginx/sites-available/pi_controller
