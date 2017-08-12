@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
-from .models import Pin, TimeBand
+from .models import Pin, Schedule
 
 
 class LoginForm(AuthenticationForm):
@@ -26,10 +26,11 @@ class PinForm(forms.ModelForm):
         }
 
 
-class TimeBandForm(forms.ModelForm):
+class ScheduleForm(forms.ModelForm):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     day_of_week = forms.ChoiceField(choices=((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday')))
     active = forms.BooleanField(initial=True, required=False)
+    pins = forms.ModelChoiceField(queryset=Pin.objects.all())
 
     def clean_end_at(self):
         start_at = self.cleaned_data['start_at']
@@ -41,11 +42,12 @@ class TimeBandForm(forms.ModelForm):
         return end_at
 
     class Meta:
-        model = TimeBand
+        model = Schedule
         fields = ('start_at', 'end_at', 'active', 'day_of_week', 'id')
         widgets = {
             'start_at': forms.TimeInput(attrs={'class': 'form-control js-start-at'}, format="%H:%M"),
             'end_at': forms.TimeInput(attrs={'class': 'form-control js-end-at'}, format="%H:%M"),
             'day_of_week': forms.Select(attrs={'class': 'form-control'}),
-            'active': forms.CheckboxInput(attrs={'class': 'form-control'})
+            'active': forms.CheckboxInput(attrs={'class': 'form-control'}),
+            'pins': forms.CheckboxInput(attrs={'class': 'form-control'})
         }

@@ -116,139 +116,138 @@ class Git(object):
             return False
 
 
-class TimeBand(models.Model):
+class Schedule(models.Model):
     start_at = models.TimeField(null=True)
     end_at = models.TimeField(null=True)
     day_of_week = models.IntegerField(null=False)
     active = models.BooleanField(default=True, null=False)
+    pin_id = models.BooleanField(null=False)
 
     def get_week_day(self):
         days = ((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday'))
 
         return days[self.day_of_week][1]
 
-    @classmethod
-    def get_next(cls):
-        bands = TimeBand.objects.all()
-        next = None
-        now = datetime.datetime.now().weekday()
-
-        # for band in bands:
-        #     if band.day_of_week == now:
-
-        #'2017/04/30 21:01:01',
-
-        return None #'2017/04/30 21:01:01'
+    def activate(self):
+        pin = Pin.objects.filter(id=self.pin_id).first()
 
 
-class TempControl(models.Model):
-    name = models.CharField(max_length=200, null=False)
-    manuel = models.BooleanField(default=False, null=False)
-    manuel_at = models.DateTimeField(null=True)
-    temp = models.DecimalField(max_digits=5, decimal_places=2, null=False)
-    range = models.DecimalField(max_digits=5, decimal_places=2, null=False, default=2)
-    temp_pin_id = models.IntegerField(null=False)
-    pump_pin_id = models.IntegerField(null=False)
-    heater_pin_id = models.IntegerField(null=False)
+class ScheduleHistory(models.Model):
+    schedule_id = models.IntegerField(null=False)
+    output = models.TextField(null=True)
 
-    # added 28/07/17 to manually turn off spa
-    manuel_off = models.BooleanField(default=False, null=False)
-    manuel_off_at = models.DateTimeField(null=True)
+    updated_at = models.DateTimeField(auto_now_add=False, auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
 
-    def __get_pin(self, id):
-        return Pin.objects.filter(id=id).first()
-
-    def __get_manuel_period(self):
-        return 30
-
-    def __allowed_to_run(self):
-        now = datetime.datetime.now()
-        time = now.time()
-        result = False
-
-        time_bands = TimeBand.objects.filter(active=True)
-
-        for time_band in time_bands:
-            if now.weekday() == time_band.day_of_week:
-                if time > time_band.start_at and time < time_band.end_at:
-                    result = True
-                    break
-
-        return result
-
-    def maintain(self):
-        # if current set to off, don't let anything else happen for 30 mins or until its toggled
-        if self.manuel_off:
-            future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
-            self.manuel_off_at = self.manuel_off_at.replace(tzinfo=None)
-            future = future.replace(tzinfo=None)
-
-
-            if self.manuel_off_at > future:
-                self.manuel_off = False
-                self.manuel_off_at = None
-                self.save()
-
-            return
-
-        if self.manuel:
-            future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
-            self.manuel_at = self.manuel_at.replace(tzinfo=None)
-            future = future.replace(tzinfo=None)
-
-            if self.manuel_at > future:
-                self.manuel = False
-                self.manuel_at = None
-                self.save()
-
-                self.__turn_off()
-                return
-        else:
-            if not self.__allowed_to_run():
-                self.__turn_off()
-                return
-
-        pin = self.__get_pin(self.temp_pin_id)
-
-        if not pin:
-            Exception("No pins has been set, unable to maintain")
-        else:
-            temp = Decimal(pin.get_temp())
-            cold = self.temp - self.range
-
-            if temp <= cold:
-                self.__turn_on()
-                return
-
-            if temp >= self.temp:
-                self.__turn_off()
-                return
-
-    def outside_turn_on(self):
-        self.__set_state(True)
-
-    def outside_turn_off(self):
-        self.__set_state(False)
-
-    def __turn_on(self):
-        self.__set_state(True)
-
-    def __turn_off(self):
-        self.__set_state(False)
-
-    def __set_state(self, state):
-        pump = self.__get_pin(self.pump_pin_id)
-        heater = self.__get_pin(self.heater_pin_id)
-
-        if self.manuel:
-            pump.set_state_upside_down(True)
-            pump.set_state_upside_down(state)
-        else:
-            if state:
-                pump.set_state_upside_down(state)
-                time.sleep(3)
-                heater.set_state_upside_down(state)
-            else:
-                heater.set_state_upside_down(state)
-                time.sleep(3)
-                pump.set_state_upside_down(state)
+#
+# class TempControl(models.Model):
+#     name = models.CharField(max_length=200, null=False)
+#     manuel = models.BooleanField(default=False, null=False)
+#     manuel_at = models.DateTimeField(null=True)
+#     temp = models.DecimalField(max_digits=5, decimal_places=2, null=False)
+#     range = models.DecimalField(max_digits=5, decimal_places=2, null=False, default=2)
+#     temp_pin_id = models.IntegerField(null=False)
+#     pump_pin_id = models.IntegerField(null=False)
+#     heater_pin_id = models.IntegerField(null=False)
+#
+#     # added 28/07/17 to manually turn off spa
+#     manuel_off = models.BooleanField(default=False, null=False)
+#     manuel_off_at = models.DateTimeField(null=True)
+#
+#     def __get_pin(self, id):
+#         return Pin.objects.filter(id=id).first()
+#
+#     def __get_manuel_period(self):
+#         return 30
+#
+#     def __allowed_to_run(self):
+#         now = datetime.datetime.now()
+#         time = now.time()
+#         result = False
+#
+#         time_bands = TimeBand.objects.filter(active=True)
+#
+#         for time_band in time_bands:
+#             if now.weekday() == time_band.day_of_week:
+#                 if time > time_band.start_at and time < time_band.end_at:
+#                     result = True
+#                     break
+#
+#         return result
+#
+#     def maintain(self):
+#         # if current set to off, don't let anything else happen for 30 mins or until its toggled
+#         if self.manuel_off:
+#             future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
+#             self.manuel_off_at = self.manuel_off_at.replace(tzinfo=None)
+#             future = future.replace(tzinfo=None)
+#
+#
+#             if self.manuel_off_at > future:
+#                 self.manuel_off = False
+#                 self.manuel_off_at = None
+#                 self.save()
+#
+#             return
+#
+#         if self.manuel:
+#             future = datetime.datetime.now() + datetime.timedelta(minutes=self.__get_manuel_period())
+#             self.manuel_at = self.manuel_at.replace(tzinfo=None)
+#             future = future.replace(tzinfo=None)
+#
+#             if self.manuel_at > future:
+#                 self.manuel = False
+#                 self.manuel_at = None
+#                 self.save()
+#
+#                 self.__turn_off()
+#                 return
+#         else:
+#             if not self.__allowed_to_run():
+#                 self.__turn_off()
+#                 return
+#
+#         pin = self.__get_pin(self.temp_pin_id)
+#
+#         if not pin:
+#             Exception("No pins has been set, unable to maintain")
+#         else:
+#             temp = Decimal(pin.get_temp())
+#             cold = self.temp - self.range
+#
+#             if temp <= cold:
+#                 self.__turn_on()
+#                 return
+#
+#             if temp >= self.temp:
+#                 self.__turn_off()
+#                 return
+#
+#     def outside_turn_on(self):
+#         self.__set_state(True)
+#
+#     def outside_turn_off(self):
+#         self.__set_state(False)
+#
+#     def __turn_on(self):
+#         self.__set_state(True)
+#
+#     def __turn_off(self):
+#         self.__set_state(False)
+#
+#     def __set_state(self, state):
+#         pump = self.__get_pin(self.pump_pin_id)
+#         heater = self.__get_pin(self.heater_pin_id)
+#
+#         if self.manuel:
+#             pump.set_state_upside_down(True)
+#             pump.set_state_upside_down(state)
+#         else:
+#             if state:
+#                 pump.set_state_upside_down(state)
+#                 time.sleep(3)
+#                 heater.set_state_upside_down(state)
+#             else:
+#                 heater.set_state_upside_down(state)
+#                 time.sleep(3)
+#                 pump.set_state_upside_down(state)

@@ -1,4 +1,4 @@
-from PiControl.models import Pin, TempControl, TimeBand
+from PiControl.models import Pin, Schedule
 import rollbar
 import sys
 import RPIO
@@ -26,27 +26,16 @@ class PinController(object):
                 rollbar.report_exc_info(sys.exc_info())
                 self.my_pins.exclude(id=pin.id)
 
+    def get_next_schedules(self, amount=3):
+        Schedule.objects.all()
+
+        return None
+
     def get_dashboard_data(self):
-        temp_control = TempControl.objects.first()
-
-        if not temp_control:
-            rollbar.report_message("Unable to find the temp control, creating a new one")
-            temp_control = TempControl()
-            temp_control.name = "Control the spas temperature"
-            temp_control.range = 2.5
-            temp_control.temp = 39
-            temp_control.temp_pin_id = 1
-            temp_control.pump_pin_id = 2
-            temp_control.heater_pin_id = 3
-            temp_control.save(force_insert=True)
-
-        data = {
-            'time_remaining': TimeBand.get_next(),
+        return {
             'thermometers': self.get_thermometers(),
-            'temp_control': temp_control
+            'schedules': self.get_next_schedules()
         }
-
-        return data
 
     def get_all_pins(self):
         return {'pins': self.my_pins}

@@ -3,10 +3,10 @@ from django.shortcuts import render, Http404
 import datetime
 from django.core.urlresolvers import reverse
 
-from PiControl.models import Pin, TempControl, TimeBand
+from PiControl.models import Pin, Schedule
 from PiControl.models import Git
 from PiControl.pin_controller import PinController
-from .forms import PinForm, TimeBandForm
+from .forms import PinForm, ScheduleForm
 import rollbar
 
 # Create the pin controller instance
@@ -91,7 +91,7 @@ def pin_set(request):
     return JsonResponse({'success': result, 'state': new_state})
 
 
-def update(request):
+def git_update(request):
     git = Git()
 
     if request.method == 'POST':
@@ -104,115 +104,65 @@ def update(request):
     return render(request, "git/update.html", {"status": status})
 
 
-def manuel_toggle(request):
-    if request.method != 'POST':
-        return HttpResponseRedirect("/")
-
-    temp_control = TempControl.objects.first()
-    state = True if request.POST['state'] == '1' or request.POST['state'].lower() == 'true' else False
-    result = True
-
-    if state != temp_control.manuel:
-        try:
-            now = datetime.datetime.now() + datetime.timedelta(hours=12)
-
-            temp_control.manuel = state
-            temp_control.manuel_at = None if not state else now
-            temp_control.save()
-
-            if state:
-                temp_control.outside_turn_on()
-        except Exception:
-            rollbar.report_message("Unable to manuel_toggle state: " + str(state))
-            result = False
-
-    return JsonResponse({'success': result})
-
-
-def abcdef(request):
-    if request.method != 'POST':
-        return HttpResponseRedirect("/")
-
-    temp_control = TempControl.objects.first()
-    state = True if request.POST['state'] == '1' or request.POST['state'].lower() == 'true' else False
-    result = True
-
-    if state != temp_control.manuel_off:
-        try:
-            now = datetime.datetime.now() + datetime.timedelta(hours=12)
-
-            temp_control.manuel_off = state
-            temp_control.manuel_off_at = None if not state else now
-            temp_control.save()
-
-            if state:
-                temp_control.outside_turn_off()
-        except Exception:
-            rollbar.report_message("Unable to manuel_toggle_off state: " + str(state))
-            result = False
-
-    return JsonResponse({'success': result})
-
-
-def maintain_update(request):
-    if request.method != 'POST':
-        return HttpResponseRedirect("/")
-
-    temp_control = TempControl.objects.first()
-
-    temp = request.POST['temp']
-    range = request.POST['range']
-
-    try:
-        temp = float(temp)
-        range = float(range)
-
-        try:
-            temp_control.temp = temp
-            temp_control.range = range
-            temp_control.save()
-            result = True
-        except:
-            rollbar.report_message("Unable to save update for temp control")
-            result = False
-    except:
-        result = False
-
-    return JsonResponse({'success': result})
-
-
-def get_temp(request):
-    if request.method == 'POST':
-        pin_id = request.POST['id']
-    else:
-        pin_id = request.GET['id']
-
-    try:
-        pin = pin_controller.my_pins.get(id=pin_id)
-    except Pin.DoesNotExist:
-        return JsonResponse({'success': False, 'message': 'Pin not found'})
-
-    return JsonResponse({'success': True, 'temp': pin.get_temp()})
+# def maintain_update(request):
+#     if request.method != 'POST':
+#         return HttpResponseRedirect("/")
+#
+#     temp_control = TempControl.objects.first()
+#
+#     temp = request.POST['temp']
+#     range = request.POST['range']
+#
+#     try:
+#         temp = float(temp)
+#         range = float(range)
+#
+#         try:
+#             temp_control.temp = temp
+#             temp_control.range = range
+#             temp_control.save()
+#             result = True
+#         except:
+#             rollbar.report_message("Unable to save update for temp control")
+#             result = False
+#     except:
+#         result = False
+#
+#     return JsonResponse({'success': result})
+#
+#
+# def get_temp(request):
+#     if request.method == 'POST':
+#         pin_id = request.POST['id']
+#     else:
+#         pin_id = request.GET['id']
+#
+#     try:
+#         pin = pin_controller.my_pins.get(id=pin_id)
+#     except Pin.DoesNotExist:
+#         return JsonResponse({'success': False, 'message': 'Pin not found'})
+#
+#     return JsonResponse({'success': True, 'temp': pin.get_temp()})
 
 
 def schedule(request):
-    days = TimeBand.objects.all()
+    days = Schedule.objects.all()
 
     return render(request, "schedule/index.html", {"days": days})
 
 
 def schedule_edit(request, id):
     try:
-        time_band = TimeBand.objects.get(id=id)
-    except TimeBand.DoesNotExist:
+        s = Schedule.objects.get(id=id)
+    except Schedule.DoesNotExist:
         raise Http404("Could not find that pin!")
 
-    form = TimeBandForm(instance=time_band)
+    form = ScheduleForm(instance=s)
     return render(request, "schedule/create-edit.html", {"form": form})
 
 
 def schedule_create(request):
-    return render(request, "schedule/create-edit.html", {"form": TimeBandForm()})
+    return render(request, "schedule/create-edit.html", {"form": ScheduleForm()})
 
 
 def schedule_post(request):
@@ -220,13 +170,12 @@ def schedule_post(request):
         return HttpResponseRedirect(reverse('schedule'))
 
     id = request.POST.get('id')
+    s = Schedule()
 
     if id.isdigit():
-        time_band = TimeBand.objects.get(id=id)
-    else:
-        time_band = TimeBand()
+        s = Schedule.objects.get(id=id)
 
-    form = TimeBandForm(request.POST, instance=time_band)
+    form = ScheduleForm(request.POST, instance=s)
 
     if form.is_valid():
         form.save()
@@ -238,10 +187,10 @@ def schedule_post(request):
 
 def schedule_delete(request, id):
     try:
-        time_band = TimeBand.objects.get(id=id)
-    except TimeBand.DoesNotExist:
+        s = Schedule.objects.get(id=id)
+    except Schedule.DoesNotExist:
         raise Http404("Could not find that pin!")
 
-    result = list(time_band.delete()[1].values())[0]
+    result = list(s.delete()[1].values())[0]
 
     return JsonResponse({'success': result})
