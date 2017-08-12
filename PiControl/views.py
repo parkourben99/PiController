@@ -105,45 +105,18 @@ def git_update(request):
     return render(request, "git/update.html", {"status": status})
 
 
-# def maintain_update(request):
-#     if request.method != 'POST':
-#         return HttpResponseRedirect("/")
-#
-#     temp_control = TempControl.objects.first()
-#
-#     temp = request.POST['temp']
-#     range = request.POST['range']
-#
-#     try:
-#         temp = float(temp)
-#         range = float(range)
-#
-#         try:
-#             temp_control.temp = temp
-#             temp_control.range = range
-#             temp_control.save()
-#             result = True
-#         except:
-#             rollbar.report_message("Unable to save update for temp control")
-#             result = False
-#     except:
-#         result = False
-#
-#     return JsonResponse({'success': result})
-#
-#
-# def get_temp(request):
-#     if request.method == 'POST':
-#         pin_id = request.POST['id']
-#     else:
-#         pin_id = request.GET['id']
-#
-#     try:
-#         pin = pin_controller.my_pins.get(id=pin_id)
-#     except Pin.DoesNotExist:
-#         return JsonResponse({'success': False, 'message': 'Pin not found'})
-#
-#     return JsonResponse({'success': True, 'temp': pin.get_temp()})
+def get_temp(request):
+    if request.method == 'POST':
+        pin_id = request.POST['id']
+    else:
+        pin_id = request.GET['id']
+
+    try:
+        pin = pin_controller.my_pins.get(id=pin_id)
+    except Pin.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Pin not found'})
+
+    return JsonResponse({'success': True, 'temp': pin.get_temp()})
 
 
 def schedule(request):
