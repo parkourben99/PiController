@@ -123,6 +123,9 @@ class Schedule(models.Model):
     active = models.BooleanField(default=True, null=False)
     pin_id = models.BooleanField(null=False)
 
+    updated_at = models.DateTimeField(auto_now_add=False, auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
+
     def get_week_day(self):
         days = ((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday'))
 

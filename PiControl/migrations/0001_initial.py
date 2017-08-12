@@ -8,9 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     initial = True
-
-    dependencies = [
-    ]
+    dependencies = []
 
 operations = [
     migrations.CreateModel(
@@ -25,5 +23,26 @@ operations = [
             ('created_at', models.DateTimeField(auto_now_add=True)),
         ],
     ),
+    migrations.CreateModel(
+        name='Schedule',
+        fields=[
+            ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+            ('start_at', models.TimeField(null=False)),
+            ('end_at', models.TimeField(null=False)),
+            ('day_of_week', models.IntegerField(null=False)),
+            ('active', models.BooleanField(default=True)),
+            ('pin_id', models.IntegerField()),
+            ('updated_at', models.DateTimeField(auto_now=True)),
+            ('created_at', models.DateTimeField(auto_now_add=True)),
+        ],
+    ),
+    migrations.CreateModel(
+        name='ScheduleHistory',
+        fields=[
+            ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+            ('schedule_id', models.IntegerField()),
+            ('updated_at', models.DateTimeField(auto_now=True)),
+            ('created_at', models.DateTimeField(auto_now_add=True)),
+        ],
+    ),
 ]
-
