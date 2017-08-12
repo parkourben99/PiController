@@ -2,15 +2,15 @@ upstream pi_controller {
     # fail_timeout=0 means we always retry an upstream even if it failed
     # to return a good HTTP response
 
-    server unix:/home/pi/projects/PiController/run/gunicorn.sock fail_timeout=0;
+    server unix:/home/pi/scripts/PiController/run/gunicorn.sock fail_timeout=0;
 }
 
 server {
     listen 80 default_server;
     server_name localhost; #custom domain goes here
 
-    access_log /home/pi/projects/PiController/logs/nginx-access.log;
-    error_log /home/pi/projects/PiController/logs/nginx-error.log;
+    access_log /home/pi/scripts/PiController/logs/nginx-access.log;
+    error_log /home/pi/scripts/PiController/logs/nginx-error.log;
 
     location = /favicon.ico { 
         access_log off; 
@@ -18,7 +18,7 @@ server {
     }
 
     location /static/ {
-        root /home/pi/projects/PiController;
+        root /home/pi/scripts/PiController;
     }
 
     location / {

@@ -5,8 +5,8 @@ After=network.target
 [Service]
 User=root
 Group=root
-WorkingDirectory=/home/pi/projects/PiController
-ExecStart=/usr/local/bin/gunicorn PiControl.wsgi:application --workers 3 --bind unix:/home/pi/projects/PiController/run/gunicorn.sock --name pi_controller
+WorkingDirectory=/home/pi/scripts/PiController
+ExecStart=/usr/local/bin/gunicorn PiControl.wsgi:application --workers 3 --bind unix:/home/pi/scripts/PiController/run/gunicorn.sock --name pi_controller
 
 [Install]
 WantedBy=multi-user.target
