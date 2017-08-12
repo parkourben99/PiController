@@ -3,8 +3,8 @@ Description=gunicorn daemon
 After=network.target
 
 [Service]
-User=pi
-Group=www-data
+User=root
+Group=root
 WorkingDirectory=/home/pi/scripts/PiController
 ExecStart=/usr/local/bin/gunicorn PiControl.wsgi:application --workers 3 --bind unix:/home/pi/scripts/PiController/run/gunicorn.sock --name pi_controller
 
