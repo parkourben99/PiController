@@ -11,10 +11,7 @@ from .forms import PinForm, ScheduleForm
 import rollbar
 
 # Create the pin controller instance
-try:
-    pin_controller = PinController()
-except OperationalError:
-    print("Please run the migrations")
+pin_controller = PinController()
 
 
 def dashboard(request):
