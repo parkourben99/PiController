@@ -34,7 +34,7 @@ class ScheduleForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ScheduleForm, self).__init__(*args, **kwargs)
-        self.fields['pin'].choices = [(x.pk, x.get_select_name()) for x in Pin.objects.all()]
+        self.fields['pin'].choices = [(x.pin_number, x.get_select_name()) for x in Pin.objects.all()]
 
     def clean_end_at(self):
         start_at = self.cleaned_data['start_at']
@@ -53,5 +53,5 @@ class ScheduleForm(forms.ModelForm):
             'end_at': forms.TimeInput(attrs={'class': 'form-control js-end-at'}, format="%H:%M"),
             'day_of_week': forms.Select(attrs={'class': 'form-control'}),
             'active': forms.CheckboxInput(attrs={'class': 'form-control'}),
-            'pin': forms.CheckboxInput(attrs={'class': 'form-control'})
+            'pin': forms.CheckboxInput(attrs={'class': 'form-control', 'name': 'pin_id'})
         }
