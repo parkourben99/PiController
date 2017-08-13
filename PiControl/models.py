@@ -46,6 +46,9 @@ class Pin(models.Model):
             rollbar.report_message('could not get_state')
             return None
 
+    def __unicode__(self):
+        return "{name ({id})}".format(name=self.name, id=self.pin_number)
+
     def get_state_opposite(self):
         return not self.get_state()
 
@@ -99,7 +102,7 @@ class Thermometer(object):
 class Git(object):
     def __init__(self):
         self.repo = git.Repo(os.getcwd())
-        self.branch = 'origin/PiPool'
+        self.branch = 'origin/develop'
 
     def check(self):
         self.repo.remote().fetch()
@@ -166,6 +169,11 @@ class ScheduleHistory(models.Model):
 
     updated_at = models.DateTimeField(auto_now_add=False, auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
+
+    def create(self, schedule, pin_state):
+        self.schedule_id = schedule.id
+        self.output = "Setting pin {}".format(pin_state)
+        self.save()
 
 #
 # class TempControl(models.Model):
