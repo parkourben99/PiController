@@ -131,8 +131,33 @@ class Schedule(models.Model):
 
         return days[self.day_of_week][1]
 
+    def __allowed_to_run(self):
+        date_now = datetime.datetime.now()
+        time_now = date_now.time()
+        result = False
+
+        if date_now.weekday() == self.day_of_week:
+            if time_now > self.start_at and time_now < self.end_at:
+                result = True
+
+        return result
+
     def activate(self):
         pin = Pin.objects.filter(id=self.pin_id).first()
+        state = pin.get_state()
+
+        if state is None:
+            rollbar.report_message('Could not get state for pin {}'.format(self.pin_id))
+            return
+
+        if self.__allowed_to_run():
+            if not state:
+                pin.set_state(True)
+                ScheduleHistory().create(self, True)
+        else:
+            if state:
+                pin.set_state(False)
+                ScheduleHistory().create(self, False)
 
 
 class ScheduleHistory(models.Model):
