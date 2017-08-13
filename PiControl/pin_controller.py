@@ -33,6 +33,7 @@ class PinController(object):
 
     def get_dashboard_data(self):
         return {
+            'pins': self.my_pins,
             'thermometers': self.get_thermometers(),
             'schedules': self.get_next_schedules()
         }

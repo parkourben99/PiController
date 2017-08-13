@@ -43,7 +43,7 @@ class ScheduleForm(forms.ModelForm):
 
     class Meta:
         model = Schedule
-        fields = ('start_at', 'end_at', 'active', 'day_of_week', 'id')
+        fields = ('start_at', 'end_at', 'active', 'day_of_week', 'pin', 'id')
         widgets = {
             'start_at': forms.TimeInput(attrs={'class': 'form-control js-start-at'}, format="%H:%M"),
             'end_at': forms.TimeInput(attrs={'class': 'form-control js-end-at'}, format="%H:%M"),
