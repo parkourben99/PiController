@@ -30,11 +30,11 @@ class ScheduleForm(forms.ModelForm):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     day_of_week = forms.ChoiceField(choices=((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday')))
     active = forms.BooleanField(initial=True, required=False)
-    pins = forms.ChoiceField(choices=[])
+    pin = forms.ChoiceField(choices=[])
 
     def __init__(self, *args, **kwargs):
         super(ScheduleForm, self).__init__(*args, **kwargs)
-        self.fields['pins'].choices = [(x.pk, x.get_select_name()) for x in Pin.objects.all()]
+        self.fields['pin'].choices = [(x.pk, x.get_select_name()) for x in Pin.objects.all()]
 
     def clean_end_at(self):
         start_at = self.cleaned_data['start_at']
@@ -47,11 +47,11 @@ class ScheduleForm(forms.ModelForm):
 
     class Meta:
         model = Schedule
-        fields = ('start_at', 'end_at', 'active', 'day_of_week', 'pins', 'id')
+        fields = ('start_at', 'end_at', 'active', 'day_of_week', 'pin', 'id')
         widgets = {
             'start_at': forms.TimeInput(attrs={'class': 'form-control js-start-at'}, format="%H:%M"),
             'end_at': forms.TimeInput(attrs={'class': 'form-control js-end-at'}, format="%H:%M"),
             'day_of_week': forms.Select(attrs={'class': 'form-control'}),
             'active': forms.CheckboxInput(attrs={'class': 'form-control'}),
-            'pins': forms.CheckboxInput(attrs={'class': 'form-control'})
+            'pin': forms.CheckboxInput(attrs={'class': 'form-control'})
         }
