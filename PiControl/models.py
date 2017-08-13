@@ -47,7 +47,7 @@ class Pin(models.Model):
             return None
 
     def get_select_name(self):
-        return "{name ({id})}".format(name=self.name, id=self.pin_number)
+        return "{name} ({id})".format(name=self.name, id=self.pin_number)
 
     def get_state_opposite(self):
         return not self.get_state()
