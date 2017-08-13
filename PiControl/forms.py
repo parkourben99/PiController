@@ -53,5 +53,5 @@ class ScheduleForm(forms.ModelForm):
             'end_at': forms.TimeInput(attrs={'class': 'form-control js-end-at'}, format="%H:%M"),
             'day_of_week': forms.Select(attrs={'class': 'form-control'}),
             'active': forms.CheckboxInput(attrs={'class': 'form-control'}),
-            'pin_id': forms.ChoiceField(attrs={'class': 'form-control'})
+            # 'pin_id': forms.Cho(attrs={'class': 'form-control'})
         }
