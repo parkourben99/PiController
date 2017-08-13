@@ -46,7 +46,7 @@ class Pin(models.Model):
             rollbar.report_message('could not get_state')
             return None
 
-    def __unicode__(self):
+    def get_select_name(self):
         return "{name ({id})}".format(name=self.name, id=self.pin_number)
 
     def get_state_opposite(self):

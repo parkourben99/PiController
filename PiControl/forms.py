@@ -30,7 +30,11 @@ class ScheduleForm(forms.ModelForm):
     id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     day_of_week = forms.ChoiceField(choices=((0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday')))
     active = forms.BooleanField(initial=True, required=False)
-    pins = forms.ModelChoiceField(queryset=Pin.objects.all())
+    pins = forms.ChoiceField(choices=[])
+
+    def __init__(self, *args, **kwargs):
+        super(ScheduleForm, self).__init__(*args, **kwargs)
+        self.fields['pins'].choices = [(x.pk, x.get_select_name()) for x in Pin.objects.all()]
 
     def clean_end_at(self):
         start_at = self.cleaned_data['start_at']
