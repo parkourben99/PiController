@@ -124,7 +124,7 @@ class Schedule(models.Model):
     end_at = models.TimeField(null=True)
     day_of_week = models.IntegerField(null=False)
     active = models.BooleanField(default=True, null=False)
-    pin_id = models.BooleanField(null=False)
+    pin_id = models.IntegerField(null=False)
 
     updated_at = models.DateTimeField(auto_now_add=False, auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)
