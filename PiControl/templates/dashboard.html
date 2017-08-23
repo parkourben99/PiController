@@ -1,89 +1,178 @@
 {% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block head %}
+<style>
+    .quick-actions_homepage {
+        margin-bottom: 10px
+    }
+
+    @media ( max-width: 585px ) {
+        .input-group span.input-group-btn,.input-group input,.input-group button{
+            width: 100%;
+            border-radius: 0;
+            margin: 0;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group span.data-up{
+            position: absolute;
+            top: 0;
+        }
+
+        .input-group span.data-dwn{
+            position: absolute;
+            bottom: 0;
+        }
+
+        .form-control.text-center {
+            margin: 34px 0;
+        }
+
+        .input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group{
+            margin-left:0;
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 
-<div class="container">
-    <div class="row">
+<div id="content-header">
+    <div id="breadcrumb">
+        <a href="/" title="Dashboard" class="current"><i class="fa fa-home"></i> Home</a>
+        {% if time_remaining %}
+            Next Scheduled in
+            <div class="js-countdown"></div>
+        {% endif %}
+    </div>
+</div>
 
-        {% for pin in pins %}
-            <div class="col-md-6 col-lg-3">
-                <div class="panel text-center">
-                    <div class="panel-body">
-                        <h4 class="mar-no">{{ pin.name }}</h4>
-                    </div>
+<div class="container-fluid">
 
-                    <div class="pad-all">
-                        <p class="text-muted">{{ pin.description }}</p>
-                        <div class="pad-btm">
-                            <button class="btn btn-success js-toggle" data-id="{{ pin.id }}"
-                                    data-state="{{ pin.get_state_opposite }}">Turn {{ pin.get_state|yesno:"off,no,off" }}</button>
+    {% for thermometer in thermometers  %}
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="widget-box">
+                    <div class="widget-content text-center js-thermometer" data-id="{{ thermometer.id }}">
+                        <h4>{{ thermometer.name }}</h4>
+                        <p>{{ thermometer.description }}</p>
+                        <div class="pad-all">
+                            <h4 class="text">
+                                <i class="fa fa-thermometer-three-quarters"></i> <span class="js-thermometer-temp">0</span>&#x2103;
+                            </h4>
                         </div>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
 
-        {% for thermometer in thermometers  %}
-            <div class="col-md-6 col-lg-3">
-                <div class="panel text-center">
-                    <div class="panel-body">
-                        <h4 class="mar-no">{{ thermometer.name }}</h4>
-                        <p>{{ thermometer.description }}</p>
-                    </div>
+    {% for pin in pins %}
+        <div class="col-md-6 col-lg-3">
+            <div class="panel text-center">
+                <div class="panel-body">
+                    <h4 class="mar-no">{{ pin.name }}</h4>
+                </div>
 
-                    <div class="pad-all">
-                        <h4 class="text">
-                            <i class="fa fa-thermometer-three-quarters"></i> {{ thermometer.get_temp }}&#x2103;
-                        </h4>
+                <div class="pad-all">
+                    <p class="text-muted">{{ pin.description }}</p>
+                    <div class="pad-btm">
+                        <button class="btn btn-success js-toggle" data-id="{{ pin.id }}"
+                                data-state="{{ pin.get_state_opposite }}">Turn {{ pin.get_state|yesno:"off,no,off" }}</button>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
 
-        {% if pins.count == 0 %}
-            <div class="col-md-6 col-lg-3">
-                <div class="panel text-center">
-                    <h2>Looks like you have no pins set up. Create a new one <a href="{% url 'pin_create' %}">here.</a></h2>
+    <!--<div class="row-fluid">-->
+        <!--<div class="span12">-->
+            <!--<div class="widget-box">-->
+                <!--<div class="widget-title">-->
+                    <!--<h5>Temperature Control</h5>-->
+                <!--</div>-->
+                <!--<div class="widget-content">-->
+
+                    <!--<h3>Temp</h3>-->
+                    <!--<div class="input-group number-spinner">-->
+                        <!--<span class="input-group-btn data-dwn">-->
+                            <!--<button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>-->
+                        <!--</span>-->
+                        <!--<input type="text" class="form-control text-center js-temp" value="{{ temp_control.temp }}" min="20" max="60" data-inc="1" disabled>-->
+                        <!--<span class="input-group-btn data-up">-->
+                            <!--<button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>-->
+                        <!--</span>-->
+                    <!--</div>-->
+
+                    <!--<h3>Range</h3>-->
+                    <!--<div class="input-group number-spinner">-->
+                        <!--<span class="input-group-btn data-dwn">-->
+                            <!--<button class="btn btn-default btn-info" data-dir="dwn"><span class="fa fa-minus"></span></button>-->
+                        <!--</span>-->
+                        <!--<input type="text" class="form-control text-center js-range" value="{{ temp_control.range }}" min="1" max="10" data-inc="0.5" disabled>-->
+                        <!--<span class="input-group-btn data-up">-->
+                            <!--<button class="btn btn-default btn-info" data-dir="up"><span class="fa fa-plus"></span></button>-->
+                        <!--</span>-->
+                    <!--</div>-->
+
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    {% if pins.count == 0 %}
+        <div class="row-fluid">
+            <div class="span3">
+                <div class="widget-box">
+                    <div class="widget-content">
+                        <h2>Looks like you have no pins set up. Create a new one <a href="{% url 'pin_create' %}">here.</a></h2>
+                    </div>
                 </div>
             </div>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
+
 </div>
 
 {% endblock %}
 
 {% block javascript %}
+<script src="{% static 'js/jquery.countdown.min.js' %}"></script>
 <script>
+    setTimeout(refreshThermometer, 3000);
 
-    // $('.js-thermometer-refresh').click(refreshThermometer());
-
-    // setTimout(refreshThermometer);
-
-    // function refreshThermometer(){
-
-    //     $('.js-thermometer-refresh').attr('disabled', true).find('fa-refresh').addClass('fa-spin');
+    function refreshThermometer(){
+        $('.js-thermometer').each(function(){
+            var id = $(this).data('id');
+            var item = $(this);
         
-    //     $.ajax({
-    //         type: "POST",
-    //         url: '{% url 'pin_set' %}',
-    //         dataType: "json",
-    //         data: { pin : pin, state : state, csrfmiddlewaretoken : '{{ csrf_token }}' }
-    //     }).done(function(data) {
-    //         console.log(data);
+            $.ajax({
+                type: "POST",
+                url: '{% url 'get_temp' %}',
+                dataType: "json",
+                data: { id : id, csrfmiddlewaretoken : '{{ csrf_token }}' }
+            }).done(function(data) {
 
-    //         if(data.success){
-    //             buttonText = "Turn " + (data.state ? "On" : "Off");
-    //         } else {
-    //             alert("Oh No!! Something when wrong");
-    //         }
+                if(data.success){
+                    item.find('.js-thermometer-temp').html(data.temp);
+                    setTimeout(refreshThermometer, 10000);
+                }
 
-    //         $(button).html(buttonText).attr('disabled', false);
-    //     }).fail(function(e){
-    //         $(button).html(buttonText).attr('disabled', false);
-    //         console.log("something went wrong", e);
-    //     });
+            }).fail(function(e){
+                console.log("something went wrong", e);
+            });
+        });
+    }
 
-    // }
+    {% if time_remaining %}
+        $('.js-countdown').countdown("{{ time_remaining }}", function(event) {
+            $(this).text(event.strftime('%D days %H:%M:%S'));
+        });
+    {% endif %}
 
     $('.js-toggle').click(function(){
         var id = $(this).data('id');
@@ -93,11 +182,8 @@
 
     function togglePinState(pin, state, button){
         var loading = "<i class='fa fa-spin fa-refresh'></i>";
-
         buttonText = $(button).html();
         $(button).html(loading).attr('disabled', true);
-
-
         $.ajax({
             type: "POST",
             url: '{% url 'pin_set' %}',
@@ -105,21 +191,17 @@
             data: { pin : pin, state : state, csrfmiddlewaretoken : '{{ csrf_token }}' }
         }).done(function(data) {
             console.log(data);
-
             if(data.success){
                 buttonText = "Turn " + (data.state ? "off" : "on");
-
                 $(button).data('state', data.state ? 0 : 1);
             } else {
                 alert("Oh No!! Something when wrong");
             }
-
             $(button).html(buttonText).attr('disabled', false);
         }).fail(function(e){
             $(button).html(buttonText).attr('disabled', false);
             console.log("something went wrong", e);
         });
     }
-
 </script>
 {% endblock %}

@@ -1,11 +1,16 @@
 {% extends 'master.html' %}
+{% load staticfiles %}
+
+{% block head %}
+    <link href="{% static 'css/jquery.timepicker.min.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
 
 <div id="content-header">
     <div id="breadcrumb">
         <a href="/" title="Dashboard" class="tip-bottom"><i class="fa fa-home"></i> Dashboard</a>
-        <a href="{% url 'pins' %}">Pins</a>
+        <a href="{% url 'schedule' %}">Schedule</a>
         <a href="#" class="current">Create</a>
     </div>
 </div>
@@ -16,12 +21,12 @@
         <div class="span12">
             <div class="widget-box">
                 <div class="widget-title">
-                    <h5>Create Pin</h5>
+                    <h5>Create Schedule</h5>
                 </div>
 
                 <div class="widget-content">
 
-                    <form method="post" action="{% url 'pin_post' %}">
+                    <form method="post" action="{% url 'schedule_post' %}" class=".js-form">
                         {% csrf_token %}
 
                         {% for hidden in form.hidden_fields %}
@@ -50,4 +55,22 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+<script>
+    var TimePicker = {
+        timeFormat: 'H:mm',
+        interval: 30,
+        maxTime: '10:00pm',
+        startTime: '10:00am',
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true
+    };
+
+    $('.js-start-at').timepicker(TimePicker);
+    $('.js-end-at').timepicker(TimePicker);
+</script>
 {% endblock %}

@@ -1,11 +1,14 @@
+from django.db import OperationalError
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, Http404, render_to_response
-from django.template import RequestContext
+from django.shortcuts import render, Http404
+import datetime
+from django.core.urlresolvers import reverse
 
-from PiControl.models import Pin
+from PiControl.models import Pin, Schedule
 from PiControl.models import Git
 from PiControl.pin_controller import PinController
-from .forms import PinForm
+from .forms import PinForm, ScheduleForm
+import rollbar
 
 # Create the pin controller instance
 pin_controller = PinController()
@@ -29,10 +32,9 @@ def pin_delete(request, id):
     except Pin.DoesNotExist:
         raise Http404("Could not find that pin!")
 
-    result = pin.delete()
+    result = list(pin.delete()[1].values())[0]
     pin_controller.set_all_pins()
 
-    # todo return bool not {object:bool}
     return JsonResponse({'success': result})
 
 
@@ -90,7 +92,7 @@ def pin_set(request):
     return JsonResponse({'success': result, 'state': new_state})
 
 
-def update(request):
+def git_update(request):
     git = Git()
 
     if request.method == 'POST':
@@ -103,13 +105,66 @@ def update(request):
     return render(request, "git/update.html", {"status": status})
 
 
-def handler404(request):
-    response = render_to_response('errors/404.html', {}, context_instance=RequestContext(request))
-    response.status_code = 404
-    return response
+def get_temp(request):
+    if request.method == 'POST':
+        pin_id = request.POST['id']
+    else:
+        pin_id = request.GET['id']
+
+    try:
+        pin = pin_controller.my_pins.get(id=pin_id)
+    except Pin.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Pin not found'})
+
+    return JsonResponse({'success': True, 'temp': pin.get_temp()})
 
 
-def handler500(request):
-    response = render_to_response('errors/500.html', {}, context_instance=RequestContext(request))
-    response.status_code = 500
-    return response
+def schedule(request):
+    days = Schedule.objects.all()
+
+    return render(request, "schedule/index.html", {"days": days})
+
+
+def schedule_edit(request, id):
+    try:
+        s = Schedule.objects.get(id=id)
+    except Schedule.DoesNotExist:
+        raise Http404("Could not find that pin!")
+
+    form = ScheduleForm(instance=s)
+    return render(request, "schedule/create-edit.html", {"form": form})
+
+
+def schedule_create(request):
+    return render(request, "schedule/create-edit.html", {"form": ScheduleForm()})
+
+
+def schedule_post(request):
+    if request.method != 'POST':
+        return HttpResponseRedirect(reverse('schedule'))
+
+    id = request.POST.get('id')
+    s = Schedule()
+
+    if id.isdigit():
+        s = Schedule.objects.get(id=id)
+
+    form = ScheduleForm(request.POST, instance=s)
+
+    if form.is_valid():
+        form.save()
+
+        return HttpResponseRedirect(reverse('schedule'))
+
+    return render(request, "schedule/create-edit.html", {'form': form})
+
+
+def schedule_delete(request, id):
+    try:
+        s = Schedule.objects.get(id=id)
+    except Schedule.DoesNotExist:
+        raise Http404("Could not find that pin!")
+
+    result = list(s.delete()[1].values())[0]
+
+    return JsonResponse({'success': result})

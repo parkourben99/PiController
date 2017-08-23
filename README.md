@@ -1,13 +1,37 @@
 # PiController
 
+sudo apt-get update && apt-get install nginx
+
+sudo pip3 install -r requirements.txt
+
 cp PiControl/.env.example PiControl/.env
 
-sudo cp .meta/config/etc/nginx/sites-available/picontroller /etc/nginx/sites-enabled/picontroller sudo ln -s /etc/nginx/sites-available/picontroller /etc/nginx/sites-enabled/picontroller sudo cp .meta/config/etc/systemd/system/gunicorn.service /etc/systemd/system/gunicorn.service
+sudo python3 manage.py migrate
+
+sudo python3 manage.py createsuperuser
+sudo python3 manage.py collectstatic
+
+sudo cp .meta/config/etc/nginx/sites-available/pi_controller /etc/nginx/sites-available/pi_controller
+
+sudo ln -s /etc/nginx/sites-available/pi_controller /etc/nginx/sites-enabled/pi_controller
+
+sudo cp .meta/config/etc/systemd/system/gunicorn.service /etc/systemd/system/gunicorn.service
+
+sudo rm /etc/nginx/sites-available/default
+sudo rm /etc/nginx/sites-enabled/default
 
 sudo systemctl restart nginx
 
-sudo systemctl start gunicorn sudo systemctl enable gunicorn
+sudo systemctl start gunicorn
 
-crontab -e */1 * * * * bash /home/pi/projects/PiController/.meta/scripts/cron.sh
+sudo systemctl enable gunicorn
 
-after updating need to resart gunicorn sudo systemctl restart gunicorn
+crontab -e
+*/2 * * * * bash /home/pi/scripts/PiController/.meta/scripts/cron.sh
+
+after updating need to resart gunicorn
+
+sudo systemctl restart gunicorn
+
+
+gunicorn needs to be installed with python 3.2

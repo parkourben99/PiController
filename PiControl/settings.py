@@ -18,7 +18,7 @@ load_dotenv(find_dotenv())
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-APP_NAME = os.environ.get("SECRET_KEY", "SomethingAwesome")
+APP_NAME = os.environ.get("APP_NAME", "SomethingAwesome")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -27,7 +27,8 @@ APP_NAME = os.environ.get("SECRET_KEY", "SomethingAwesome")
 SECRET_KEY = os.environ.get("SECRET_KEY", "someSecretKey")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", False)
+DEBUG = os.environ.get("APP_ENV", True)
+TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
 
@@ -36,7 +37,7 @@ LOGIN_URL = '/login'
 # Application definition
 
 INSTALLED_APPS = [
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -136,6 +137,6 @@ LOGIN_REDIRECT_URL = '/'
 ROLLBAR = {
     'access_token': os.environ.get("ROLLBAR_KEY", "someSecretKey"),
     'environment': 'development' if DEBUG else 'production',
-    'branch': 'master',
+    'branch': 'PiController',
     'root': BASE_DIR,
 }
