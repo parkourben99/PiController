@@ -5,7 +5,8 @@ import glob
 import time
 import git
 import datetime
-import RPIO
+#import RPIO
+import PRi.GPIO as RPIO
 import rollbar
 
 
