@@ -42,7 +42,7 @@ class Pin(models.Model):
 
     def get_state(self):
         try:
-            return RPIO.input(self.pin_number)
+            return not RPIO.input(self.pin_number)
         except:
             rollbar.report_message('could not get_state')
             return None
