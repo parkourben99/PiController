@@ -6,7 +6,7 @@ import time
 import git
 import datetime
 #import RPIO
-import PRi.GPIO as RPIO
+import RPi.GPIO as RPIO
 import rollbar
 
 
