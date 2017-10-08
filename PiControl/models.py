@@ -54,7 +54,8 @@ class Pin(models.Model):
         return not self.get_state()
 
     def set_state(self, state):
-        return RPIO.output(self.pin_number, RPIO.HIGH if state else RPIO.LOW)
+        return self.set_state_upside_down(state)
+        #return RPIO.output(self.pin_number, RPIO.HIGH if state else RPIO.LOW)
 
     def set_state_upside_down(self, state):
         return RPIO.output(self.pin_number, RPIO.HIGH if not state else RPIO.LOW)
