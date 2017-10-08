@@ -42,7 +42,7 @@ class Pin(models.Model):
 
     def get_state(self):
         try:
-            return not RPIO.input(self.pin_number)
+            return RPIO.input(self.pin_number)
         except:
             rollbar.report_message('could not get_state')
             return None
@@ -54,8 +54,8 @@ class Pin(models.Model):
         return not self.get_state()
 
     def set_state(self, state):
-        return self.set_state_upside_down(state)
-        #return RPIO.output(self.pin_number, RPIO.HIGH if state else RPIO.LOW)
+        #return self.set_state_upside_down(state)
+        return RPIO.output(self.pin_number, RPIO.HIGH if state else RPIO.LOW)
 
     def set_state_upside_down(self, state):
         return RPIO.output(self.pin_number, RPIO.HIGH if not state else RPIO.LOW)
