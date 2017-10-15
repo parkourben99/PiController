@@ -1,7 +1,6 @@
 from PiControl.models import Pin, Schedule
 import rollbar
 import sys
-#import RPIO
 import RPi.GPIO as RPIO
 
 
