@@ -144,24 +144,20 @@ class Schedule(models.Model):
 
     def activate(self):
         pin = Pin.objects.filter(id=self.pin_id).first()
-        state = pin.get_state()
-
-        rollbar.report_message('activate for pin {} in state {}'.format(self.pin_id, state))
+        state = not pin.get_state()
 
         if state is None:
             rollbar.report_message('Could not get state for pin {}'.format(self.pin_id))
             return
 
         if self.__allowed_to_run():
-            rollbar.report_message('activate for pin {} in state {} - allowed to run'.format(self.pin_id, state))
             if not state:
-                rollbar.report_message('activate for pin {} in state {} - NOT allowed to run and state false'.format(self.pin_id, state))
+                rollbar.report_message('allowed to run state = false')
                 pin.set_state(True)
                 ScheduleHistory().create(self, True)
         else:
-            rollbar.report_message('activate for pin {} in state {} - NOT allowed to run'.format(self.pin_id, state))
             if state:
-                rollbar.report_message('activate for pin {} in state {} - NOT allowed to run and state ture'.format(self.pin_id, state))
+                rollbar.report_message('not allowed to run and state = true')
                 pin.set_state(False)
                 ScheduleHistory().create(self, False)
 
