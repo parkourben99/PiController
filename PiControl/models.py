@@ -152,12 +152,10 @@ class Schedule(models.Model):
 
         if self.__allowed_to_run():
             if not state:
-                rollbar.report_message('allowed to run state = false')
                 pin.set_state(True)
                 ScheduleHistory().create(self, True)
         else:
             if state:
-                rollbar.report_message('not allowed to run and state = true')
                 pin.set_state(False)
                 ScheduleHistory().create(self, False)
 
