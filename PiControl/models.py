@@ -144,7 +144,7 @@ class Schedule(models.Model):
 
     def activate(self):
         pin = Pin.objects.filter(id=self.pin_id).first()
-        state = not pin.get_state()
+        state = pin.get_state()
 
         if state is None:
             rollbar.report_message('Could not get state for pin {}'.format(self.pin_id))
