@@ -137,7 +137,9 @@ class Schedule(models.Model):
         result = False
 
         if date_now.weekday() == self.day_of_week:
+            print("same day")
             if time_now > self.start_at and time_now < self.end_at:
+                print('allowed time frame')
                 result = True
 
         return result
@@ -151,11 +153,15 @@ class Schedule(models.Model):
             return
 
         if self.__allowed_to_run():
+            print('allowed to run')
             if not state:
+                print('turning on')
                 pin.set_state(True)
                 ScheduleHistory().create(self, True)
         else:
+            print('not allowed to run')
             if state:
+                print('turning off')
                 pin.set_state(False)
                 ScheduleHistory().create(self, False)
 
@@ -169,5 +175,5 @@ class ScheduleHistory(models.Model):
 
     def create(self, schedule, pin_state):
         self.schedule_id = schedule.id
-        self.output = "Setting pin {}".format(pin_state)
+        #self.output = "Setting pin {}".format(pin_state)
         self.save()
