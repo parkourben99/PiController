@@ -137,9 +137,7 @@ class Schedule(models.Model):
         result = False
 
         if date_now.weekday() == self.day_of_week:
-            print("same day")
             if time_now > self.start_at and time_now < self.end_at:
-                print('allowed time frame')
                 result = True
 
         return result
@@ -148,20 +146,19 @@ class Schedule(models.Model):
         pin = Pin.objects.filter(id=self.pin_id).first()
         state = pin.get_state()
 
+        # todo fix bug where if pin is set for more then one day then the first instance turns it off
+        # maybe just comment out the else?
+
         if state is None:
             rollbar.report_message('Could not get state for pin {}'.format(self.pin_id))
             return
 
         if self.__allowed_to_run():
-            print('allowed to run')
             if not state:
-                print('turning on')
                 pin.set_state(True)
                 ScheduleHistory().create(self, True)
         else:
-            print('not allowed to run')
             if state:
-                print('turning off')
                 pin.set_state(False)
                 ScheduleHistory().create(self, False)
 
