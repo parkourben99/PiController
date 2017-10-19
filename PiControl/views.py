@@ -187,7 +187,7 @@ def google_set_ac(request):
 
         current = Schedule.objects.first()
         current.start_at = date_now.time()
-        current.end_at = (date_now + datetime.timedelta(minutes=minutes)).time()
+        current.end_at = (date_now + datetime.timedelta(minutes=int(minutes))).time()
         current.day_of_week = date_now.weekday()
         current.active = True
         current.save()
@@ -195,4 +195,5 @@ def google_set_ac(request):
         return JsonResponse({'success': True})
 
     except:
+        rollbar.report_exc_info()
         return JsonResponse({'success': False})
