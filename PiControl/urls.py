@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^schedule/delete/(?P<id>\d+)/$', views.schedule_delete, name='schedule_delete'),
     url(r'^schedule/(?P<id>\d+)/$', views.schedule_edit, name='schedule_edit'),
 
-    url(r'api/set-ac', views.google_set_ac, name='google_set_ac'),
+    url(r'api/set-ac/$', views.google_set_ac, name='google_set_ac'),
 
     url(r'^pin-set/$', views.pin_set, name='pin_set'),
     url(r'^$', views.dashboard, name='dashboard'),

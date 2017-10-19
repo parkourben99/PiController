@@ -175,11 +175,14 @@ def google_set_ac(request):
     token = settings.API_TOKEN
     date_now = datetime.datetime.now()
 
+    if request.method != 'POST':
+        return JsonResponse({'success': False})
+
     try:
-        if token != request.GET.get('token'):
+        if token != request.POST.get('token'):
             return JsonResponse({'success': False})
 
-        minutes = request.GET.get('minutes', 30)
+        minutes = request.POST.get('minutes', 30)
 
         current = Schedule.objects.first()
         current.start_at = date_now.time()
