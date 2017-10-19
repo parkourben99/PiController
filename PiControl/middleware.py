@@ -6,7 +6,7 @@ from re import compile
 class LoginRequiredMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
-        self.exempt_urls = [compile(settings.LOGIN_URL.lstrip('/'))] 
+        self.exempt_urls = [compile(settings.LOGIN_URL.lstrip('/')), 'api/set-ac']
 
     """
     Middleware that requires a user to be authenticated to view any page other

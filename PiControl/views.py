@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, Http404
 import datetime
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 from PiControl.models import Pin, Schedule
 from PiControl.models import Git
@@ -168,3 +169,26 @@ def schedule_delete(request, id):
     result = list(s.delete()[1].values())[0]
 
     return JsonResponse({'success': result})
+
+
+def google_set_ac(request):
+    token = settings.API_TOKEN
+    date_now = datetime.datetime.now()
+
+    try:
+        if token != request.GET.get('token'):
+            return JsonResponse({'success': False})
+
+        minutes = request.GET.get('minutes', 30)
+
+        current = Schedule.objects.first()
+        current.start_at = date_now.time()
+        current.end_at = (date_now + datetime.timedelta(minutes=minutes)).time()
+        current.day_of_week = date_now.weekday()
+        current.active = True
+        current.save()
+
+        return JsonResponse({'success': True})
+
+    except:
+        return JsonResponse({'success': False})
