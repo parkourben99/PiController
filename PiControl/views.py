@@ -4,6 +4,7 @@ from django.shortcuts import render, Http404
 import datetime
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 from PiControl.models import Pin, Schedule
 from PiControl.models import Git
@@ -170,7 +171,7 @@ def schedule_delete(request, id):
 
     return JsonResponse({'success': result})
 
-
+@csrf_exempt
 def google_set_ac(request):
     token = settings.API_TOKEN
     date_now = datetime.datetime.now()
