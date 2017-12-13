@@ -192,6 +192,8 @@ def google_set_ac(request):
         current.active = True
         current.save()
 
+        current.activate()
+
         return JsonResponse({'success': True})
 
     except:
