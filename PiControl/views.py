@@ -210,4 +210,4 @@ def bowling_results(request):
 
 
 def bowling(request):
-    return render(request, "../../../ZoneBowlingStats/View/index.html")
+    return render(request, '..//..//..//ZoneBowlingStats//View//index.html')
