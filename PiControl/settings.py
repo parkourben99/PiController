@@ -82,6 +82,7 @@ TEMPLATES = [
 
 CORS_ORIGIN_WHITELIST = (
     'parkourben99.gitlab.io',
+    'bowling.ayles.com.au',
     'localhost:8080'
 )
 
