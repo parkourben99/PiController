@@ -199,3 +199,10 @@ def google_set_ac(request):
     except:
         rollbar.report_exc_info()
         return JsonResponse({'success': False})
+
+
+@csrf_exempt
+def bowling_results(request):
+    bowling_results = open('..//ZoneBowlingStats//Scraper//results.json', 'r').read()
+
+    return JsonResponse({'results': bowling_results})
