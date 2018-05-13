@@ -29,6 +29,7 @@ urlpatterns = [
 
     url(r'^api/set-ac$', views.google_set_ac, name='google_set_ac'),
     url(r'^api/bowling-results$', views.bowling_results, name='bowling_results'),
+    url(r'^bowling$', views.bowling, name='bowling'),
 
     url(r'^pin-set/$', views.pin_set, name='pin_set'),
     url(r'^$', views.dashboard, name='dashboard'),

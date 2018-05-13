@@ -171,6 +171,7 @@ def schedule_delete(request, id):
 
     return JsonResponse({'success': result})
 
+
 @csrf_exempt
 def google_set_ac(request):
     token = settings.API_TOKEN
@@ -209,4 +210,4 @@ def bowling_results(request):
 
 
 def bowling(request):
-    return render(request, "../../../ZoneBowlingStates/docs/index.html")
+    return render(request, "../../../ZoneBowlingStates/View/index.html")
