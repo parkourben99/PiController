@@ -81,7 +81,7 @@ TEMPLATES = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
-    'gitlab.io',
+    'parkourben99.gitlab.io',
     'localhost:8080'
 )
 
