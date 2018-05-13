@@ -207,7 +207,3 @@ def bowling_results(request):
     bowling_results = open('..//ZoneBowlingStats//Scraper//results.json', 'r').read()
 
     return JsonResponse({'results': bowling_results})
-
-
-def bowling(request):
-    return render(request, '..//..//..//ZoneBowlingStats//View//index.html')
