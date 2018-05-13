@@ -9,7 +9,8 @@ class LoginRequiredMiddleware:
         self.exempt_urls = [
             compile(settings.LOGIN_URL.lstrip('/')), 
             compile('/api/set-ac'.lstrip('/')), 
-            compile('/api/bowling-results'.lstrip('/'))
+            compile('/api/bowling-results'.lstrip('/')),
+            compile('/bowling'.lstrip('/'))
         ]
 
     """
